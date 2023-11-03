@@ -35,7 +35,9 @@ const Sidebar = ({site}) => {
   const [selected, setSelected] = useState(site);
 
   return (
-    <Box
+    <Box position='absolute'
+        borderRight="2px double #efefef"
+        height='-webkit-fill-available'
       sx={{
         "& .pro-sidebar-inner": {
           background: "white !important",
