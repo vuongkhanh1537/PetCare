@@ -6,7 +6,7 @@ const Dashboard = () => {
     return (
     <>
     <Topbar />
-    <Sidebar />
+    <Sidebar site="Tổng quan"/>
     </>
     )
 }

@@ -30,9 +30,9 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
   );
 };
 
-const Sidebar = () => {
+const Sidebar = ({site}) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [selected, setSelected] = useState("Tổng quan");
+  const [selected, setSelected] = useState(site);
 
   return (
     <Box
