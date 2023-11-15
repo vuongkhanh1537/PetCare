@@ -20,6 +20,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
       active={selected === title}
       style={{
         color: "#e0e0e0",
+        fontWeight: "bold"
       }}
       onClick={() => setSelected(title)}
       icon={icon}
@@ -48,10 +49,10 @@ const Sidebar = ({site}) => {
           padding: "5px 35px 5px 20px !important",
         },
         "& .pro-inner-item:hover": {
-          color: "#868dfb !important",
+          color: "#197BBD !important",
         },
         "& .pro-menu-item.active": {
-          color: "#6870fa !important",
+          color: "#197BBD !important",
         },
       }}
     >

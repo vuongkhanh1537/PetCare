@@ -31,7 +31,7 @@ function Login() {
                 localStorage.setItem("token", res.token);
                 console.log(res);
                 toast.success("Đăng nhập thành công");
-                navigate("/dashboard");
+                navigate("/");
             } else {
                 if (res && res.status === 400) {
                     toast.error("Sai thông tin đăng nhập");
