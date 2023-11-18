@@ -79,7 +79,7 @@ function Login() {
                 </div>
             </div>
             <div className="login-img">
-                <img src={LoginIntro} />
+                <img src={LoginIntro} className='img-fluid'/>
             </div>
         </div>
         <ToastContainer

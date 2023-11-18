@@ -57,7 +57,8 @@ const Employee = () => {
     }
 
     const handleClick = (params) => {
-        
+        console.log(params);
+        // <Link to={params.row.id} />
     }
     console.log(rows);
     return (

@@ -8,6 +8,8 @@ import Product from './admin/page/product/Product';
 import Service from './admin/page/service/Service';
 import { useState } from 'react';
 import ProtectedRoute from './global/protectedRoute/ProtectedRoute';
+import UpdateProduct from './admin/page/product/UpdateProduct';
+import AddProduct from  './admin/page/product/AddProduct';
 
 function App() {
 
@@ -15,8 +17,13 @@ function App() {
       <Routes>
         <Route path="/" element={<Home/>}  />
         <Route path="/login" element={<Login/>}  />
+
         <Route path="/dashboard" element={<Dashboard/>} />
+
         <Route path="/san_pham" element={<Product />} />
+        <Route path="/san_pham/:id" element={<UpdateProduct />} />
+        <Route path="/san_pham/add" element={<AddProduct />} />
+        
         <Route path="/dich_vu" element={<Service />} />
         <Route path="/nhan_vien" element={<Employee/>} />
       </Routes>

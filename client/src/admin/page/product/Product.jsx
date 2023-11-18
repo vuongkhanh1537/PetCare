@@ -6,6 +6,8 @@ import Header from "../../components/Header";
 import { fetchAllEmployee } from "../../../services/EmployeeService";
 import { useEffect, useState } from "react";
 import { productData } from "../../../data/MockData";
+import { Link, Routes, Route } from "react-router-dom";
+import UpdateProduct from "./UpdateProduct"
 
 const Product = () => {
 
@@ -65,7 +67,8 @@ const Product = () => {
     }
 
     const handleClick = (params) => {
-        
+        console.log(params.row.id);
+        <Link to = {params.rows.id} />
     }
     return (
         <>
