@@ -25,8 +25,6 @@ const AddProduct = () => {
     });
 
     const handleChange = (e) => {
-        setNewProduct({...values, productName : })
-        console.log(e.target);
     }
 
     return(
