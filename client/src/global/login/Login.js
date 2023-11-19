@@ -12,34 +12,52 @@ import { useNavigate } from 'react-router-dom'
 
 function Login() {
     const navigate = useNavigate();
-    const [userName, setUserName] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    useEffect(() => {
-        let token = localStorage.getItem("token");
-        if (token) {
-            navigate("/");
-        }
-    })
+    // useEffect(() => {
+    //     let token = localStorage.getItem("token");
+    //     if (token) {
+    //         navigate("/");
+    //     }
+    // })
 
     const handleClick = async () => {
-        if (!userName || !password) {
+        if (!username || !password) {
             toast.warn("Vui lòng điền đầy đủ thông tin đăng nhập!");
         } else {
-            let res = await loginApi(userName, password);
-            if (res && res.token) {
-                localStorage.setItem("token", res.token);
-                console.log(res);
+            let res = await loginApi(username, password);
+            if (res && res.data) {
                 toast.success("Đăng nhập thành công");
-                navigate("/");
+                navigate("/dashboard");
             } else {
                 if (res && res.status === 400) {
                     toast.error("Sai thông tin đăng nhập");
                 }
             }
         }
-        
     }
+
+    // const handleClick = () => {
+    //     fetch('http://localhost:8080/login', 
+    //     {
+    //         method: "POST",
+    //         headers: {
+    //             'Accept': 'application/json',
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({username : username, password : password})
+    //     })
+    //     .then(function(response) {
+    //         return response.text();
+    //     })
+    //     .then(function(text) {
+    //         console.log('Request successful', text);
+    //     })
+    //     .catch(function(error) {
+    //         console.log('Request failed', error);
+    //     });
+    // }
     return (
     <>
         <Header />
@@ -52,7 +70,7 @@ function Login() {
                 <div className='form'>
                     <div className="mb-3">
                         <label className="username form-label">Tên đăng nhập</label>
-                        <input type="text" className="form-control" id="username" name='username' placeholder="Nhập tên người dùng" value={userName} onChange={(event) => setUserName(event.target.value)}/>
+                        <input type="text" className="form-control" id="username" name='username' placeholder="Nhập tên người dùng" value={username} onChange={(event) => setUsername(event.target.value)}/>
                     </div>
                     <div className="mb-3">
                         <label className="password form-label">Mật khẩu</label>

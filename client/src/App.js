@@ -10,6 +10,8 @@ import { useState } from 'react';
 import ProtectedRoute from './global/protectedRoute/ProtectedRoute';
 import UpdateProduct from './admin/page/product/UpdateProduct';
 import AddProduct from  './admin/page/product/AddProduct';
+import AddService from './admin/page/service/AddService';
+import AddEmployee from './admin/page/employee/AddEmployee';
 
 function App() {
 
@@ -25,7 +27,10 @@ function App() {
         <Route path="/san_pham/add" element={<AddProduct />} />
         
         <Route path="/dich_vu" element={<Service />} />
+        <Route path="/dich_vu/add" element={<AddService />} />
+      
         <Route path="/nhan_vien" element={<Employee/>} />
+        <Route path="/nhan_vien/add" element={<AddEmployee/>} />
       </Routes>
   );
 }

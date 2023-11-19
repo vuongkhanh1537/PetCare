@@ -1,14 +1,17 @@
 import Sidebar from "../../components/global/Sidebar";
 import Topbar from "../../components/global/Topbar";
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { DataGrid } from "@mui/x-data-grid"
 import Header from "../../components/Header";
 import { fetchAllEmployee } from "../../../services/EmployeeService";
 import { useEffect, useState } from "react";
 import { serviceData } from "../../../data/MockData";
+import Button from "react-bootstrap/esm/Button";
+import { useNavigate } from "react-router-dom";
 
 const Service = () => {
 
+    const navigate = useNavigate();
     const columns = [
         { field: 'id', headerName: 'ID', width: 90, headerAlign: "center", align: "center"},
         {
@@ -59,11 +62,11 @@ const Service = () => {
             <main className='content'>
                 <Topbar />
                 <Box m = "0 30px 10px 30px">
-                    <Header title="Dịch vụ" />
+                    <Header title="Dịch vụ" subtitle="Danh sách dịch vụ"/>
                     <Box
                         ml = "20px"
-                        
                         sx={{ height: "fix-content", width: '90%', alignItems: "center"}}>
+                        <Button variant="primary mb-3" onClick={()=>{navigate("/dich_vu/add")}}>Thêm dịch vụ</Button>
                         <DataGrid
                             rows={rows}
                             columns={columns}

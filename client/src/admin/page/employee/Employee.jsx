@@ -1,14 +1,16 @@
 import Sidebar from "../../components/global/Sidebar";
 import Topbar from "../../components/global/Topbar";
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { DataGrid } from "@mui/x-data-grid"
 import Header from "../../components/Header";
 import { fetchAllEmployee } from "../../../services/EmployeeService";
 import { useEffect, useState } from "react";
 import { employeeData } from "../../../data/MockData";
+import { useNavigate } from "react-router-dom";
+import Button from "react-bootstrap/esm/Button";
 
 const Employee = () => {
-
+    const navigate = useNavigate();
     const columns = [
         { field: 'id', headerName: 'ID', width: 90, },
         {
@@ -72,6 +74,7 @@ const Employee = () => {
                     <Box
                         ml = "20px"
                         sx={{ height: "fit-content", width: '90%'}}>
+                        <Button variant="primary mb-3" onClick={()=>{navigate("/nhan_vien/add")}}>Thêm sản phẩm</Button>
                         <DataGrid
                             rows={rows}
                             columns={columns}

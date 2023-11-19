@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.petcare.entity.User;
 import com.project.petcare.service.UserService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
+@CrossOrigin
 public class HomeController {
     @Autowired
     UserService userService;
