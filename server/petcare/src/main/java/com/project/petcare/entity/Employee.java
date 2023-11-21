@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
+//Còn thiếu status??? * 
+//-------
 @Entity
 @Table(name = "Employee")
 @NoArgsConstructor
