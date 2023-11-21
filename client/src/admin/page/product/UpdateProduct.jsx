@@ -1,55 +1,130 @@
 import { useParams } from "react-router-dom";
+import React, { useState } from "react";
+import { Box } from "@mui/material";
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import Header from "../../components/Header";
+import Sidebar from "../../components/global/Sidebar";
+import Topbar from "../../components/global/Topbar";
 
 const UpdateProduct = () => {
     const res= useParams();
-    console.log(res);
+
+    const product = {
+        productID : 5,
+        productName: "Chuồng chó",
+        supplier: "Cannin",
+        category: "Nhà ở",
+        unitPrice: "200.000",
+        subCategory: "",
+        description: "Là nơi ở của chó",
+    }
+    
+    const [updateProduct, setUpdateProduct] = useState(product);
+
+    const handleChange = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+        setUpdateProduct((prev) => {
+            return {...prev, [name] : value}
+        })
+    }
+
+    const [image, setImage] = useState(null);
+
+    const onImageChange = (event) => {
+      if (event.target.files && event.target.files[0]) {
+        setImage(URL.createObjectURL(event.target.files[0]));
+      }
+    };
+
+    const handleClick = () => {
+        console.log(updateProduct);
+    }
+
     return(
-<form>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                <label for="inputEmail4">Email</label>
-                                <input type="email" class="form-control" id="inputEmail4" placeholder="Email" />
-                                </div>
-                                <div class="form-group col-md-6">
-                                <label for="inputPassword4">Password</label>
-                                <input type="password" class="form-control" id="inputPassword4" placeholder="Password" />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputAddress">Address</label>
-                                <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" />
-                            </div>
-                            <div class="form-group">
-                                <label for="inputAddress2">Address 2</label>
-                                <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor" />
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                <label for="inputCity">City</label>
-                                <input type="text" class="form-control" id="inputCity" />
-                                </div>
-                                <div class="form-group col-md-4">
-                                <label for="inputState">State</label>
-                                <select id="inputState" class="form-control">
-                                    <option selected>Choose...</option>
-                                    <option>...</option>
-                                </select>
-                                </div>
-                                <div class="form-group col-md-2">
-                                <label for="inputZip">Zip</label>
-                                <input type="text" class="form-control" id="inputZip" />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="gridCheck" />
-                                <label class="form-check-label" for="gridCheck">
-                                    Check me out
-                                </label>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Sign in</button>
-                        </form>
+        <div className="app">
+            <Sidebar site="Sản phẩm" />
+            <main className="content">
+                <Topbar />
+                <Box m = "0 30px 10px 30px">
+                    <Header title="Sản phẩm" subtitle="Thêm sản phẩm"/>
+                    <Box 
+                        ml = "20px"
+                        sx={{ height: "fit-content", width: '90%'}}>
+                    <Form>
+                        <Row className="mb-3">
+                            <Form.Group as={Col} controlId="formGridName">
+                            <Form.Label>Tên sản phẩm</Form.Label>
+                            <Form.Control type="text" placeholder="Nhập tên sản phẩm" name="productName" value={updateProduct.productName} onChange={handleChange}/>
+                            </Form.Group>
+
+                            <Form.Group as={Col} controlId="formGridID">
+                            <Form.Label>Mã sản phẩm</Form.Label>
+                            <Form.Control type="text" placeholder="Mã sản phẩm" value={updateProduct.productID} disabled={true}/>
+                            </Form.Group>
+                        </Row>
+
+                        <Row className="mb-3">
+                            <Form.Group as={Col} controlId="formGridSupplier">
+                                <Form.Label>Nhà cung cấp</Form.Label>
+                                <Form.Select defaultValue="Chọn nhà cung cấp" name="supplier" value={updateProduct.supplier} onChange={handleChange}>
+                                    <option>Chọn nhà cung cấp</option>
+                                    <option>Royal Canin</option>
+                                    <option>Bioline</option>
+                                </Form.Select>
+                            </Form.Group>
+                        
+                            <Form.Group as={Col} controlId="formGridCategory">
+                                <Form.Label>Loại</Form.Label>
+                                <Form.Select defaultValue="Chọn loại" name="category" onChange={handleChange}>
+                                    <option>Chọn loại</option>
+                                    <option>Nhà ở</option>
+                                    <option>Đồ chơi</option>
+                                </Form.Select>
+                            </Form.Group>
+                        </Row>
+
+                        <Row className="mb-3">
+                            <Form.Group as={Col} controlId="formGridUnitPrice">
+                            <Form.Label>Giá sản phẩm</Form.Label>
+                            <Form.Control placeholder="Nhập giá sản phẩm" name="unitPrice" onChange={handleChange}/>
+                            </Form.Group>
+
+                            <Form.Group as={Col} controlId="formGridsubCategory">
+                            <Form.Label>Phân loại</Form.Label>
+                            <Form.Select defaultValue="Chọn phân loại" name="subCategory" onChange={handleChange}>
+                                <option>Chọn phân loại</option>
+                                <option>...</option>
+                            </Form.Select>
+                            </Form.Group>
+                        </Row>
+
+                        <Form.Group className="mb-3" controlId="formGridDescription">
+                        <Form.Label>Mô tả</Form.Label>
+                        <Form.Control as="textarea" rows={8} name="description" onChange={handleChange}/>
+                        </Form.Group>
+
+
+                        <Form.Group className="mb-3" id="formGridImage">
+                        <Form.Label>Hình ảnh</Form.Label>
+                        <div>
+                            <input type="file" onChange={onImageChange} className="filetype" />
+
+                            {image && <img src={image} alt="preview image" />}
+                        </div>
+                        </Form.Group>
+
+                        <Button variant="primary float-end" onClick={handleClick}>
+                            Lưu
+                        </Button>
+                    </Form>
+                    </Box>
+                </Box>
+            </main>
+        </div>
     )
 }
 

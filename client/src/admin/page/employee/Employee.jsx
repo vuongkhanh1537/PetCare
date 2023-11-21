@@ -74,7 +74,7 @@ const Employee = () => {
                     <Box
                         ml = "20px"
                         sx={{ height: "fit-content", width: '90%'}}>
-                        <Button variant="primary mb-3" onClick={()=>{navigate("/nhan_vien/add")}}>Thêm sản phẩm</Button>
+                        <Button variant="primary mb-3" onClick={()=>{navigate("/nhan_vien/add")}}>Thêm nhân viên</Button>
                         <DataGrid
                             rows={rows}
                             columns={columns}
