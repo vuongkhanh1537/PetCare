@@ -35,14 +35,14 @@ public class AdminServiceImpl implements AdminService{
         return findEmployee;
     }
 
-    @Override
-    public Employee updateEmp(Integer id, String pos, String role) {
-        // TODO Auto-generated method stub
-        Employee findEmployee = adminRepository.findEmployee(id);
-        findEmployee.setPos(pos);
-        findEmployee.setRole(role);
-        return findEmployee;
-    }
+    // @Override
+    // public Employee updateEmp(Integer id, String pos, String role) {
+    //     // TODO Auto-generated method stub
+    //     Employee findEmployee = adminRepository.findEmployee(id);
+    //     findEmployee.setPos(pos);
+    //     findEmployee.setRole(role);
+    //     return findEmployee;
+    // }
     
   
 }

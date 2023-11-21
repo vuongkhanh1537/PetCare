@@ -1,5 +1,6 @@
 package com.project.petcare.controller.admin;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,9 +48,10 @@ public class AdminController {
     }
 
     @PutMapping("/admin/employee")
-    public Employee updateInfEmployee(@RequestParam(name = "id") Integer id, String pos, String role){
-        return adminService.updateEmp(id, pos, role);
-        
+    public Employee updateInfEmployee(@RequestParam(name = "id") Integer id, @RequestBody Employee newEmployee){
+        Employee findEmployee = adminService.findEmployee(id);
+        findEmployee.updateEmp(newEmployee);
+        return findEmployee;
     }
 
 }
