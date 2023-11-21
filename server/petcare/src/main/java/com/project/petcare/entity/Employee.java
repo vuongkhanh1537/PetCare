@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
+//Còn thiếu status??? * 
+//-------
 @Entity
 @Table(name = "Employee")
 @NoArgsConstructor
@@ -62,5 +65,18 @@ public class Employee {
         this.role = role;
     }
     
+    public void updateEmp (Employee newEmployee){
+        this.address = newEmployee.getAddress();
+        this.cccd = newEmployee.getCccd();
+        this.date = newEmployee.getDate();
+        this.firstName = newEmployee.getFirstName();
+        this.lastName = newEmployee.getLastName();
+        this.phoneNum = newEmployee.getPhoneNum();
+        this.place = newEmployee.getPlace();
+        this.pos = newEmployee.getPos();
+        this.role = newEmployee.getRole();
+        this.sex = newEmployee.getSex();
+    }
+
 
 }
