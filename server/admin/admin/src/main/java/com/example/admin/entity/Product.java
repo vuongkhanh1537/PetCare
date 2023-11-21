@@ -9,18 +9,20 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+
 @Entity
 @Table(name = "san_pham")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "SanPhamID", updatable = false, nullable = false)
     private Long productId;
 
     @Column(name = "NhaCungCap")
     private String supplier;
 
     @Column(name = "SoLuong")
-    private int quantity;
+    private int quantity;   
 
     @Column(name = "TenSanPham")
     private String productName;
@@ -29,23 +31,35 @@ public class Product {
     private String description;
 
     @Column(name = "PhanLoaiSanPham")
-    private String productType;
+    private String petType;
+
+    @Column(name = "Loai")
+    private String category;
+
+    @Column(name = "Phamloai")
+    private String subCategory;
+
+    @Column(name = "GiaThanh")
+    private int cost;
 
     // Constructors
     public Product() {
-
     }
 
-    public Product(String supplier, int quantity, String productName, String description, String productType) {
+    public Product(Long productId, String supplier, int quantity, String productName,
+                   String description, String petType, String category, String subCategory, int cost) {
+        this.productId = productId;
         this.supplier = supplier;
         this.quantity = quantity;
         this.productName = productName;
         this.description = description;
-        this.productType = productType;
+        this.petType = petType;
+        this.category = category;
+        this.subCategory = subCategory;
+        this.cost = cost;
     }
 
-    // Getter and Setter methods
-
+    // Getters and Setters
     public Long getProductId() {
         return productId;
     }
@@ -86,13 +100,39 @@ public class Product {
         this.description = description;
     }
 
-    public String getProductType() {
-        return productType;
+    public String getPetType() {
+        return petType;
     }
 
-    public void setProductType(String productType) {
-        this.productType = productType;
+    public void setPetType(String petType) {
+        this.petType = petType;
     }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getSubCategory() {
+        return subCategory;
+    }
+
+    public void setSubCategory(String subCategory) {
+        this.subCategory = subCategory;
+    }
+
+    public int getCost() {
+        return cost;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
+
+    // Other methods...
 
     @Override
     public String toString() {
@@ -102,7 +142,10 @@ public class Product {
                 ", quantity=" + quantity +
                 ", productName='" + productName + '\'' +
                 ", description='" + description + '\'' +
-                ", productType='" + productType + '\'' +
+                ", petType='" + petType + '\'' +
+                ", category='" + category + '\'' +
+                ", subCategory='" + subCategory + '\'' +
+                ", cost=" + cost +
                 '}';
     }
 }

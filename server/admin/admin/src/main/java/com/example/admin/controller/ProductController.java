@@ -58,4 +58,10 @@ public class ProductController {
         productService.deleteProductById(productId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+    
+    @GetMapping("/search")  
+    public ResponseEntity<List<Product>> getProductsByName(@RequestParam String productName) {
+        List<Product> services = productService.getProductsByName(productName);
+        return new ResponseEntity<>(services, HttpStatus.OK);
+    }
 }
