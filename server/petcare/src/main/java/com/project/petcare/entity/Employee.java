@@ -33,6 +33,10 @@ public class Employee {
     @Temporal(TemporalType.DATE)
     private LocalDate date;
 
+    @Column(name = "bdate")
+    @Temporal(TemporalType.DATE)
+    private LocalDate bdate;
+
     @Column(name = "sex")
     private String sex;
 
@@ -51,8 +55,11 @@ public class Employee {
     @Column(name = "role")
     private String role;
 
+    @Column(name = "email", length =50)
+    private String email;
+
     public Employee(String pos, String cccd, String place, LocalDate date, String sex, String phoneNum,
-            String firstName, String lastName, String address, String role) {
+            String firstName, String lastName, String address, String role, String email, LocalDate bDate) {
         this.pos = pos;
         this.cccd = cccd;
         this.place = place;
@@ -63,6 +70,8 @@ public class Employee {
         this.lastName = lastName;
         this.address = address;
         this.role = role;
+        this.email = email;
+        this.bdate = bDate;
     }
     
     public void updateEmp (Employee newEmployee){
@@ -76,6 +85,8 @@ public class Employee {
         this.pos = newEmployee.getPos();
         this.role = newEmployee.getRole();
         this.sex = newEmployee.getSex();
+        this.email = newEmployee.getEmail();
+        this.bdate = newEmployee.getBdate();
     }
 
 
