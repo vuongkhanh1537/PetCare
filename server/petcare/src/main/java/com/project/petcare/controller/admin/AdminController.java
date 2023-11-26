@@ -32,7 +32,7 @@ public class AdminController {
         return adminService.listOfEmployee();
     }
 
-    @PostMapping("/admin/add_emp")
+    @PostMapping("/admin/employee")
     public Employee addEmployee (@RequestBody Employee emp){
         return adminService.saveEmp(emp);
     }
@@ -49,9 +49,8 @@ public class AdminController {
 
     @PutMapping("/admin/employee")
     public Employee updateInfEmployee(@RequestParam(name = "id") Integer id, @RequestBody Employee newEmployee){
-        Employee findEmployee = adminService.findEmployee(id);
-        findEmployee.updateEmp(newEmployee);
-        return findEmployee;
+        adminService.updateEmp(id, newEmployee);
+        return newEmployee;
     }
 
 }

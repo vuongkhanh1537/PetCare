@@ -13,4 +13,6 @@ public interface AdminService {
     public Employee findEmployee(Integer id);
     public Employee delEmp(Integer id);
     // public Employee updateEmp(Integer id, String pos, String role);
+
+    public void updateEmp(Integer id, Employee newEmp);
 }

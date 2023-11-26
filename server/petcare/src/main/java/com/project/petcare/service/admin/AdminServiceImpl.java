@@ -35,6 +35,22 @@ public class AdminServiceImpl implements AdminService{
         return findEmployee;
     }
 
+    @Override
+    public void updateEmp(Integer id, Employee newEmp) {
+        adminRepository.updateAddress(newEmp.getAddress(), id);
+        adminRepository.updateBDate(newEmp.getBdate(), id);
+        adminRepository.updateCCCD(newEmp.getCccd(), id);
+        adminRepository.updateDate(newEmp.getDate(), id);
+        adminRepository.updateEmail(newEmp.getEmail(), id);
+        adminRepository.updateFName(newEmp.getFirstName(), id);
+        adminRepository.updateLName(newEmp.getLastName(), id);
+        adminRepository.updatePhoneNum(newEmp.getPhoneNum(), id);
+        adminRepository.updatePlace(newEmp.getPlace(), id);
+        adminRepository.updatePos(newEmp.getPos(), id);
+        adminRepository.updateRole(newEmp.getRole(), id);
+        adminRepository.updateSex(newEmp.getSex(), id);
+    }
+
     // @Override
     // public Employee updateEmp(Integer id, String pos, String role) {
     //     // TODO Auto-generated method stub

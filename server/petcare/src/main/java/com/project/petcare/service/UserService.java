@@ -8,5 +8,5 @@ import com.project.petcare.entity.User;
 public interface UserService {
     public User findByUsername(String username);
 
-    public User saveUser(User user);
+    public User saveUser(User user); 
 }
