@@ -1,9 +1,9 @@
+import { fetchAllService, deleteAnService } from "../../../services/ServiceServices";
 import Sidebar from "../../components/global/Sidebar";
 import Topbar from "../../components/global/Topbar";
 import { Box } from '@mui/material';
 import { DataGrid } from "@mui/x-data-grid"
 import Header from "../../components/Header";
-import { fetchAllEmployee } from "../../../services/EmployeeService";
 import { useEffect, useState } from "react";
 import { serviceData } from "../../../data/MockData";
 import Button from "react-bootstrap/esm/Button";
@@ -48,13 +48,35 @@ const Service = () => {
         },
     ];
     const [rows, setRows] = useState([]);
+    const [selectionModel, setSelectionModel] = useState([]);
+
     useEffect(() => {
+        // getService();
         setRows(serviceData);
     }, []);
 
-    const handleClick = (params) => {
-        
+    const getService = async () => {
+        let res = await fetchAllService();
+        if (res && res.data) {
+            setRows(res.data);
+        }
     }
+    const handleClick = (params) => {
+        const id = params.row.id;
+        navigate("/dich_vu/" + id);
+    }
+
+    const deleteEmployee = async (id) => {
+        let res = await deleteAnService(id);
+        if (res) {
+            getService();
+        }
+    }
+
+    const handleDeleteClick = () => {
+        selectionModel.forEach((value) => {deleteEmployee(value)})
+    }
+    
     return (
         <>
         <div className="app">
@@ -66,7 +88,16 @@ const Service = () => {
                     <Box
                         ml = "20px"
                         sx={{ height: "fix-content", width: '90%', alignItems: "center"}}>
-                        <Button variant="primary mb-3" onClick={()=>{navigate("/dich_vu/add")}}>Thêm dịch vụ</Button>
+                        <Button 
+                            variant="primary mb-3" 
+                            onClick={()=>{navigate("/dich_vu/add")}}
+                        >Thêm dịch vụ
+                        </Button>
+                        <Button
+                            variant="danger mb-3"
+                            disabled={selectionModel.length === 0}
+                        >Xoá dịch vụ
+                        </Button>
                         <DataGrid
                             rows={rows}
                             columns={columns}
@@ -81,6 +112,10 @@ const Service = () => {
                             pageSizeOptions={[10]}
                             checkboxSelection
                             disableRowSelectionOnClick
+                            onRowSelectionModelChange={(newSelection) => {
+                                setSelectionModel(newSelection);
+                            }}
+                            selectionModel={selectionModel}
                             sx={{
                                 boxShadow: 2,
                                 borderRadius: 3,

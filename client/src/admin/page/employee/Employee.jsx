@@ -1,11 +1,10 @@
+import { fetchAllEmployee, deleteAnEmployee } from "../../../services/EmployeeService";
 import Sidebar from "../../components/global/Sidebar";
 import Topbar from "../../components/global/Topbar";
 import { Box } from '@mui/material';
 import { DataGrid } from "@mui/x-data-grid"
 import Header from "../../components/Header";
-import { fetchAllEmployee } from "../../../services/EmployeeService";
 import { useEffect, useState } from "react";
-import { employeeData } from "../../../data/MockData";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/esm/Button";
 
@@ -14,16 +13,16 @@ const Employee = () => {
     const columns = [
         { field: 'id', headerName: 'ID', width: 90, },
         {
-          field: 'first_name',
-          headerName: 'First name',
+          field: 'firstName',
+          headerName: 'Họ',
           width: 100,
           flex: 1,
           headerAlign: "center",
           align: "center"
         },
         {
-          field: 'last_name',
-          headerName: 'Last name',
+          field: 'lastName',
+          headerName: 'Tên',
           width: 100,
           flex: 1,
           headerAlign: "center",
@@ -38,7 +37,7 @@ const Employee = () => {
             align: "center"
         },
         {
-            field: 'position',
+            field: 'pos',
             headerName: 'Chức vụ',
             width: 100,
             flex: 1,
@@ -47,22 +46,36 @@ const Employee = () => {
         },
     ];
     const [rows, setRows] = useState([]);
+
+    const [selectionModel, setSelectionModel] = useState([]);
+
     useEffect(() => {
-        setRows(employeeData);
+        getEmployee();
     }, []);
 
     const getEmployee = async () => {
-        let res = await fetchAllEmployee(1);
+        let res = await fetchAllEmployee();
         if (res && res.data) {
             setRows(res.data);
         }
     }
 
     const handleClick = (params) => {
-        console.log(params);
-        // <Link to={params.row.id} />
+        const id = params.row.id;
+        navigate("/nhan_vien/" + id);
     }
-    console.log(rows);
+
+    const deleteEmployee = async (id) => {
+        let res = await deleteAnEmployee(id);
+        if (res) {
+            getEmployee();
+        }
+    }
+
+    const handleDeleteClick = () => {
+        selectionModel.forEach((value) => {deleteEmployee(value)})
+    }
+
     return (
         <>
         <div className="app">
@@ -70,11 +83,21 @@ const Employee = () => {
             <main className='content'>
                 <Topbar />
                 <Box m = "0 30px 10px 30px">
-                    <Header title="Nhân viên" />
+                    <Header title="Nhân viên" subtitle="Danh sách nhân viên"/>
                     <Box
                         ml = "20px"
                         sx={{ height: "fit-content", width: '90%'}}>
-                        <Button variant="primary mb-3" onClick={()=>{navigate("/nhan_vien/add")}}>Thêm nhân viên</Button>
+                        <Button 
+                            variant="primary mb-3" 
+                            onClick={()=>{navigate("/nhan_vien/add")}}
+                        >Thêm nhân viên
+                        </Button>
+                        <Button 
+                            variant="danger mb-3"
+                            disabled={selectionModel.length === 0}
+                            onClick={handleDeleteClick}
+                        >Xoá nhân viên
+                        </Button>
                         <DataGrid
                             rows={rows}
                             columns={columns}
@@ -89,6 +112,10 @@ const Employee = () => {
                             pageSizeOptions={[10]}
                             checkboxSelection
                             disableRowSelectionOnClick
+                            onRowSelectionModelChange={(newSelection) => {
+                                setSelectionModel(newSelection);
+                            }}
+                            selectionModel={selectionModel}
                             sx={{
                                 boxShadow: 2,
                                 borderRadius: 3,

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Box } from "@mui/material";
+import { toast } from "react-toastify";
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
@@ -7,16 +8,22 @@ import Row from 'react-bootstrap/Row';
 import Header from "../../components/Header";
 import Sidebar from "../../components/global/Sidebar";
 import Topbar from "../../components/global/Topbar";
+import { addEmployee } from "../../../services/EmployeeService";
+import { useNavigate } from "react-router-dom";
 
 const AddEmployee = () => {
 
     const [newEmployee, setNewEmployee] = useState({
-        productName: "",
-        supplier: "",
-        category: "",
-        unitPrice: "",
-        subCategory: "",
-        description: "",
+        pos: "doctor",
+        cccd:"",
+        place:"",
+        date:"",
+        sex :"",
+        phoneNum:"",
+        firstName:"",
+        lastName:"",
+        address:"",
+        role:"employee"
     });
 
     const handleChange = (e) => {
@@ -27,9 +34,15 @@ const AddEmployee = () => {
         })
     }
 
-
-    const handleClick = () => {
+    
+    const navigate = useNavigate();
+    const handleClick = async () => {
         console.log(newEmployee);
+        let res = await addEmployee(newEmployee);
+        toast.success("Đã thêm thành công một nhân viên");
+        setTimeout(() => {
+            navigate("/nhan_vien");
+        }, 5000);
     }
 
     return(
@@ -44,41 +57,42 @@ const AddEmployee = () => {
                         sx={{ height: "fit-content", width: '90%'}}>
                     <Form>
                         <Row className="mb-3">
-                            <Form.Group as={Col} controlId="formGridName">
+                            <Form.Group as={Col} >
                             <Form.Label>Họ</Form.Label>
-                            <Form.Control type="text" placeholder="Nhập tên sản phẩm" name="productName" onChange={handleChange}/>
+                            <Form.Control type="text" placeholder="Nhập họ" name="firstName" onChange={handleChange}/>
                             </Form.Group>
 
-                            <Form.Group as={Col} controlId="formGridID">
+                            <Form.Group as={Col} >
                             <Form.Label>Tên</Form.Label>
-                            <Form.Control type="text" placeholder="Mã sản phẩm" />
+                            <Form.Control type="text" placeholder="Nhập tên" name="lastName" onChange={handleChange}/>
                             </Form.Group>
                         </Row>
 
                         <Row className="mb-3">
-                            <Form.Group as={Col} controlId="formGridName">
+                            <Form.Group as={Col} >
                             <Form.Label>Email</Form.Label>
-                            <Form.Control type="email" placeholder="Nhập tên sản phẩm" name="productName" onChange={handleChange}/>
+                            <Form.Control type="email" placeholder="Nhập Email" name="email" onChange={handleChange}/>
                             </Form.Group>
 
-                            <Form.Group as={Col} controlId="formGridID">
+                            <Form.Group as={Col} >
                             <Form.Label>Số điện thoại</Form.Label>
-                            <Form.Control type="phone" placeholder="Mã sản phẩm" />
+                            <Form.Control type="phone" placeholder="Nhập số điện thoại" name="phoneNum" onChange={handleChange}/>
                             </Form.Group>
                         </Row>
 
                         <Row className="mb-3">
                             <Form.Group as={Col} controlId="formGridName">
                             <Form.Label>CCCD</Form.Label>
-                            <Form.Control type="text" placeholder="Nhập tên sản phẩm" name="productName" onChange={handleChange}/>
+                            <Form.Control type="text" placeholder="Nhập CCCD" name="cccd" onChange={handleChange}/>
                             </Form.Group>
 
                             <Form.Group as={Col} controlId="formGridID">
                             <Form.Label>Ngày cấp</Form.Label>
                             <Form.Control
                                 type="date"
-                                name="datepic"
                                 placeholder="DateRange"
+                                name="date"
+                                onChange={handleChange}
                             />
                             </Form.Group>
                         </Row>
@@ -86,12 +100,12 @@ const AddEmployee = () => {
                         <Row className="mb-3">
                             <Form.Group as={Col} controlId="formGridName">
                             <Form.Label>Nơi cấp</Form.Label>
-                            <Form.Control type="text" placeholder="Nhập tên sản phẩm" name="productName" onChange={handleChange}/>
+                            <Form.Control type="text" placeholder="Nhập nơi cấp" name="place" onChange={handleChange}/>
                             </Form.Group>
 
                             <Form.Group as={Col} controlId="formGridID">
                             <Form.Label>Địa chỉ hiện tại</Form.Label>
-                            <Form.Control type="address" placeholder="Mã sản phẩm" />
+                            <Form.Control type="address" placeholder="Nhập địa chỉ" name="address" onChange={handleChange}/>
                             </Form.Group>
                         </Row>
 
@@ -100,21 +114,52 @@ const AddEmployee = () => {
                             <Form.Label>Ngày sinh</Form.Label>
                             <Form.Control
                                 type="date"
-                                name="datepic"
                                 placeholder="DateRange"
+                                name="bdate"
+                                onChange={handleChange}
                             />
                             </Form.Group>
 
                             <Form.Group as={Col} controlId="formGridID">
                             <Form.Label>Giới tính</Form.Label>
-                            <Form.Check 
-                                type="radio"
+                            <Form.Check
                                 label="Nam"
-                            />
-                            <Form.Check 
+                                name="sex"
                                 type="radio"
-                                label="Nữ"
+                                value="Male"
+                                onChange={handleChange}
                             />
+                            <Form.Check
+                                label="Nữ"
+                                name="sex"
+                                type="radio"
+                                value="Female"
+                                onChange={handleChange}
+                            />
+                            </Form.Group>
+                        </Row>
+
+                        <Row className="mb-3">
+                            <Form.Group as={Col} >
+                            <Form.Label>Mã nhân viên</Form.Label>
+                            <Form.Control 
+                                type="text" 
+                                placeholder="Mã nhân viên" 
+                                disabled />
+                            </Form.Group>
+
+                            <Form.Group as={Col} >
+                                <Form.Label>Chức vụ</Form.Label>
+                                <Form.Select
+                                    name="pos" 
+                                    defaultValue="Chọn chức vụ"
+                                    onChange={handleChange}
+                                >
+                                    <option>Chọn chức vụ</option>
+                                    <option>Bác sĩ</option>
+                                    <option>Saler</option>
+                                    <option>Quản lý</option>
+                                </Form.Select>
                             </Form.Group>
                         </Row>
 

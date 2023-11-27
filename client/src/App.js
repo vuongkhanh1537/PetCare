@@ -12,10 +12,12 @@ import UpdateProduct from './admin/page/product/UpdateProduct';
 import AddProduct from  './admin/page/product/AddProduct';
 import AddService from './admin/page/service/AddService';
 import AddEmployee from './admin/page/employee/AddEmployee';
+import UpdateEmployee from './admin/page/employee/UpdateEmployee';
+import { ToastContainer} from 'react-toastify';
 
 function App() {
 
-  return (
+  return (<>
       <Routes>
         <Route path="/" element={<Home/>}  />
         <Route path="/login" element={<Login/>}  />
@@ -31,8 +33,21 @@ function App() {
       
         <Route path="/nhan_vien" element={<Employee/>} />
         <Route path="/nhan_vien/add" element={<AddEmployee/>} />
+        <Route path="/nhan_vien/:id" element={<UpdateEmployee />} />
       </Routes>
-  );
+      <ToastContainer
+      position="top-right"
+      autoClose={3000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="light"
+      />
+  </>);
 }
 
 export default App;

@@ -1,6 +1,6 @@
 import Sidebar from "../../components/global/Sidebar";
 import Topbar from "../../components/global/Topbar";
-import { Box } from '@mui/material';
+import { Box, skeletonClasses } from '@mui/material';
 import { DataGrid } from "@mui/x-data-grid"
 import Header from "../../components/Header";
 import { fetchAllEmployee } from "../../../services/EmployeeService";
@@ -9,7 +9,7 @@ import { productData } from "../../../data/MockData";
 import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import UpdateProduct from "./UpdateProduct"
 import Button from "react-bootstrap/esm/Button";
-
+import { fetchAllProduct, deleteAnProduct } from "../../../services/ProductServices";
 
 const Product = () => {
     const navigate = useNavigate();
@@ -57,12 +57,14 @@ const Product = () => {
         },
     ];
     const [rows, setRows] = useState([]);
+    const [selectionModel, setSelectionModel] = useState([]);
+
     useEffect(() => {
-        setRows(productData);
+        // getProduct();
     }, []);
 
-    const getEmployee = async () => {
-        let res = await fetchAllEmployee(1);
+    const getProduct = async () => {
+        let res = await fetchAllProduct();
         if (res && res.data) {
             setRows(res.data);
         }
@@ -72,6 +74,18 @@ const Product = () => {
         const id = params.row.id;
         navigate("/san_pham/" + id);
     }
+
+    const deleteProduct = async (id) => {
+        let res = await deleteAnProduct(id);
+        if (res) {
+            getProduct();
+        }
+    }
+
+    const handleDeleteClick = () => {
+        selectionModel.forEach((value) => {deleteProduct(value)})
+    }
+    
     return (
         <>
         <div className="app">
@@ -83,7 +97,16 @@ const Product = () => {
                     <Box
                         ml = "20px"
                         sx={{ height: "fit-content", width: '90%'}}>
-                        <Button variant="primary mb-3" onClick={()=>{navigate("/san_pham/add")}}>Thêm sản phẩm</Button>
+                        <Button 
+                            variant="primary mb-3" 
+                            onClick={()=>{navigate("/san_pham/add")}}
+                        >Thêm sản phẩm</Button>
+                        <Button
+                            variant="danger mb-3"
+                            disabled={selectionModel.length === 0}
+                            onClick={handleDeleteClick}
+                        >Xoá sản phẩm    
+                        </Button>
                         <DataGrid
                             rows={rows}
                             columns={columns}
@@ -98,6 +121,10 @@ const Product = () => {
                             pageSizeOptions={[10]}
                             checkboxSelection
                             disableRowSelectionOnClick
+                            onRowSelectionModelChange={(newSelection) => {
+                                setSelectionModel(newSelection);
+                            }}
+                            setSelectionModel={selectionModel}
                             sx={{
                                 boxShadow: 2,
                                 borderRadius: 3,

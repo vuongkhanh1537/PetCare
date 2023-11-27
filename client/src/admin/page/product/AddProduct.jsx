@@ -107,11 +107,12 @@ const AddProduct = () => {
 
                         <Form.Group className="mb-3" id="formGridImage">
                         <Form.Label>Hình ảnh</Form.Label>
-                        <div>
+                        {/* <div>
                             <input type="file" onChange={onImageChange} className="filetype" />
 
-                            {image && <img src={image} alt="preview image" />}
-                        </div>
+                        </div> */}
+                            <Form.Control type="file" onChange={onImageChange} />
+                            {image && <img src={image} style={{height:"100px", width:"100px"}} alt="preview image" />}
                         </Form.Group>
 
                         <Button variant="primary float-end" onClick={handleClick}>

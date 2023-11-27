@@ -5,10 +5,10 @@ import GoogleLogo from '../../assests/images/GoogleLogo.png'
 import LogoBrand from '../../assests/images/Logo_Brand.png'
 import Logo from '../../assests/images/Logo.png'
 import { Link } from 'react-router-dom'
-import { ToastContainer, toast } from 'react-toastify';
 import Header from '../../features/Header';
 import { loginApi } from '../../services/EmployeeService'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 function Login() {
     const navigate = useNavigate();
@@ -100,18 +100,6 @@ function Login() {
                 <img src={LoginIntro} className='img-fluid'/>
             </div>
         </div>
-        <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-        />
     </>
     )
 }
