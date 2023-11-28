@@ -44,6 +44,7 @@ public class Product {
 
     // Constructors
     public Product() {
+        
     }
 
     public Product(Long productId, String supplier, int quantity, String productName,
