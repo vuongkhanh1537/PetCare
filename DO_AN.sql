@@ -100,7 +100,9 @@ CREATE TABLE dich_vu (
     DichVuID VARCHAR(10) PRIMARY KEY,
     TenDichVu VARCHAR(30) NOT NULL,
     ThoiGianHoanThanh TIME NOT NULL,
-    GiaThanh INT NOT NULL
+    GiaThanh INT NOT NULL,
+    Loai varchar(20) NOT NULL,
+    MoTa varchar(60) NOT NULL
 );
 
 -- Create product order tables
