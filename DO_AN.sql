@@ -4,13 +4,13 @@ USE DO_AN_HTTT;
 CREATE TABLE nhan_vien (
     NVid VARCHAR(10) PRIMARY KEY,
     ChucVu VARCHAR(30) NOT NULL,
+    MaCCCD VARCHAR(30) NOT NULL,
     NoiCap VARCHAR(30) NOT NULL,
     NgayCap DATE NOT NULL,
     GioiTinh VARCHAR(6) NOT NULL,
     SDT VARCHAR(10) NOT NULL,
     HoVaTenDem VARCHAR(30) NOT NULL,
     TenDau VARCHAR(20) NOT NULL,
-    UserType VARCHAR(3) NOT NULL,
     TenDangNhap VARCHAR(30) NOT NULL,
     MatKhau VARCHAR(30) NOT NULL
 );
@@ -156,6 +156,21 @@ CREATE TABLE NVCS_don_hang_dich_vu (
     FOREIGN KEY(NVCSid) REFERENCES nhan_vien_cham_soc(NVCSid),
     FOREIGN KEY(DonDichVuID) REFERENCES don_dich_vu(DonDichVuID)
 );
+
+
+
+
+INSERT INTO `do_an_httt`.`nhan_vien` (`NVid`, `ChucVu`, `MaCCCD`, `NoiCap`, `NgayCap`, `GioiTinh`, `SDT`, `HoVaTenDem`, `TenDau`, `TenDangNhap`, `MatKhau`) VALUES ('NVCS000001', 'Chăm sóc', '0123456789123', 'TPHCM', '1998-01-02', 'female', '3372847832', 'Phạm Hồng ', 'Thắm', 'adminNo00', 'adminNo00');
+INSERT INTO `do_an_httt`.`nhan_vien` (`NVid`, `ChucVu`, `MaCCCD`, `NoiCap`, `NgayCap`, `GioiTinh`, `SDT`, `HoVaTenDem`, `TenDau`, `TenDangNhap`, `MatKhau`) VALUES ('NVCS000002', 'Chăm sóc', '1233431244252', 'TPHCM', '2003-12-21', 'male', '2846759837', 'Nguyễn Văn ', 'Danh', 'adminNo01', 'adminNo01');
+INSERT INTO `do_an_httt`.`nhan_vien` (`NVid`, `ChucVu`, `MaCCCD`, `NoiCap`, `NgayCap`, `GioiTinh`, `SDT`, `HoVaTenDem`, `TenDau`, `TenDangNhap`, `MatKhau`) VALUES ('NVCS000003', 'Chăm sóc', '4857693493733', 'TPHCM', '2003-01-02', 'male', '0983657195', 'Trần Đức', 'Hiếu', 'adminNo02', 'adminNo02');
+INSERT INTO `do_an_httt`.`nhan_vien` (`NVid`, `ChucVu`, `MaCCCD`, `NoiCap`, `NgayCap`, `GioiTinh`, `SDT`, `HoVaTenDem`, `TenDau`, `TenDangNhap`, `MatKhau`) VALUES ('NVCS000004', 'Thú y', '2383476586435', 'Long An', '2000-01-23', 'female', '0987395476', 'Lê Minh', 'Thu', 'adminNo03', 'adminNo03');
+INSERT INTO `do_an_httt`.`nhan_vien` (`NVid`, `ChucVu`, `MaCCCD`, `NoiCap`, `NgayCap`, `GioiTinh`, `SDT`, `HoVaTenDem`, `TenDau`, `TenDangNhap`, `MatKhau`) VALUES ('NVBH000001', 'Bán hàng', '1343857348575', 'An Giang', '1999-12-12', 'male', '0384613944', 'Đặng Văn ', 'Bi', 'adminNo04', 'adminNo04');
+INSERT INTO `do_an_httt`.`nhan_vien` (`NVid`, `ChucVu`, `MaCCCD`, `NoiCap`, `NgayCap`, `GioiTinh`, `SDT`, `HoVaTenDem`, `TenDau`, `TenDangNhap`, `MatKhau`) VALUES ('NVBH000002', 'Bán hàng', '5668494696666', 'TPHCM', '2001-04-05', 'female', '0283484758', 'Lê Văn Diệu', 'Thi', 'adminNo05', 'adminNo05');
+INSERT INTO `do_an_httt`.`nhan_vien` (`NVid`, `ChucVu`, `MaCCCD`, `NoiCap`, `NgayCap`, `GioiTinh`, `SDT`, `HoVaTenDem`, `TenDau`, `TenDangNhap`, `MatKhau`) VALUES ('NVBH000003', 'Bán hàng', '3476769567799', 'TPHCM', '1998-11-17', 'female', '0586948334', 'Nguyễn Bảo', 'Châu', 'adminNo06', 'adminNo06');
+INSERT INTO `do_an_httt`.`nhan_vien` (`NVid`, `ChucVu`, `MaCCCD`, `NoiCap`, `NgayCap`, `GioiTinh`, `SDT`, `HoVaTenDem`, `TenDau`, `TenDangNhap`, `MatKhau`) VALUES ('NVBH000004', 'Bán hàng', '8849475682395', 'Long An', '2000-12-12', 'female', '0347584757', 'Đỗ Thị', 'Lan', 'adminNo07', 'adminNo07');
+
+
+
 
 -- Select query
 SELECT NVid, HoVaTenDem, TenDau, UserType FROM nhan_vien;
