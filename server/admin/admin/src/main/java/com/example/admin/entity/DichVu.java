@@ -26,14 +26,22 @@ public class DichVu {
     @Column(name = "GiaThanh")
     private int giaThanh;
 
+    @Column(name = "Loai")
+    private String loai;
+
+    @Column(name = "MoTa")
+    private String moTa;
+
     // Constructors
     public DichVu() {
     }
 
-    public DichVu(String tenDichVu, String thoiGianHoanThanh, int giaThanh) {
+    public DichVu(String tenDichVu, String thoiGianHoanThanh, int giaThanh, String loai, String moTa) {
         this.tenDichVu = tenDichVu;
         this.thoiGianHoanThanh = thoiGianHoanThanh;
         this.giaThanh = giaThanh;
+        this.loai = loai;
+        this.moTa = moTa;
     }
 
     // Getters and Setters
@@ -69,6 +77,21 @@ public class DichVu {
         this.giaThanh = giaThanh;
     }
 
+    public String getLoai() {
+        return loai;
+    }
+
+    public void setLoai(String loai) {
+        this.loai = loai;
+    }
+
+    public String getMoTa() {
+        return moTa;
+    }
+
+    public void setMoTa(String moTa) {
+        this.moTa = moTa;
+    }
     // toString method (optional, for debugging)
     @Override
     public String toString() {

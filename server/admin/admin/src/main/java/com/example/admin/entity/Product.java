@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.*;
 
 
 @Entity
@@ -18,40 +19,50 @@ public class Product {
     @Column(name = "SanPhamID", updatable = false, nullable = false)
     private Long productId;
 
-    @Column(name = "NhaCungCap")
+    @Column(name = "NhaCungCap", nullable = false)
+    @NotBlank(message = "Supplier cannot be blank")
     private String supplier;
 
-    @Column(name = "SoLuong")
+    @Column(name = "SoLuong", nullable = false)
+    @Min(value = 0, message = "Quantity must be greater than or equal to 0")
     private int quantity;   
 
-    @Column(name = "TenSanPham")
+    @Column(name = "TenSanPham", nullable = false)
+    @NotBlank(message = "Product name cannot be blank")
     private String productName;
 
-    @Column(name = "MoTa")
+
+    @Column(name = "MoTa", nullable = false)
+    @NotBlank(message = "Description cannot be blank")
+    @Size(max = 60, message = "Description cannot exceed 60 characters")    
     private String description;
 
-    @Column(name = "PhanLoaiSanPham")
+    @Column(name = "PhanLoaiSanPham", nullable = false)
+    @NotBlank(message = "Pet type cannot be blank")
     private String petType;
 
-    @Column(name = "Loai")
+    @Column(name = "Loai", nullable = false)
+    @NotBlank(message = "Category cannot be blank")
     private String category;
 
-    @Column(name = "Phamloai")
+    @Column(name = "PhamLoai", nullable = false)
+    @NotBlank(message = "Sub-category cannot be blank")
     private String subCategory;
 
-    @Column(name = "GiaThanh")
+    @Column(name = "GiaThanh", nullable = false)
+    @Min(value = 0, message = "Cost must be greater than or equal to 0")
     private int cost;
 
     // Constructors
     public Product() {
-        
+        this.quantity = 0;
     }
 
     public Product(Long productId, String supplier, int quantity, String productName,
                    String description, String petType, String category, String subCategory, int cost) {
         this.productId = productId;
         this.supplier = supplier;
-        this.quantity = quantity;
+        this.quantity = 0;
         this.productName = productName;
         this.description = description;
         this.petType = petType;
