@@ -15,19 +15,20 @@ function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    // useEffect(() => {
-    //     let token = localStorage.getItem("token");
-    //     if (token) {
-    //         navigate("/");
-    //     }
-    // })
+    useEffect(() => {
+        let token = localStorage.getItem("token");
+        if (token) {
+            navigate("/");
+        }
+    })
 
     const handleClick = async () => {
         if (!username || !password) {
             toast.warn("Vui lòng điền đầy đủ thông tin đăng nhập!");
         } else {
             let res = await loginApi(username, password);
-            if (res && res.data) {
+            console.log(res);
+            if (res) {
                 toast.success("Đăng nhập thành công");
                 navigate("/dashboard");
             } else {

@@ -14,9 +14,9 @@ import { fetchAllProduct, deleteAnProduct } from "../../../services/ProductServi
 const Product = () => {
     const navigate = useNavigate();
     const columns = [
-        { field: 'id', headerName: 'ID', width: 90, },
+        { field: 'productId', headerName: 'ID', width: 90, },
         {
-            field: 'product_name',
+            field: 'productName',
             headerName: 'Tên sản phẩm',
             width: 100,
             flex: 1,
@@ -40,7 +40,7 @@ const Product = () => {
             align: "center"
         },
         {
-            field: 'price',
+            field: 'cost',
             headerName: 'Đơn giá',
             width: 100,
             flex: 1,
@@ -48,7 +48,7 @@ const Product = () => {
             align: "center"
         },
         {
-            field: 'brand',
+            field: 'supplier',
             headerName: 'Nhà cung cấp',
             width: 100,
             flex: 1,
@@ -60,18 +60,19 @@ const Product = () => {
     const [selectionModel, setSelectionModel] = useState([]);
 
     useEffect(() => {
-        // getProduct();
+        getProduct();
     }, []);
 
     const getProduct = async () => {
         let res = await fetchAllProduct();
+        console.log(res.data); 
         if (res && res.data) {
             setRows(res.data);
         }
     }
 
     const handleClick = (params) => {
-        const id = params.row.id;
+        const id = params.row.productId;
         navigate("/san_pham/" + id);
     }
 
@@ -108,6 +109,7 @@ const Product = () => {
                         >Xoá sản phẩm    
                         </Button>
                         <DataGrid
+                            getRowId={(row) => row.productId}
                             rows={rows}
                             columns={columns}
                             onRowClick={handleClick}

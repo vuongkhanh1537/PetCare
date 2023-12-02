@@ -55,8 +55,9 @@ const Employee = () => {
 
     const getEmployee = async () => {
         let res = await fetchAllEmployee();
-        if (res && res.data) {
-            setRows(res.data);
+        console.log(res);
+        if (res) {
+            setRows(res);
         }
     }
 

@@ -14,6 +14,7 @@ import AddService from './admin/page/service/AddService';
 import AddEmployee from './admin/page/employee/AddEmployee';
 import UpdateEmployee from './admin/page/employee/UpdateEmployee';
 import { ToastContainer} from 'react-toastify';
+import UpdateService from './admin/page/service/UpdateService';
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
         
         <Route path="/dich_vu" element={<Service />} />
         <Route path="/dich_vu/add" element={<AddService />} />
+        <Route path="/dich_vu/:id" element={<UpdateService />} />
       
         <Route path="/nhan_vien" element={<Employee/>} />
         <Route path="/nhan_vien/add" element={<AddEmployee/>} />
@@ -38,10 +40,7 @@ function App() {
       <ToastContainer
       position="top-right"
       autoClose={3000}
-      hideProgressBar={false}
-      newestOnTop={false}
       closeOnClick
-      rtl={false}
       pauseOnFocusLoss
       draggable
       pauseOnHover

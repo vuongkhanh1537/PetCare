@@ -5,21 +5,19 @@ import { Box } from '@mui/material';
 import { DataGrid } from "@mui/x-data-grid"
 import Header from "../../components/Header";
 import { useEffect, useState } from "react";
-import { serviceData } from "../../../data/MockData";
 import Button from "react-bootstrap/esm/Button";
 import { useNavigate } from "react-router-dom";
 
 const Service = () => {
-
     const navigate = useNavigate();
     const columns = [
         { field: 'id', headerName: 'ID', width: 90, headerAlign: "center", align: "center"},
         {
-            field: 'service_name',
+            field: 'tenDichVu',
             headerName: 'Tên dịch vụ',
             width: 100,
             flex: 1,
-            headerAlign: "center",
+            headerAlign: "left",
             align: "left"
         },
         {
@@ -31,7 +29,7 @@ const Service = () => {
             align: "center"
         },
         {
-            field: 'price',
+            field: 'giaThanh',
             headerName: 'Giá thành',
             width: 50,
             flex: 1,
@@ -39,7 +37,7 @@ const Service = () => {
             align: "center"
         },
         {
-            field: 'complete_time',
+            field: 'thoiGianHoanThanh',
             headerName: 'Thời gian hoàn thành',
             width: 100,
             flex: 1,
@@ -51,14 +49,13 @@ const Service = () => {
     const [selectionModel, setSelectionModel] = useState([]);
 
     useEffect(() => {
-        // getService();
-        setRows(serviceData);
+        getService();
     }, []);
 
     const getService = async () => {
         let res = await fetchAllService();
-        if (res && res.data) {
-            setRows(res.data);
+        if (res) {
+            setRows(res);
         }
     }
     const handleClick = (params) => {
@@ -96,6 +93,7 @@ const Service = () => {
                         <Button
                             variant="danger mb-3"
                             disabled={selectionModel.length === 0}
+                            onClick={handleDeleteClick}
                         >Xoá dịch vụ
                         </Button>
                         <DataGrid

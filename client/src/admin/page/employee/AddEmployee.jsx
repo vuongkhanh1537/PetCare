@@ -42,7 +42,7 @@ const AddEmployee = () => {
         toast.success("Đã thêm thành công một nhân viên");
         setTimeout(() => {
             navigate("/nhan_vien");
-        }, 5000);
+        }, 3000);
     }
 
     return(

@@ -1,26 +1,21 @@
 import axios from './customize-axios';
 // import axios from "axios";
 
-export const fetchAllService = (page) => {
-    return axios.get("/admin/all_Service");
-}
-
-export const loginApi = (username, password) => {
-    return axios.post("/login", {username : username,password : password});
+export const fetchAllService = () => {
+    return axios.get("http://localhost:8080/api/services");
 }
 
 export const addService = (ob) => {
-    return axios.post("/admin/add_emp", ob);
-}
-
-export const deleteAnService = (id) => {
-    return axios.delete(`/admin/Service?id=${id}`);
+    return axios.post("http://localhost:8080/api/services", ob);
 }
 
 export const fetchAnService = (id) => {
-    return axios.get(`/admin/Service?id=${id}`); 
+    return axios.get(`http://localhost:8080/api/services/${id}`); 
+}
+export const deleteAnService = (id) => {
+    return axios.delete(`http://localhost:8080/api/services/${id}`);
 }
 
 export const updateAnService = (ob) => {
-    return axios.put(`/admin/Service?id=${ob.id}`, ob);
+    return axios.put(`http://localhost:8080/api/services/${ob.id}`, ob);
 }

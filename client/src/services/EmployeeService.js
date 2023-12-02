@@ -2,25 +2,25 @@ import axios from './customize-axios';
 // import axios from "axios";
 
 export const fetchAllEmployee = (page) => {
-    return axios.get("/admin/all_employee");
+    return axios.get("http://localhost:8080/admin/all_employee");
 }
 
 export const loginApi = (username, password) => {
-    return axios.post("/login", {username : username,password : password});
+    return axios.post("http://localhost:8080/login", {username : username,password : password});
 }
 
 export const addEmployee = (ob) => {
-    return axios.post("/admin/add_emp", ob);
+    return axios.post("http://localhost:8080/admin/employee", ob);
 }
 
 export const deleteAnEmployee = (id) => {
-    return axios.delete(`/admin/employee?id=${id}`);
+    return axios.delete(`http://localhost:8080/admin/employee?id=${id}`);
 }
 
 export const fetchAnEmployee = (id) => {
-    return axios.get(`/admin/employee?id=${id}`); 
+    return axios.get(`http://localhost:8080/admin/employee?id=${id}`); 
 }
 
 export const updateAnEmployee = (ob) => {
-    return axios.put(`/admin/employee?id=${ob.id}`, ob);
+    return axios.put(`http://localhost:8080/admin/employee?id=${ob.id}`, ob);
 }

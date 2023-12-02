@@ -15,21 +15,6 @@ const UpdateEmployee = () => {
 
     const { id } = useParams();
 
-    const fakedata = {
-        pos: "doctor",
-        cccd:"123456789",
-        place:"cr",
-        date:"2020-01-01",
-        sex :"Female",
-        phoneNum:"0946730428",
-        firstName:"kian",
-        lastName:"vuong",
-        address:"ktxb",
-        email: "tcb@gmail.com",
-        bdate: "2003-11-13",
-        role:"employee"
-    }
-
     useEffect(() => {
         getEmployee();
     }, [])
@@ -37,8 +22,8 @@ const UpdateEmployee = () => {
     const getEmployee = async () => {
         let res = await fetchAnEmployee(id);
         console.log(res);
-        if (res && res.data) {
-            setEmployee(res.data);
+        if (res) {
+            setEmployee(res);
         }
     }
 
@@ -182,7 +167,7 @@ const UpdateEmployee = () => {
                             type="radio"
                             name="sex"
                             value="Nam"
-                            checked={employee.sex === "Male"}
+                            checked={employee.sex === "male"}
                             onChange={handleChange}
                         />
                         <Form.Check
@@ -190,7 +175,7 @@ const UpdateEmployee = () => {
                             type="radio"
                             name="Nữ"
                             value={employee.sex}
-                            checked={employee.sex === "Female"}
+                            checked={employee.sex === "female"}
                             onChange={handleChange} 
                         />
                         </Form.Group>

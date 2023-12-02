@@ -7,16 +7,21 @@ import Row from 'react-bootstrap/Row';
 import Header from "../../components/Header";
 import Sidebar from "../../components/global/Sidebar";
 import Topbar from "../../components/global/Topbar";
+import { addProduct } from "../../../services/ProductServices";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const AddProduct = () => {
-
+    const navigate = useNavigate();
     const [newProduct, setNewProduct] = useState({
         productName: "",
         supplier: "",
         category: "",
-        unitPrice: "",
         subCategory: "",
         description: "",
+        petType: "",
+        quantity: 0,
+        cost: 0
     });
 
     const handleChange = (e) => {
@@ -35,9 +40,16 @@ const AddProduct = () => {
       }
     };
 
-    const handleClick = () => {
+    const handleClick = async () => {
         console.log(newProduct);
         console.log(image);
+        let res = await addProduct(newProduct);
+        if (res) {
+            toast.success("Đã thêm thành công sản phẩm mới")
+        }
+        setTimeout(() => {
+            navigate("/san_pham");
+        }, 3000);
     }
 
 
@@ -53,53 +65,89 @@ const AddProduct = () => {
                         sx={{ height: "fit-content", width: '90%'}}>
                     <Form>
                         <Row className="mb-3">
-                            <Form.Group as={Col} controlId="formGridName">
+                            <Form.Group as={Col} >
                             <Form.Label>Tên sản phẩm</Form.Label>
-                            <Form.Control type="text" placeholder="Nhập tên sản phẩm" name="productName" onChange={handleChange}/>
+                            <Form.Control 
+                                type="text" 
+                                placeholder="Nhập tên sản phẩm" 
+                                name="productName" 
+                                onChange={handleChange}/>
                             </Form.Group>
 
-                            <Form.Group as={Col} controlId="formGridID">
+                            <Form.Group as={Col}>
                             <Form.Label>Mã sản phẩm</Form.Label>
-                            <Form.Control type="text" placeholder="Mã sản phẩm" disabled={true}/>
+                            <Form.Control 
+                                type="text" 
+                                placeholder="Mã sản phẩm" 
+                                disabled />
                             </Form.Group>
                         </Row>
 
                         <Row className="mb-3">
-                            <Form.Group as={Col} controlId="formGridSupplier">
+                            <Form.Group as={Col} >
                                 <Form.Label>Nhà cung cấp</Form.Label>
-                                <Form.Select defaultValue="Chọn nhà cung cấp" name="supplier" onChange={handleChange}>
-                                    <option>Chọn nhà cung cấp</option>
-                                    <option>Royal Canin</option>
-                                    <option>Bioline</option>
+                                <Form.Select 
+                                    defaultValue="Chọn nhà cung cấp" 
+                                    name="supplier" 
+                                    onChange={handleChange}>
+                                        <option>Chọn nhà cung cấp</option>
+                                        <option>Royal Canin</option>
+                                        <option>Bioline</option>
                                 </Form.Select>
                             </Form.Group>
                         
-                            <Form.Group as={Col} controlId="formGridCategory">
+                            <Form.Group as={Col} >
+                                <Form.Label>Dành cho thú cưng</Form.Label>
+                                <Form.Select defaultValue="Loại thú cưng" name="petType" onChange={handleChange}>
+                                    <option>Chọn thú cưng</option>
+                                    <option>Chó</option>
+                                    <option>Mèo</option>
+                                </Form.Select>
+                            </Form.Group>
+                        </Row>
+
+                        <Row className="mb-3">
+                            <Form.Group as={Col} >
                                 <Form.Label>Loại</Form.Label>
                                 <Form.Select defaultValue="Chọn loại" name="category" onChange={handleChange}>
                                     <option>Chọn loại</option>
                                     <option>Nhà ở</option>
                                     <option>Đồ chơi</option>
+                                    <option>Thực phẩm</option>
                                 </Form.Select>
                             </Form.Group>
-                        </Row>
 
-                        <Row className="mb-3">
-                            <Form.Group as={Col} controlId="formGridUnitPrice">
-                            <Form.Label>Giá sản phẩm</Form.Label>
-                            <Form.Control placeholder="Nhập giá sản phẩm" name="unitPrice" onChange={handleChange}/>
-                            </Form.Group>
-
-                            <Form.Group as={Col} controlId="formGridsubCategory">
+                            <Form.Group as={Col} >
                             <Form.Label>Phân loại</Form.Label>
                             <Form.Select defaultValue="Chọn phân loại" name="subCategory" onChange={handleChange}>
                                 <option>Chọn phân loại</option>
-                                <option>...</option>
+                                <option>100</option>
+                                <option>200</option>
+                                <option>300</option>
+                                <option>500</option>
                             </Form.Select>
                             </Form.Group>
                         </Row>
 
-                        <Form.Group className="mb-3" controlId="formGridDescription">
+                        <Row className="mb-3">
+                            <Form.Group as={Col} >
+                            <Form.Label>Giá sản phẩm</Form.Label>
+                            <Form.Control 
+                                placeholder="Nhập giá sản phẩm" 
+                                name="cost" 
+                                onChange={handleChange}/>
+                            </Form.Group>
+
+                            <Form.Group as={Col} >
+                            <Form.Label>Số lượng</Form.Label>
+                            <Form.Control 
+                                placeholder="Nhập số lượng" 
+                                name="quantity" 
+                                onChange={handleChange}/>
+                            </Form.Group>
+                        </Row>
+
+                        <Form.Group className="mb-3" >
                         <Form.Label>Mô tả</Form.Label>
                         <Form.Control as="textarea" rows={8} name="description" onChange={handleChange}/>
                         </Form.Group>

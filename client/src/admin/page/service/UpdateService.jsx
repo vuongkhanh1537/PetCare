@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
@@ -7,13 +8,12 @@ import Row from 'react-bootstrap/Row';
 import Header from "../../components/Header";
 import Sidebar from "../../components/global/Sidebar";
 import Topbar from "../../components/global/Topbar";
-import { addService } from "../../../services/ServiceServices";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { fetchAnService } from "../../../services/ServiceServices";
 
-const AddService = () => {
+export default function UpdateService() {
     const navigate = useNavigate();
-    const [newService, setNewService] = useState({});
+    const { id } = useParams();
     const [hours, setHours] = useState(() => {
         const hour = [];
         for (let i = 0; i <= 12; i++) {
@@ -29,11 +29,24 @@ const AddService = () => {
         }
         return minute;
     });
+    const [service, setService] = useState({});
+
+    useEffect(() => {
+        getService();
+    }, []);
+
+    const getService = async () => {
+        let res = await fetchAnService(id);
+        console.log(res);
+        if (res) {
+            setService(res);
+        }
+    }
 
     const handleChange = (e) => {
         const name = e.target.name;
         const value = e.target.value;
-        setNewService((prev) => {
+        setService((prev) => {
             return {...prev, [name] : value}
         })
     }
@@ -50,29 +63,21 @@ const AddService = () => {
             setMinute(value);
         }
         const time = `${hour}:${minute}:00`;
-        setNewService((prev) => {
+        setService((prev) => {
             return {...prev, thoiGianHoanThanh : time}
         })
     }
 
-
-    const handleClick = async () => {
-        const res = await addService(newService);
-        if (res) {
-            toast.success("Đã thêm thành công một dịch vụ mới");
-            setTimeout(() => {
-                navigate("/dich_vu");
-            }, 3000);
-        }
+    const handleClick = () => {
+        
     }
-
-    return(
+    return (
         <div className="app">
             <Sidebar site="Dịch vụ" />
             <main className="content">
                 <Topbar />
                 <Box m = "0 30px 10px 30px">
-                    <Header title="Dịch vụ" subtitle="Thêm dịch vụ"/>
+                    <Header title="Dịch vụ" subtitle="Chi tiết dịch vụ"/>
                     <Box 
                         ml = "20px"
                         sx={{ height: "fit-content", width: '90%'}}>
@@ -83,15 +88,17 @@ const AddService = () => {
                             <Form.Control 
                                 type="text" 
                                 placeholder="Nhập tên dịch vụ" 
-                                name="tenDichVu" 
+                                name="serviceName" 
+                                value={service.tenDichVu}
                                 onChange={handleChange}/>
                             </Form.Group>
 
-                            <Form.Group as={Col} controlId="formGridID">
+                            <Form.Group as={Col} >
                             <Form.Label>Mã dịch vụ</Form.Label>
                             <Form.Control 
                                 type="text" 
                                 placeholder="Mã dịch vụ" 
+                                value={service.id}
                                 disabled={true}/>
                             </Form.Group>
                         </Row>
@@ -99,16 +106,16 @@ const AddService = () => {
                         <Row className="mb-3">
                             <Form.Group as={Col} xs={6}>
                                 <Form.Label>Loại</Form.Label>
-                                <Form.Select 
-                                    defaultValue="Chọn loại" 
-                                    name="category" 
+                                <Form.Select  
+                                    name="category"
+                                    value={service.category} 
                                     onChange={handleChange}>
-                                        <option>Chọn loại</option>
-                                        <option>Spa</option>
-                                        <option>Tắm rửa</option>
+                                    <option>Chọn loại</option>
+                                    <option>Spa</option>
+                                    <option>Tắm rửa</option>
                                 </Form.Select>
                             </Form.Group>
-                           
+                        
                             <Form.Group as={Col} >
                             <Form.Label>Giờ</Form.Label>
                                 <Form.Select 
@@ -124,7 +131,7 @@ const AddService = () => {
                                     onChange={handleTimeChange}>
                                         {minutes}
                                 </Form.Select>
-                            </Form.Group>                        
+                            </Form.Group>
                         </Row>
 
                         <Form.Group className="mb-3" >
@@ -133,14 +140,16 @@ const AddService = () => {
                             as="textarea" 
                             rows={8} 
                             name="description" 
+                            value={service.description}
                             onChange={handleChange}/>
                         </Form.Group>
 
-                        <Form.Group className="mb-3" controlId="formGridPrice">
+                        <Form.Group className="mb-3" >
                         <Form.Label>Giá dịch vụ</Form.Label>
                         <Form.Control 
                             type="text" 
-                            name="giaThanh" 
+                            name="price" 
+                            value={service.giaThanh}
                             onChange={handleChange}/>
                         </Form.Group>
 
@@ -154,5 +163,3 @@ const AddService = () => {
         </div>
     )
 }
-
-export default AddService;
