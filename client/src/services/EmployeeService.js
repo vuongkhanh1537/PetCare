@@ -5,10 +5,6 @@ export const fetchAllEmployee = (page) => {
     return axios.get("http://localhost:8080/admin/all_employee");
 }
 
-export const loginApi = (username, password) => {
-    return axios.post("http://localhost:8080/login", {username : username,password : password});
-}
-
 export const addEmployee = (ob) => {
     return axios.post("http://localhost:8080/admin/employee", ob);
 }

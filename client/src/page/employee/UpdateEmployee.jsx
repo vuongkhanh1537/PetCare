@@ -5,11 +5,11 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-import Header from "../../components/global/Header";
-import Sidebar from "../../components/global/Sidebar";
-import Topbar from "../../components/global/Topbar";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchAnEmployee, updateAnEmployee } from "../../../services/EmployeeService";
+import { fetchAnEmployee, updateAnEmployee } from "../../services/EmployeeService";
+import Header from "../../components/Header"
+import Sidebar from "../../components/Sidebar"
+import Topbar from "../../components/Topbar"
 
 const UpdateEmployee = () => {
 

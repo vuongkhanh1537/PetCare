@@ -1,20 +1,14 @@
-import './App.css';
 import {Routes, Route, useNavigate} from 'react-router-dom'
-import Home from './global/homePage/Home';
-import Employee from './admin/page/employee/Employee';
-import Login from './global/login/Login';
-import Dashboard from './admin/page/dashboard/Dashboard'
-import Product from './admin/page/product/Product';
-import Service from './admin/page/service/Service';
-import { useState } from 'react';
-import ProtectedRoute from './global/protectedRoute/ProtectedRoute';
-import UpdateProduct from './admin/page/product/UpdateProduct';
-import AddProduct from  './admin/page/product/AddProduct';
-import AddService from './admin/page/service/AddService';
-import AddEmployee from './admin/page/employee/AddEmployee';
-import UpdateEmployee from './admin/page/employee/UpdateEmployee';
 import { ToastContainer} from 'react-toastify';
-import UpdateService from './admin/page/service/UpdateService';
+import Login from './page/login/Login';
+import { Home } from './components/Home';
+import Dashboard from './page/dashboard/Dashboard';
+import Employee from './page/employee/Employee';
+import AddEmployee from './page/employee/AddEmployee';
+import UpdateEmployee from './page/employee/UpdateEmployee';
+import Product from './page/product/Product';
+import AddProduct from './page/product/AddProduct';
+import UpdateProduct from './page/product/UpdateProduct';
 
 function App() {
 

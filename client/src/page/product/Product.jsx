@@ -1,15 +1,12 @@
-import Sidebar from "../../components/global/Sidebar";
-import Topbar from "../../components/global/Topbar";
-import { Box, skeletonClasses } from '@mui/material';
+import { Box } from '@mui/material';
 import { DataGrid } from "@mui/x-data-grid"
-import Header from "../../components/global/Header";
-import { fetchAllEmployee } from "../../../services/EmployeeService";
 import { useEffect, useState } from "react";
-import { productData } from "../../../data/MockData";
 import { Link, Routes, Route, useNavigate } from "react-router-dom";
-import UpdateProduct from "./UpdateProduct"
 import Button from "react-bootstrap/esm/Button";
-import { fetchAllProduct, deleteAnProduct } from "../../../services/ProductServices";
+import { fetchAllProduct, deleteAnProduct } from "../../services/ProductServices";
+import Header from "../../components/Header"
+import Sidebar from "../../components/Sidebar"
+import Topbar from "../../components/Topbar"
 
 const Product = () => {
     const navigate = useNavigate();

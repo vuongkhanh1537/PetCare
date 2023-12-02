@@ -6,7 +6,7 @@ import LogoBrand from '../../assests/images/Logo_Brand.png'
 import Logo from '../../assests/images/Logo.png'
 import { Link } from 'react-router-dom'
 import Header from '../../features/Header';
-import { loginApi } from '../../services/EmployeeService'
+import { loginApi } from '../../services/LoginService'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 

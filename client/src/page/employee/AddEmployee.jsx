@@ -5,11 +5,11 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-import Header from "../../components/global/Header";
-import Sidebar from "../../components/global/Sidebar";
-import Topbar from "../../components/global/Topbar";
-import { addEmployee } from "../../../services/EmployeeService";
+import { addEmployee } from "../../services/EmployeeService";
 import { useNavigate } from "react-router-dom";
+import Header from "../../components/Header"
+import Sidebar from "../../components/Sidebar"
+import Topbar from "../../components/Topbar"
 
 const AddEmployee = () => {
 

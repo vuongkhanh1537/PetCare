@@ -1,5 +1,6 @@
-import Sidebar from "../../components/global/Sidebar";
-import Topbar from "../../components/global/Topbar";
+import Header from "../../components/Header"
+import Sidebar from "../../components/Sidebar"
+import Topbar from "../../components/Topbar"
 
 const Dashboard = () => {
 

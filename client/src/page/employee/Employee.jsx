@@ -1,12 +1,12 @@
-import { fetchAllEmployee, deleteAnEmployee } from "../../../services/EmployeeService";
-import Sidebar from "../../components/global/Sidebar";
-import Topbar from "../../components/global/Topbar";
+import { fetchAllEmployee, deleteAnEmployee } from "../../services/EmployeeService";
 import { Box } from '@mui/material';
 import { DataGrid } from "@mui/x-data-grid"
-import Header from "../../components/global/Header";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/esm/Button";
+import Header from "../../components/Header"
+import Sidebar from "../../components/Sidebar"
+import Topbar from "../../components/Topbar"
 
 const Employee = () => {
     const navigate = useNavigate();
