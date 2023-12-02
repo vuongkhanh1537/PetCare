@@ -3,7 +3,7 @@ import Sidebar from "../../components/global/Sidebar";
 import Topbar from "../../components/global/Topbar";
 import { Box } from '@mui/material';
 import { DataGrid } from "@mui/x-data-grid"
-import Header from "../../components/Header";
+import Header from "../../components/global/Header";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/esm/Button";

@@ -20,22 +20,17 @@ function App() {
 
   return (<>
       <Routes>
-        <Route path="/" element={<Home/>}  />
         <Route path="/login" element={<Login/>}  />
 
-        <Route path="/dashboard" element={<Dashboard/>} />
-
-        <Route path="/san_pham" element={<Product />} />
-        <Route path="/san_pham/:id" element={<UpdateProduct />} />
-        <Route path="/san_pham/add" element={<AddProduct />} />
-        
-        <Route path="/dich_vu" element={<Service />} />
-        <Route path="/dich_vu/add" element={<AddService />} />
-        <Route path="/dich_vu/:id" element={<UpdateService />} />
-      
-        <Route path="/nhan_vien" element={<Employee/>} />
-        <Route path="/nhan_vien/add" element={<AddEmployee/>} />
-        <Route path="/nhan_vien/:id" element={<UpdateEmployee />} />
+        <Route path="/" element={<Home/>}>
+          <Route path="/dashboard" element={<Dashboard/>} />
+          <Route path="/san_pham" element={<Product />} />
+          <Route path="/san_pham/:id" element={<UpdateProduct />} />
+          <Route path="/san_pham/add" element={<AddProduct />} />
+          <Route path="/nhan_vien" element={<Employee/>} />
+          <Route path="/nhan_vien/add" element={<AddEmployee/>} />
+          <Route path="/nhan_vien/:id" element={<UpdateEmployee />} />
+        </Route>
       </Routes>
       <ToastContainer
       position="top-right"

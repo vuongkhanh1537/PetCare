@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-import Header from "../../components/Header";
+import Header from "../../components/global/Header";
 import Sidebar from "../../components/global/Sidebar";
 import Topbar from "../../components/global/Topbar";
 import { fetchAnProduct, updateAnProduct } from "../../../services/ProductServices";

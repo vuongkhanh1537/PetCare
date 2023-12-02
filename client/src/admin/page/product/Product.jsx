@@ -2,7 +2,7 @@ import Sidebar from "../../components/global/Sidebar";
 import Topbar from "../../components/global/Topbar";
 import { Box, skeletonClasses } from '@mui/material';
 import { DataGrid } from "@mui/x-data-grid"
-import Header from "../../components/Header";
+import Header from "../../components/global/Header";
 import { fetchAllEmployee } from "../../../services/EmployeeService";
 import { useEffect, useState } from "react";
 import { productData } from "../../../data/MockData";
