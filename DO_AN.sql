@@ -4,7 +4,7 @@ USE DA_DB;
 CREATE TABLE employee (
     ID int PRIMARY KEY,
     employeeRole VARCHAR(30) NOT NULL,
-    pos VARCHAR(30) NOT NULL,
+    CCCD VARCHAR(30) NOT NULL,
     Place VARCHAR(30) NOT NULL,
     CCCDdate DATE NOT NULL,
     gender VARCHAR(6) NOT NULL,
