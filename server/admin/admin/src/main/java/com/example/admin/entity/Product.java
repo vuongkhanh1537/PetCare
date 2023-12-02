@@ -12,44 +12,40 @@ import jakarta.validation.constraints.*;
 
 
 @Entity
-@Table(name = "san_pham")
+@Table(name = "product")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "SanPhamID", updatable = false, nullable = false)
+    @Column(name = "ID", updatable = false, nullable = false)
     private Long productId;
 
-    @Column(name = "NhaCungCap", nullable = false)
+    @Column(name = "provider", nullable = false)
     @NotBlank(message = "Supplier cannot be blank")
     private String supplier;
 
-    @Column(name = "SoLuong", nullable = false)
+    @Column(name = "numberOf", nullable = false)
     @Min(value = 0, message = "Quantity must be greater than or equal to 0")
     private int quantity;   
 
-    @Column(name = "TenSanPham", nullable = false)
+    @Column(name = "productName", nullable = false)
     @NotBlank(message = "Product name cannot be blank")
     private String productName;
 
 
-    @Column(name = "MoTa", nullable = false)
+    @Column(name = "descriptions", nullable = false)
     @NotBlank(message = "Description cannot be blank")
     @Size(max = 60, message = "Description cannot exceed 60 characters")    
     private String description;
 
-    @Column(name = "PhanLoaiSanPham", nullable = false)
+    @Column(name = "type1", nullable = false)
     @NotBlank(message = "Pet type cannot be blank")
     private String petType;
 
-    @Column(name = "Loai", nullable = false)
+    @Column(name = "type2", nullable = false)
     @NotBlank(message = "Category cannot be blank")
     private String category;
 
-    @Column(name = "PhamLoai", nullable = false)
-    @NotBlank(message = "Sub-category cannot be blank")
-    private String subCategory;
-
-    @Column(name = "GiaThanh", nullable = false)
+    @Column(name = "cost", nullable = false)
     @Min(value = 0, message = "Cost must be greater than or equal to 0")
     private int cost;
 
@@ -59,7 +55,7 @@ public class Product {
     }
 
     public Product(Long productId, String supplier, int quantity, String productName,
-                   String description, String petType, String category, String subCategory, int cost) {
+                   String description, String petType, String category, int cost) {
         this.productId = productId;
         this.supplier = supplier;
         this.quantity = 0;
@@ -67,7 +63,6 @@ public class Product {
         this.description = description;
         this.petType = petType;
         this.category = category;
-        this.subCategory = subCategory;
         this.cost = cost;
     }
 
@@ -128,14 +123,6 @@ public class Product {
         this.category = category;
     }
 
-    public String getSubCategory() {
-        return subCategory;
-    }
-
-    public void setSubCategory(String subCategory) {
-        this.subCategory = subCategory;
-    }
-
     public int getCost() {
         return cost;
     }
@@ -156,7 +143,6 @@ public class Product {
                 ", description='" + description + '\'' +
                 ", petType='" + petType + '\'' +
                 ", category='" + category + '\'' +
-                ", subCategory='" + subCategory + '\'' +
                 ", cost=" + cost +
                 '}';
     }

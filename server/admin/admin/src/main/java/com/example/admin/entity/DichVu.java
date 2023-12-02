@@ -7,29 +7,39 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "dich_vu")
+@Table(name = "service")
 public class DichVu {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "DichVuID")
+    @Column(name = "ID", updatable = false, nullable = false)
     private Long dichVuId;
 
-    @Column(name = "TenDichVu")
+    @Column(name = "serviceName", nullable = false)
+    @NotBlank(message = "Service name cannot be blank")
     private String tenDichVu;
 
-    @Column(name = "ThoiGianHoanThanh")
+    @Column(name = "finishTime", nullable = false)
+    @NotNull(message = "Completion time cannot be null")
     private String thoiGianHoanThanh;
 
-    @Column(name = "GiaThanh")
+    @Column(name = "cost", nullable = false)
+    @Min(value = 0, message = "Cost must be greater than or equal to 0")
     private int giaThanh;
 
-    @Column(name = "Loai")
+    @Column(name = "serviceType", nullable = false)
+    @NotBlank(message = "Type cannot be blank")
     private String loai;
 
-    @Column(name = "MoTa")
+    @Column(name = "descriptions", nullable = false)
+    @NotBlank(message = "Description cannot be blank")
+    @Size(max = 60, message = "Description cannot exceed 60 characters")
     private String moTa;
 
     // Constructors
