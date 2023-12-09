@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Login.scss'
 import LoginIntro from '../../assests/images/LoginIntro.png'
 import GoogleLogo from '../../assests/images/GoogleLogo.png'
@@ -7,33 +7,41 @@ import Logo from '../../assests/images/Logo.png'
 import { Link } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import Header from '../../features/Header';
+import { loginApi } from '../../services/EmployeeService'
+import { useNavigate } from 'react-router-dom'
 
 function Login() {
+    const navigate = useNavigate();
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleClick = () => {
-        if (!userName || !password) {
-            toast.error("Vui lòng điền đầy đủ thông tin đăng nhập!");
-        } else {
-            toast.success("Đăng nhập thành công");
+    useEffect(() => {
+        let token = localStorage.getItem("token");
+        if (token) {
+            navigate("/");
         }
-        console.log("User name: ", userName, "Password: ", password);
+    })
+
+    const handleClick = async () => {
+        if (!userName || !password) {
+            toast.warn("Vui lòng điền đầy đủ thông tin đăng nhập!");
+        } else {
+            let res = await loginApi(userName, password);
+            if (res && res.token) {
+                localStorage.setItem("token", res.token);
+                console.log(res);
+                toast.success("Đăng nhập thành công");
+                navigate("/dashboard");
+            } else {
+                if (res && res.status === 400) {
+                    toast.error("Sai thông tin đăng nhập");
+                }
+            }
+        }
+        
     }
     return (
     <>
-        <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-        />
         <Header />
         <div className='login'>
             <div className="login-content">
@@ -74,6 +82,18 @@ function Login() {
                 <img src={LoginIntro} />
             </div>
         </div>
+        <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        />
     </>
     )
 }
