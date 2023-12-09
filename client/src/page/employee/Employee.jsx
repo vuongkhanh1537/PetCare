@@ -5,8 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/esm/Button";
 import Header from "../../components/Header"
-import Sidebar from "../../components/Sidebar"
-import Topbar from "../../components/Topbar"
+import CustomToolbar from "../../components/CustomToolbar";
 
 const Employee = () => {
     const navigate = useNavigate();
@@ -61,7 +60,7 @@ const Employee = () => {
         }
     }
 
-    const handleClick = (params) => {
+    const handleClick = (params) => { 
         const id = params.row.id;
         navigate("/nhan_vien/" + id);
     }
@@ -76,40 +75,39 @@ const Employee = () => {
     const handleDeleteClick = () => {
         selectionModel.forEach((value) => {deleteEmployee(value)})
     }
-
     return (
         <>
-        <div className="app">
-            <Sidebar site="Nhân viên"/>
-            <main className='content'>
-                <Topbar />
+            <main className='content'>  
                 <Box m = "0 30px 10px 30px">
-                    <Header title="Nhân viên" subtitle="Danh sách nhân viên"/>
+                    <Header title="Nhân viên" subtitle="Danh sách nhân viên"/> 
                     <Box
                         ml = "20px"
-                        sx={{ height: "fit-content", width: '90%'}}>
-                        <Button 
-                            variant="primary mb-3" 
-                            onClick={()=>{navigate("/nhan_vien/add")}}
-                        >Thêm nhân viên
-                        </Button>
-                        <Button 
-                            variant="danger mb-3"
-                            disabled={selectionModel.length === 0}
-                            onClick={handleDeleteClick}
-                        >Xoá nhân viên
-                        </Button>
-                        <DataGrid
+                        sx={{ height: "fit-content", width: '90%'}}> 
+                        <div className="button-list">
+                            <Button 
+                                variant="danger mb-3" 
+                                disabled={selectionModel.length === 0}
+                                onClick={handleDeleteClick}
+                                >Xoá nhân viên
+                            </Button>
+                            <Button 
+                                variant="primary mb-3" 
+                                onClick={()=>{navigate("/nhan_vien/add")}}
+                            >Thêm nhân viên
+                            </Button>
+                        </div>
+                        <DataGrid 
                             rows={rows}
                             columns={columns}
                             onRowClick={handleClick}
+                            slots={{ toolbar: CustomToolbar }}
                             initialState={{
                             pagination: {
                                 paginationModel: {
                                 pageSize: 10,
                                 },
                             },
-                            }}
+                            }} 
                             pageSizeOptions={[10]}
                             checkboxSelection
                             disableRowSelectionOnClick
@@ -131,8 +129,7 @@ const Employee = () => {
                         />
                         </Box>
                 </Box>
-            </main>
-        </div>
+            </main> 
         </>
     )
 }

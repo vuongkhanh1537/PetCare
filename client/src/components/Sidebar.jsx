@@ -63,16 +63,15 @@ const Sidebar = ({site}) => {
             onClick={() => setIsCollapsed(!isCollapsed)}
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
             style={{
-              margin: "10px 0 20px 0",
+              margin: "0 0 15px 0",
               color: "#e0e0e0",
-            }}
+            }} 
           >
             {!isCollapsed && (
               <Box
                 display="flex"
                 justifyContent="space-between"
                 alignItems="center"
-                ml="15px"
               >
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOutlinedIcon />
@@ -104,13 +103,6 @@ const Sidebar = ({site}) => {
                 setSelected={setSelected}
               />
             <Item
-              title="Dịch vụ"
-              to="/dich_vu"
-              icon={<ListOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
               title="Sản phẩm"
               to="/san_pham"
               icon={<Inventory2OutlinedIcon />}
@@ -127,42 +119,11 @@ const Sidebar = ({site}) => {
 
             <Typography
               variant="h7"
-              color="#a3a3a3"
+              color="#a3a3a3" 
               sx={{ m: "15px 0 5px 0px" }}
             >
               Nhân viên bán hàng
             </Typography>
-
-            <Item
-              title="Lịch hẹn"
-              to="/lich_hen"
-              icon={<LocalPhoneOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Tình trạng thú cưng"
-              to="/tinh_trang_thu_cung"
-              icon={<PetsOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-
-            <Typography
-              variant="h7"
-              color="#a3a3a3"
-              sx={{ m: "15px 0 5px 0px" }}
-            >
-              Nhân viên chăm sóc
-            </Typography>
-
-            <Item
-              title="Khách hàng"
-              to="/khach_hang"
-              icon={<PersonPinOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
             <Item
               title="Đơn hàng"
               to="/don_hang"

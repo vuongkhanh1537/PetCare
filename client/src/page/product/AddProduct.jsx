@@ -32,17 +32,8 @@ const AddProduct = () => {
         })
     }
 
-    const [image, setImage] = useState(null);
-
-    const onImageChange = (event) => {
-      if (event.target.files && event.target.files[0]) {
-        setImage(URL.createObjectURL(event.target.files[0]));
-      }
-    };
-
     const handleClick = async () => {
         console.log(newProduct);
-        console.log(image);
         let res = await addProduct(newProduct);
         if (res) {
             toast.success("Đã thêm thành công sản phẩm mới")
@@ -101,7 +92,7 @@ const AddProduct = () => {
                                 <Form.Select defaultValue="Loại thú cưng" name="petType" onChange={handleChange}>
                                     <option>Chọn thú cưng</option>
                                     <option>Chó</option>
-                                    <option>Mèo</option>
+                                    <option>Mèo</option> 
                                 </Form.Select>
                             </Form.Group>
                         </Row>
@@ -150,17 +141,6 @@ const AddProduct = () => {
                         <Form.Group className="mb-3" >
                         <Form.Label>Mô tả</Form.Label>
                         <Form.Control as="textarea" rows={8} name="description" onChange={handleChange}/>
-                        </Form.Group>
-
-
-                        <Form.Group className="mb-3" id="formGridImage">
-                        <Form.Label>Hình ảnh</Form.Label>
-                        {/* <div>
-                            <input type="file" onChange={onImageChange} className="filetype" />
-
-                        </div> */}
-                            <Form.Control type="file" onChange={onImageChange} />
-                            {image && <img src={image} style={{height:"100px", width:"100px"}} alt="preview image" />}
                         </Form.Group>
 
                         <Button variant="primary float-end" onClick={handleClick}>

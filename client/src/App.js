@@ -1,4 +1,4 @@
-import {Routes, Route, useNavigate} from 'react-router-dom'
+import {Routes, Route, useNavigate, Outlet} from 'react-router-dom'
 import { ToastContainer} from 'react-toastify';
 import Login from './page/login/Login';
 import { Home } from './components/Home';
@@ -9,21 +9,31 @@ import UpdateEmployee from './page/employee/UpdateEmployee';
 import Product from './page/product/Product';
 import AddProduct from './page/product/AddProduct';
 import UpdateProduct from './page/product/UpdateProduct';
+import Order from './page/order/Order';
+import AddOrder from './page/order/AddOrder';
 
 function App() {
 
-  return (<>
+  return (<> 
       <Routes>
         <Route path="/login" element={<Login/>}  />
 
         <Route path="/" element={<Home/>}>
           <Route path="/dashboard" element={<Dashboard/>} />
-          <Route path="/san_pham" element={<Product />} />
-          <Route path="/san_pham/:id" element={<UpdateProduct />} />
-          <Route path="/san_pham/add" element={<AddProduct />} />
-          <Route path="/nhan_vien" element={<Employee/>} />
-          <Route path="/nhan_vien/add" element={<AddEmployee/>} />
-          <Route path="/nhan_vien/:id" element={<UpdateEmployee />} />
+          <Route path="/san_pham" element={<Outlet />}>
+            <Route index element={<Product />} />
+            <Route path="add" element={<AddProduct />} /> 
+            <Route path=":id" element={<UpdateProduct />} />
+          </Route>
+          <Route path="nhan_vien" element={<Outlet />}> 
+            <Route index element={<Employee/>} /> 
+            <Route path="add" element={<AddEmployee/>} />
+            <Route path=":id" element={<UpdateEmployee />} />
+          </Route>
+          <Route path="don_hang" element={<Outlet />}>
+            <Route index element={<Order/>} />
+            <Route path='add' element={<AddOrder />} />
+          </Route>
         </Route>
       </Routes>
       <ToastContainer

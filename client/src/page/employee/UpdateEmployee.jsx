@@ -8,8 +8,6 @@ import Row from 'react-bootstrap/Row';
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchAnEmployee, updateAnEmployee } from "../../services/EmployeeService";
 import Header from "../../components/Header"
-import Sidebar from "../../components/Sidebar"
-import Topbar from "../../components/Topbar"
 
 const UpdateEmployee = () => {
 
@@ -44,15 +42,12 @@ const UpdateEmployee = () => {
         console.log(employee);
         toast.success("Đã chỉnh sửa thành công thông tin nhân viên");
         setTimeout(() => {
-            navigate("/nhan_vien");
+            navigate("/nhan_vien"); 
         }, 3000);
     }
 
     return (
-        <div className="app">
-        <Sidebar site="Nhân viên" />
         <main className="content">
-            <Topbar />
             <Box m = "0 30px 10px 30px">
                 <Header title="Nhân viên" subtitle="Chi tiết nhân viên"/>
                 <Box 
@@ -213,7 +208,6 @@ const UpdateEmployee = () => {
                 </Box>
             </Box>
         </main>
-    </div>
     )
 }
 

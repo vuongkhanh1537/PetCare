@@ -7,6 +7,7 @@ import MenuItem from '@mui/material/MenuItem';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import * as React from 'react';
 import { useNavigate } from "react-router-dom";
+import LogoBrand from "../assests/images/Logo_Brand.png"
 
 
 const Topbar = () => {
@@ -19,7 +20,7 @@ const Topbar = () => {
         }
 
         return (
-          <PopupState variant="popover" popupId="demo-popup-menu">
+          <PopupState variant="popover" popupId="demo-popup-menu"> 
             {(popupState) => (
               <React.Fragment>
                 <IconButton {...bindTrigger(popupState)}>
@@ -32,16 +33,19 @@ const Topbar = () => {
             )}
           </PopupState>
         );
-      }
+      } 
 
     return (
-    <Box display="flex" justifyContent="right" p={2}>
-        <IconButton>
-            <NotificationsOutlinedIcon></NotificationsOutlinedIcon>
-        </IconButton>
-        <MenuPopupState />
-    </Box>
-    )
-}
+    <Box display="flex" justifyContent="space-between" p={2} border="0 2px 0 0 inset rgba(0,0,0,0.57)"> 
+        <img src={LogoBrand} width="195" height="54"/>  
+        <div> 
+          <IconButton>
+              <NotificationsOutlinedIcon></NotificationsOutlinedIcon> 
+          </IconButton>  
+          <MenuPopupState />
+        </div>
+    </Box> 
+    ) 
+} 
 
 export default Topbar;

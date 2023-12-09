@@ -5,8 +5,6 @@ import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/esm/Button";
 import { fetchAllProduct, deleteAnProduct } from "../../services/ProductServices";
 import Header from "../../components/Header"
-import Sidebar from "../../components/Sidebar"
-import Topbar from "../../components/Topbar"
 
 const Product = () => {
     const navigate = useNavigate();
@@ -61,10 +59,14 @@ const Product = () => {
     }, []);
 
     const getProduct = async () => {
-        let res = await fetchAllProduct();
-        console.log(res.data); 
-        if (res && res.data) {
-            setRows(res.data);
+        try {
+            let res = await fetchAllProduct();
+            console.log(res.data); 
+            if (res && res.data) {
+                setRows(res.data);
+            }
+        } catch (err) {
+            console.log(err);
         }
     }
 
@@ -85,62 +87,58 @@ const Product = () => {
     }
     
     return (
-        <>
-        <div className="app">
-            <Sidebar site="Sản phẩm"/>
-            <main className='content'>
-                <Topbar />
-                <Box m = "0 30px 10px 30px">
-                    <Header title="Sản phẩm" subtitle="Danh sách sản phẩm"/>
-                    <Box
-                        ml = "20px"
-                        sx={{ height: "fit-content", width: '90%'}}>
-                        <Button 
-                            variant="primary mb-3" 
-                            onClick={()=>{navigate("/san_pham/add")}}
+        <main className='content'>
+            <Box m = "0 30px 10px 30px">
+                <Header title="Sản phẩm" subtitle="Danh sách sản phẩm"/> 
+                <Box
+                    ml = "20px"
+                    sx={{ height: "fit-content", width: '90%'}}>
+                    <div className='button-list'>
+                    <Button 
+                        variant="primary mb-3" 
+                        onClick={()=>{navigate("/san_pham/add")}}
                         >Thêm sản phẩm</Button>
-                        <Button
-                            variant="danger mb-3"
-                            disabled={selectionModel.length === 0}
-                            onClick={handleDeleteClick}
+                    <Button
+                        variant="danger mb-3"
+                        disabled={selectionModel.length === 0}
+                        onClick={handleDeleteClick}
                         >Xoá sản phẩm    
-                        </Button>
-                        <DataGrid
-                            getRowId={(row) => row.productId}
-                            rows={rows}
-                            columns={columns}
-                            onRowClick={handleClick}
-                            initialState={{
-                            pagination: {
-                                paginationModel: {
-                                pageSize: 10,
-                                },
+                    </Button>
+                        </div>
+                    <DataGrid
+                        getRowId={(row) => row.productId}
+                        rows={rows}
+                        columns={columns}
+                        onRowClick={handleClick}
+                        initialState={{
+                        pagination: {
+                            paginationModel: {
+                            pageSize: 10,
                             },
-                            }}
-                            pageSizeOptions={[10]}
-                            checkboxSelection
-                            disableRowSelectionOnClick
-                            onRowSelectionModelChange={(newSelection) => {
-                                setSelectionModel(newSelection);
-                            }}
-                            setSelectionModel={selectionModel}
-                            sx={{
-                                boxShadow: 2,
-                                borderRadius: 3,
-                                '& .MuiDataGrid-cell:hover': {
-                                  color: 'primary.main',
-                                },
+                        },
+                        }}
+                        pageSizeOptions={[10]}
+                        checkboxSelection
+                        disableRowSelectionOnClick
+                        onRowSelectionModelChange={(newSelection) => {
+                            setSelectionModel(newSelection);
+                        }}
+                        setSelectionModel={selectionModel}
+                        sx={{
+                            boxShadow: 2,
+                            borderRadius: 3,
+                            '& .MuiDataGrid-cell:hover': {
+                                color: 'primary.main',
+                            },
 
-                                '& .MuiDataGrid-columnHeaderTitle' : {
-                                  fontWeight: 700,
-                                }
-                            }}
-                        />
-                    </Box>
+                            '& .MuiDataGrid-columnHeaderTitle' : {
+                                fontWeight: 700,
+                            }
+                        }}
+                    />
                 </Box>
-            </main>
-        </div>
-        </>
+            </Box>
+        </main>
     )
 }
 

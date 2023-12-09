@@ -6,8 +6,7 @@ const Dashboard = () => {
 
     return (
     <>
-    <Topbar />
-    <Sidebar site="Tổng quan"/>
+    <div>Dashboard</div>
     </>
     )
 }

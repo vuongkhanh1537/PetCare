@@ -5,7 +5,6 @@ import GoogleLogo from '../../assests/images/GoogleLogo.png'
 import LogoBrand from '../../assests/images/Logo_Brand.png'
 import Logo from '../../assests/images/Logo.png'
 import { Link } from 'react-router-dom'
-import Header from '../../features/Header';
 import { loginApi } from '../../services/LoginService'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -61,7 +60,14 @@ function Login() {
     // }
     return (
     <>
-        <Header />
+        <nav class="navbar navbar-light ">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">
+                <img src={LogoBrand} alt="" class="d-inline-block align-text-top" />
+                </a>
+            </div>
+        </nav>
+
         <div className='login'>
             <div className="login-content">
                 <div className='mb-5 title'>

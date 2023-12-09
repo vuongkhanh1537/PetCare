@@ -8,8 +8,6 @@ import Row from 'react-bootstrap/Row';
 import { addEmployee } from "../../services/EmployeeService";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header"
-import Sidebar from "../../components/Sidebar"
-import Topbar from "../../components/Topbar"
 
 const AddEmployee = () => {
 
@@ -46,10 +44,7 @@ const AddEmployee = () => {
     }
 
     return(
-        <div className="app">
-            <Sidebar site="Nhân viên" />
-            <main className="content">
-                <Topbar />
+            <main className="content">  
                 <Box m = "0 30px 10px 30px">
                     <Header title="Nhân viên" subtitle="Thêm nhân viên"/>
                     <Box 
@@ -81,12 +76,12 @@ const AddEmployee = () => {
                         </Row>
 
                         <Row className="mb-3">
-                            <Form.Group as={Col} controlId="formGridName">
+                            <Form.Group as={Col} >
                             <Form.Label>CCCD</Form.Label>
                             <Form.Control type="text" placeholder="Nhập CCCD" name="cccd" onChange={handleChange}/>
                             </Form.Group>
 
-                            <Form.Group as={Col} controlId="formGridID">
+                            <Form.Group as={Col} >
                             <Form.Label>Ngày cấp</Form.Label>
                             <Form.Control
                                 type="date"
@@ -98,19 +93,19 @@ const AddEmployee = () => {
                         </Row>
 
                         <Row className="mb-3">
-                            <Form.Group as={Col} controlId="formGridName">
+                            <Form.Group as={Col} >
                             <Form.Label>Nơi cấp</Form.Label>
                             <Form.Control type="text" placeholder="Nhập nơi cấp" name="place" onChange={handleChange}/>
                             </Form.Group>
 
-                            <Form.Group as={Col} controlId="formGridID">
+                            <Form.Group as={Col} >
                             <Form.Label>Địa chỉ hiện tại</Form.Label>
                             <Form.Control type="address" placeholder="Nhập địa chỉ" name="address" onChange={handleChange}/>
                             </Form.Group>
                         </Row>
 
                         <Row className="mb-3">
-                            <Form.Group as={Col} controlId="formGridName">
+                            <Form.Group as={Col} >
                             <Form.Label>Ngày sinh</Form.Label>
                             <Form.Control
                                 type="date"
@@ -120,7 +115,7 @@ const AddEmployee = () => {
                             />
                             </Form.Group>
 
-                            <Form.Group as={Col} controlId="formGridID">
+                            <Form.Group as={Col} >
                             <Form.Label>Giới tính</Form.Label>
                             <Form.Check
                                 label="Nam"
@@ -170,7 +165,6 @@ const AddEmployee = () => {
                     </Box>
                 </Box>
             </main>
-        </div>
     )
 }
 
