@@ -21,10 +21,10 @@ public class ProductService {
     }
 
     public List<Product> getAllProducts() {
-        return productRepository.findAll();
+        return productRepository.findAllProduct();
     }
 
-    public Optional<Product> getProductById(Long productId) {
+    public Optional<Product> getProductById(Integer productId) {
         return productRepository.findById(productId);
     }
 
@@ -32,7 +32,7 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public void deleteProductById(Long productId) {
+    public void deleteProductById(Integer productId) {
         productRepository.deleteById(productId);
     }
 

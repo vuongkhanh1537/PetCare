@@ -29,7 +29,7 @@ public class ProductController {
     }
 
     @GetMapping("/{productId}")
-    public ResponseEntity<Product> getProductById(@PathVariable Long productId) {
+    public ResponseEntity<Product> getProductById(@PathVariable Integer productId) {
         Optional<Product> product = productService.getProductById(productId);
         return product.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -42,7 +42,7 @@ public class ProductController {
     }
 
     @PutMapping("/{productId}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Long productId, @RequestBody Product updatedProduct) {
+    public ResponseEntity<Product> updateProduct(@PathVariable Integer productId, @RequestBody Product updatedProduct) {
         Optional<Product> existingProduct = productService.getProductById(productId);
         if (existingProduct.isPresent()) {
             updatedProduct.setProductId(productId);
@@ -54,7 +54,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{productId}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable Long productId) {
+    public ResponseEntity<Void> deleteProduct(@PathVariable Integer productId) {
         productService.deleteProductById(productId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

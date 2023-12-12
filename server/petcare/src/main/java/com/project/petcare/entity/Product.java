@@ -2,11 +2,16 @@
 
 package com.project.petcare.entity;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.*;
 
@@ -17,7 +22,7 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", updatable = false, nullable = false)
-    private Long productId;
+    private Integer productId;
 
     @Column(name = "provider", nullable = false)
     @NotBlank(message = "Supplier cannot be blank")
@@ -30,7 +35,6 @@ public class Product {
     @Column(name = "productName", nullable = false)
     @NotBlank(message = "Product name cannot be blank")
     private String productName;
-
 
     @Column(name = "descriptions", nullable = false)
     @NotBlank(message = "Description cannot be blank")
@@ -49,12 +53,18 @@ public class Product {
     @Min(value = 0, message = "Cost must be greater than or equal to 0")
     private int cost;
 
+    private Boolean iSAvailable;
+
+    @OneToMany(mappedBy = "product")
+    @JsonIgnore
+    private List<ProdInOrder> prodInOrder;
+
     // Constructors
     public Product() {
         this.quantity = 0;
     }
 
-    public Product(Long productId, String supplier, int quantity, String productName,
+    public Product(Integer productId, String supplier, int quantity, String productName,
                    String description, String petType, String category, int cost) {
         this.productId = productId;
         this.supplier = supplier;
@@ -67,11 +77,11 @@ public class Product {
     }
 
     // Getters and Setters
-    public Long getProductId() {
+    public Integer getProductId() {
         return productId;
     }
 
-    public void setProductId(Long productId) {
+    public void setProductId(Integer productId) {
         this.productId = productId;
     }
 
@@ -131,6 +141,8 @@ public class Product {
         this.cost = cost;
     }
 
+    
+
     // Other methods...
 
     @Override
@@ -145,5 +157,21 @@ public class Product {
                 ", category='" + category + '\'' +
                 ", cost=" + cost +
                 '}';
+    }
+
+    public Boolean getiSAvailable() {
+        return iSAvailable;
+    }
+
+    public void setiSAvailable(Boolean iSAvailable) {
+        this.iSAvailable = iSAvailable;
+    }
+
+    public List<ProdInOrder> getProdInOrder() {
+        return prodInOrder;
+    }
+
+    public void setProdInOrder(List<ProdInOrder> prodInOrder) {
+        this.prodInOrder = prodInOrder;
     }
 }
