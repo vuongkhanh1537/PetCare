@@ -37,7 +37,7 @@ export default function ChargedStaff(props) {
   const getListName = async () => {
     let res = await fetchAllEmployee();
     if (res) {
-        setNameList(res.map(item => `${item.firstName} ${item.lastName}`));
+      setNameList(res.map(item => ({ id: item.id, name: `${item.firstName} ${item.lastName}` })));
     }
   }
 
@@ -45,7 +45,8 @@ export default function ChargedStaff(props) {
     const {
       target: { value },
     } = event;
-    setPersonName(value);
+    console.log(value);
+    setPersonName(nameList.find(item => item.name === value));
   };
 
   return (
@@ -54,18 +55,17 @@ export default function ChargedStaff(props) {
       <FormControl sx={{ m: 1, width: 300 }}>
         <InputLabel>Nhân viên</InputLabel>
         <Select
-          value={personName}
+          value={personName.name}
           onChange={handleChange}
           input={<OutlinedInput label="Nhân viên" />}
           MenuProps={MenuProps}
         >
-          {nameList.map((name) => (
+          {nameList.map((item, index) => (
             <MenuItem
-              key={name}
-              value={name}
-              style={getStyles(name, personName, theme)}
+              key={item.id}
+              value={item.name}
             >
-              {name}
+              {item.name}
             </MenuItem>
           ))}
         </Select>

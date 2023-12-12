@@ -77,7 +77,7 @@ const ProductList = (props) => {
         onRowSelectionModelChange={(newSelection) => {
             setSelectionModel(newSelection);
         }}
-        pageSizeOptions={[5]}
+        pageSizeOptions={[100]}
         setSelectionModel={selectionModel}
         disableColumnFilter
         disableColumnSelector

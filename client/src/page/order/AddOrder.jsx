@@ -5,11 +5,12 @@ import { ProductItem, ProductBar } from '../../components/ProductItem';
 import ProductList from '../../components/ProductList';
 import Button from 'react-bootstrap/esm/Button';
 import ChargedStaff from '../../components/ChargedStaff';
+import { toast } from "react-toastify";
 
 const AddOrder = () => {
   const [orderList, setOrderList] = useState([]);
   const [totalBill, setTotalBill] = useState(0);
-  const [personName, setPersonName] = useState("");
+  const [personName, setPersonName] = useState({id: 0, name:""});
   const addItem = (data) => {
     console.log(data);
     let contains = orderList.find(obj => obj.product.productId === data.productId);
@@ -48,8 +49,15 @@ const AddOrder = () => {
   }, [orderList, updateOrderItem]);
 
   const handleAddBillClick = () => {
-    console.log(orderList);
-    console.log(totalBill);
+    if (orderList.length === 0) {
+      toast.error("Vui lòng nhập thông tin đơn hàng");
+    }
+    if (personName.id === 0) {
+      toast.error("Vui lòng chọn nhân viên phụ trách");
+    }
+    const data = orderList.map(item => ({productId: item.product.productId, amount: item.amount}))
+    const id = personName.id;
+    console.log(data);
     console.log(personName);
   }
   return (
@@ -80,8 +88,8 @@ const AddOrder = () => {
               overflow: 'auto',
             }}
           >
-            {orderList.map(value => (
-              <ListItem> 
+            {orderList.map((value, index) => (
+              <ListItem key={index}> 
                 <ProductItem 
                   {...value.product} 
                   updateOrderItem= {updateOrderItem}

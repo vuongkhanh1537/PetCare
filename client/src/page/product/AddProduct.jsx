@@ -7,8 +7,6 @@ import Row from 'react-bootstrap/Row';
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header"
-import Sidebar from "../../components/Sidebar"
-import Topbar from "../../components/Topbar"
 import { addProduct } from "../../services/ProductServices"
 
 const AddProduct = () => {
