@@ -40,6 +40,8 @@ public class ProductProcService {
         newOrder.setEmployee(employeeRepository.findEmployee(empId));
         newOrder.setStatus(false);
         Integer totalPrice = 0;
+        newOrder.setOrderDate(LocalDate.now());
+        Integer orderId = orderRepository.save(newOrder).getId();
         for (ProductAmount prod : product){
             ProdInOrder newOrderProd = new ProdInOrder();
             newOrderProd.setOrder(newOrder);
@@ -49,10 +51,11 @@ public class ProductProcService {
             newOrderProd.setTotalPrice(newOrderProd.getAmount()*newOrderProd.getUnitPrice());
             totalPrice += newOrderProd.getTotalPrice();
             prodInOrderRepository.save(newOrderProd);
+            // newOrder.getProdInOrder().add(newOrderProd);
         }
-        newOrder.setTotalPrice(totalPrice);
-        newOrder.setOrderDate(LocalDate.now());
-        return orderRepository.save(newOrder);
+        orderRepository.updateTotalPrice(totalPrice, orderId);
+        
+        return orderRepository.findOrderById(orderId);
     }
     public void updateOrderStatus(Boolean status, Integer id){
         orderRepository.updateStatus(status, id, LocalDate.now());
