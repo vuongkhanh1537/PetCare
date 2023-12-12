@@ -25,8 +25,8 @@ public class Product {
     private Integer productId;
 
     @Column(name = "provider", nullable = false)
-    @NotBlank(message = "Supplier cannot be blank")
-    private String supplier;
+    @NotBlank(message = "provider cannot be blank")
+    private String provider;
 
     @Column(name = "numberOf", nullable = false)
     @Min(value = 0, message = "Quantity must be greater than or equal to 0")
@@ -64,10 +64,10 @@ public class Product {
         this.quantity = 0;
     }
 
-    public Product(Integer productId, String supplier, int quantity, String productName,
+    public Product(Integer productId, String provider, int quantity, String productName,
                    String description, String petType, String category, int cost) {
         this.productId = productId;
-        this.supplier = supplier;
+        this.provider = provider;
         this.quantity = 0;
         this.productName = productName;
         this.description = description;
@@ -85,12 +85,12 @@ public class Product {
         this.productId = productId;
     }
 
-    public String getSupplier() {
-        return supplier;
+    public String getProvider() {
+        return provider;
     }
 
-    public void setSupplier(String supplier) {
-        this.supplier = supplier;
+    public void setProvider(String provider) {
+        this.provider = provider;
     }
 
     public int getQuantity() {
@@ -149,7 +149,7 @@ public class Product {
     public String toString() {
         return "Product{" +
                 "productId=" + productId +
-                ", supplier='" + supplier + '\'' +
+                ", provider='" + provider + '\'' +
                 ", quantity=" + quantity +
                 ", productName='" + productName + '\'' +
                 ", description='" + description + '\'' +
