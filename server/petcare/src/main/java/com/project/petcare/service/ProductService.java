@@ -4,8 +4,11 @@ package com.project.petcare.service;
 import com.project.petcare.entity.Product;
 
 import java.util.Optional;
-import java.util.List;
 
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+@Service
 public interface ProductService {
     List<Product> getAllProducts();
     Optional<Product> getProductById(Integer productId);
