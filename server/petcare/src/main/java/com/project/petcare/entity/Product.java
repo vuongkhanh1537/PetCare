@@ -2,11 +2,16 @@
 
 package com.project.petcare.entity;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.*;
 
@@ -17,11 +22,11 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", updatable = false, nullable = false)
-    private Long productId;
+    private Integer productId;
 
     @Column(name = "provider", nullable = false)
-    @NotBlank(message = "Supplier cannot be blank")
-    private String supplier;
+    @NotBlank(message = "provider cannot be blank")
+    private String provider;
 
     @Column(name = "numberOf", nullable = false)
     @Min(value = 0, message = "Quantity must be greater than or equal to 0")
@@ -30,7 +35,6 @@ public class Product {
     @Column(name = "productName", nullable = false)
     @NotBlank(message = "Product name cannot be blank")
     private String productName;
-
 
     @Column(name = "descriptions", nullable = false)
     @NotBlank(message = "Description cannot be blank")
@@ -49,15 +53,21 @@ public class Product {
     @Min(value = 0, message = "Cost must be greater than or equal to 0")
     private int cost;
 
+    private Boolean isAvailable;
+
+    @OneToMany(mappedBy = "product")
+    @JsonIgnore
+    private List<ProdInOrder> prodInOrder;
+
     // Constructors
     public Product() {
         this.quantity = 0;
     }
 
-    public Product(Long productId, String supplier, int quantity, String productName,
+    public Product(Integer productId, String provider, int quantity, String productName,
                    String description, String petType, String category, int cost) {
         this.productId = productId;
-        this.supplier = supplier;
+        this.provider = provider;
         this.quantity = 0;
         this.productName = productName;
         this.description = description;
@@ -67,20 +77,20 @@ public class Product {
     }
 
     // Getters and Setters
-    public Long getProductId() {
+    public Integer getProductId() {
         return productId;
     }
 
-    public void setProductId(Long productId) {
+    public void setProductId(Integer productId) {
         this.productId = productId;
     }
 
-    public String getSupplier() {
-        return supplier;
+    public String getProvider() {
+        return provider;
     }
 
-    public void setSupplier(String supplier) {
-        this.supplier = supplier;
+    public void setProvider(String provider) {
+        this.provider = provider;
     }
 
     public int getQuantity() {
@@ -131,13 +141,15 @@ public class Product {
         this.cost = cost;
     }
 
+    
+
     // Other methods...
 
     @Override
     public String toString() {
         return "Product{" +
                 "productId=" + productId +
-                ", supplier='" + supplier + '\'' +
+                ", provider='" + provider + '\'' +
                 ", quantity=" + quantity +
                 ", productName='" + productName + '\'' +
                 ", description='" + description + '\'' +
@@ -145,5 +157,21 @@ public class Product {
                 ", category='" + category + '\'' +
                 ", cost=" + cost +
                 '}';
+    }
+
+    public Boolean getIsAvailable() {
+        return isAvailable;
+    }
+
+    public void setiSAvailable(Boolean iSAvailable) {
+        this.isAvailable = iSAvailable;
+    }
+
+    public List<ProdInOrder> getProdInOrder() {
+        return prodInOrder;
+    }
+
+    public void setProdInOrder(List<ProdInOrder> prodInOrder) {
+        this.prodInOrder = prodInOrder;
     }
 }

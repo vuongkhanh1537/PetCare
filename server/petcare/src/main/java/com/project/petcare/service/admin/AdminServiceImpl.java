@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.petcare.entity.Employee;
-import com.project.petcare.repository.AdminRepository;
+import com.project.petcare.repository.EmployeeRepository;
 
 @Service
 public class AdminServiceImpl implements AdminService{
     @Autowired
-    AdminRepository adminRepository;
+    EmployeeRepository adminRepository;
 
     @Override
     public List<Employee> listOfEmployee() {

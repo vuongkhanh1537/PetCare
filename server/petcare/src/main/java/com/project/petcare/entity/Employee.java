@@ -1,6 +1,9 @@
 package com.project.petcare.entity;
 
 import java.time.LocalDate;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -57,6 +60,10 @@ public class Employee {
 
     @Column(name = "email", length =50)
     private String email;
+
+    @OneToMany(mappedBy = "employee")
+    @JsonIgnore
+    private List<Order> order;
 
     public Employee(String pos, String cccd, String place, LocalDate date, String sex, String phoneNum,
             String firstName, String lastName, String address, String role, String email, LocalDate bDate) {
