@@ -11,6 +11,7 @@ import com.project.petcare.entity.ProdInOrder;
 import com.project.petcare.service.ProductProcService;
 import com.project.receive.ProductAmount;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
+@CrossOrigin
 @RequestMapping("/order")
 public class ProductProccess {
     @Autowired
