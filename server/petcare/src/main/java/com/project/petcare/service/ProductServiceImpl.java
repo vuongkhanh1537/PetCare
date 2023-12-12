@@ -12,10 +12,10 @@ import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-
+    @Autowired
     private final ProductRepository productRepository;
 
-    @Autowired
+    
     public ProductServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
@@ -26,7 +26,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Optional<Product> getProductById(Long productId) {
+    public Optional<Product> getProductById(Integer productId) {
         return productRepository.findById(productId);
     }
 
@@ -36,7 +36,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void deleteProductById(Long productId) {
+    public void deleteProductById(Integer productId) {
         productRepository.deleteById(productId);
     }
 
