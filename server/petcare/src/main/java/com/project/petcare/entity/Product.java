@@ -53,7 +53,7 @@ public class Product {
     @Min(value = 0, message = "Cost must be greater than or equal to 0")
     private int cost;
 
-    private Boolean iSAvailable;
+    private Boolean isAvailable;
 
     @OneToMany(mappedBy = "product")
     @JsonIgnore
@@ -159,12 +159,12 @@ public class Product {
                 '}';
     }
 
-    public Boolean getiSAvailable() {
-        return iSAvailable;
+    public Boolean getIsAvailable() {
+        return isAvailable;
     }
 
     public void setiSAvailable(Boolean iSAvailable) {
-        this.iSAvailable = iSAvailable;
+        this.isAvailable = iSAvailable;
     }
 
     public List<ProdInOrder> getProdInOrder() {

@@ -28,11 +28,11 @@ public class ProdInOrder {
 
     private Integer unitPrice;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "prod_id", referencedColumnName = "id")
     private Product product;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "order_id", referencedColumnName = "id")
     @JsonIgnore
     private Order order;
