@@ -16,7 +16,7 @@ const Topbar = () => {
 
         const handleLogout = () => {
             localStorage.removeItem("token");
-            navigate("/");
+            navigate("/login");
         }
 
         return (
@@ -36,7 +36,7 @@ const Topbar = () => {
       } 
 
     return (
-    <Box display="flex" justifyContent="space-between" p={2} border="0 2px 0 0 inset rgba(0,0,0,0.57)"> 
+    <Box display="flex" justifyContent="space-between" p={2}> 
         <img src={LogoBrand} width="195" height="54"/>  
         <div> 
           <IconButton>

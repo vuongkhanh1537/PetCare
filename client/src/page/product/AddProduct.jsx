@@ -45,111 +45,107 @@ const AddProduct = () => {
 
 
     return(
-        <div className="app">
-            <Sidebar site="Sản phẩm" />
-            <main className="content">
-                <Topbar />
-                <Box m = "0 30px 10px 30px">
-                    <Header title="Sản phẩm" subtitle="Thêm sản phẩm"/>
-                    <Box 
-                        ml = "20px"
-                        sx={{ height: "fit-content", width: '90%'}}>
-                    <Form>
-                        <Row className="mb-3">
-                            <Form.Group as={Col} >
-                            <Form.Label>Tên sản phẩm</Form.Label>
-                            <Form.Control 
-                                type="text" 
-                                placeholder="Nhập tên sản phẩm" 
-                                name="productName" 
-                                onChange={handleChange}/>
-                            </Form.Group>
-
-                            <Form.Group as={Col}>
-                            <Form.Label>Mã sản phẩm</Form.Label>
-                            <Form.Control 
-                                type="text" 
-                                placeholder="Mã sản phẩm" 
-                                disabled />
-                            </Form.Group>
-                        </Row>
-
-                        <Row className="mb-3">
-                            <Form.Group as={Col} >
-                                <Form.Label>Nhà cung cấp</Form.Label>
-                                <Form.Select 
-                                    defaultValue="Chọn nhà cung cấp" 
-                                    name="supplier" 
-                                    onChange={handleChange}>
-                                        <option>Chọn nhà cung cấp</option>
-                                        <option>Royal Canin</option>
-                                        <option>Bioline</option>
-                                </Form.Select>
-                            </Form.Group>
-                        
-                            <Form.Group as={Col} >
-                                <Form.Label>Dành cho thú cưng</Form.Label>
-                                <Form.Select defaultValue="Loại thú cưng" name="petType" onChange={handleChange}>
-                                    <option>Chọn thú cưng</option>
-                                    <option>Chó</option>
-                                    <option>Mèo</option> 
-                                </Form.Select>
-                            </Form.Group>
-                        </Row>
-
-                        <Row className="mb-3">
-                            <Form.Group as={Col} >
-                                <Form.Label>Loại</Form.Label>
-                                <Form.Select defaultValue="Chọn loại" name="category" onChange={handleChange}>
-                                    <option>Chọn loại</option>
-                                    <option>Nhà ở</option>
-                                    <option>Đồ chơi</option>
-                                    <option>Thực phẩm</option>
-                                </Form.Select>
-                            </Form.Group>
-
-                            <Form.Group as={Col} >
-                            <Form.Label>Phân loại</Form.Label>
-                            <Form.Select defaultValue="Chọn phân loại" name="subCategory" onChange={handleChange}>
-                                <option>Chọn phân loại</option>
-                                <option>100</option>
-                                <option>200</option>
-                                <option>300</option>
-                                <option>500</option>
-                            </Form.Select>
-                            </Form.Group>
-                        </Row>
-
-                        <Row className="mb-3">
-                            <Form.Group as={Col} >
-                            <Form.Label>Giá sản phẩm</Form.Label>
-                            <Form.Control 
-                                placeholder="Nhập giá sản phẩm" 
-                                name="cost" 
-                                onChange={handleChange}/>
-                            </Form.Group>
-
-                            <Form.Group as={Col} >
-                            <Form.Label>Số lượng</Form.Label>
-                            <Form.Control 
-                                placeholder="Nhập số lượng" 
-                                name="quantity" 
-                                onChange={handleChange}/>
-                            </Form.Group>
-                        </Row>
-
-                        <Form.Group className="mb-3" >
-                        <Form.Label>Mô tả</Form.Label>
-                        <Form.Control as="textarea" rows={8} name="description" onChange={handleChange}/>
+        <div className="content">
+            <Box m = "0 30px 10px 30px">
+                <Header title="Sản phẩm" subtitle="Thêm sản phẩm"/>
+                <Box 
+                    ml = "20px"
+                    sx={{ height: "fit-content", width: '90%'}}>
+                <Form>
+                    <Row className="mb-3">
+                        <Form.Group as={Col} >
+                        <Form.Label>Tên sản phẩm</Form.Label>
+                        <Form.Control 
+                            type="text" 
+                            placeholder="Nhập tên sản phẩm" 
+                            name="productName" 
+                            onChange={handleChange}/>
                         </Form.Group>
 
-                        <Button variant="primary float-end" onClick={handleClick}>
-                            Lưu
-                        </Button>
-                    </Form>
-                    </Box>
+                        <Form.Group as={Col}>
+                        <Form.Label>Mã sản phẩm</Form.Label>
+                        <Form.Control 
+                            type="text" 
+                            placeholder="Mã sản phẩm" 
+                            disabled />
+                        </Form.Group>
+                    </Row>
+
+                    <Row className="mb-3">
+                        <Form.Group as={Col} >
+                            <Form.Label>Nhà cung cấp</Form.Label>
+                            <Form.Select 
+                                defaultValue="Chọn nhà cung cấp" 
+                                name="supplier" 
+                                onChange={handleChange}>
+                                    <option>Chọn nhà cung cấp</option>
+                                    <option>Royal Canin</option>
+                                    <option>Bioline</option>
+                            </Form.Select>
+                        </Form.Group>
+                    
+                        <Form.Group as={Col} >
+                            <Form.Label>Dành cho thú cưng</Form.Label>
+                            <Form.Select defaultValue="Loại thú cưng" name="petType" onChange={handleChange}>
+                                <option>Chọn thú cưng</option>
+                                <option>Chó</option>
+                                <option>Mèo</option> 
+                            </Form.Select>
+                        </Form.Group>
+                    </Row>
+
+                    <Row className="mb-3">
+                        <Form.Group as={Col} >
+                            <Form.Label>Loại</Form.Label>
+                            <Form.Select defaultValue="Chọn loại" name="category" onChange={handleChange}>
+                                <option>Chọn loại</option>
+                                <option>Nhà ở</option>
+                                <option>Đồ chơi</option>
+                                <option>Thực phẩm</option>
+                            </Form.Select>
+                        </Form.Group>
+
+                        <Form.Group as={Col} >
+                        <Form.Label>Phân loại</Form.Label>
+                        <Form.Select defaultValue="Chọn phân loại" name="subCategory" onChange={handleChange}>
+                            <option>Chọn phân loại</option>
+                            <option>100</option>
+                            <option>200</option>
+                            <option>300</option>
+                            <option>500</option>
+                        </Form.Select>
+                        </Form.Group>
+                    </Row>
+
+                    <Row className="mb-3">
+                        <Form.Group as={Col} >
+                        <Form.Label>Giá sản phẩm</Form.Label>
+                        <Form.Control 
+                            placeholder="Nhập giá sản phẩm" 
+                            name="cost" 
+                            onChange={handleChange}/>
+                        </Form.Group>
+
+                        <Form.Group as={Col} >
+                        <Form.Label>Số lượng</Form.Label>
+                        <Form.Control 
+                            placeholder="Nhập số lượng" 
+                            name="quantity" 
+                            onChange={handleChange}/>
+                        </Form.Group>
+                    </Row>
+
+                    <Form.Group className="mb-3" >
+                    <Form.Label>Mô tả</Form.Label>
+                    <Form.Control as="textarea" rows={8} name="description" onChange={handleChange}/>
+                    </Form.Group>
+
+                    <Button variant="primary float-end" onClick={handleClick}>
+                        Lưu
+                    </Button>
+                </Form>
                 </Box>
-            </main>
+            </Box>
         </div>
     )
 }

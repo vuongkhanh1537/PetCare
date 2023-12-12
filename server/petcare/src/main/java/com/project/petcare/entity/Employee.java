@@ -29,7 +29,7 @@ public class Employee {
     @Column(name = "place", nullable = false)
     private String place;
 
-    @Column(name = "date")
+    @Column(name = "cccdDate")
     @Temporal(TemporalType.DATE)
     private LocalDate date;
 
@@ -37,7 +37,7 @@ public class Employee {
     @Temporal(TemporalType.DATE)
     private LocalDate bdate;
 
-    @Column(name = "sex")
+    @Column(name = "gender")
     private String sex;
 
     @Column(name = "phone_num", length = 13)

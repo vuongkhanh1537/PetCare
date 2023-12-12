@@ -26,10 +26,11 @@ function Login() {
             toast.warn("Vui lòng điền đầy đủ thông tin đăng nhập!");
         } else {
             let res = await loginApi(username, password);
+            localStorage.setItem("token", "checked");
+            navigate("/dashboard");
             console.log(res);
             if (res) {
                 toast.success("Đăng nhập thành công");
-                navigate("/dashboard");
             } else {
                 if (res && res.status === 400) {
                     toast.error("Sai thông tin đăng nhập");
@@ -62,7 +63,7 @@ function Login() {
     <>
         <nav class="navbar navbar-light ">
             <div class="container-fluid">
-                <a class="navbar-brand" href="/">
+                <a class="navbar-brand">
                 <img src={LogoBrand} alt="" class="d-inline-block align-text-top" />
                 </a>
             </div>
@@ -94,12 +95,12 @@ function Login() {
                     </div>
                     <div className="d-grid gap-2">
                         <button className="btn btn-primary login-btn-1" type="button" onClick = {handleClick}>Đăng nhập</button>
-                        <Link className='d-block' to='/login_Google'>
+                        {/* <Link className='d-block' to='/login_Google'>
                             <button className="btn btn-primary login-btn-2" type="button">
                                 <img src={GoogleLogo} />
                                 <span>Đăng nhập với Google</span>
                             </button>
-                        </Link>
+                        </Link> */}
                     </div>
                 </div>
             </div>

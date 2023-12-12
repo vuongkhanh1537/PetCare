@@ -84,7 +84,7 @@ const Sidebar = ({site}) => {
             <Typography
               variant="h7"
               color="#a3a3a3"
-              sx={{ m: "15px 0 5px 0" }}
+              sx={{ m: "15px 0 5px 5px" }}
             >
               Quản lý
             </Typography>
@@ -120,9 +120,9 @@ const Sidebar = ({site}) => {
             <Typography
               variant="h7"
               color="#a3a3a3" 
-              sx={{ m: "15px 0 5px 0px" }}
+              sx={{ m: "15px 0 5px 5px" }}
             >
-              Nhân viên bán hàng
+              Đơn hàng
             </Typography>
             <Item
               title="Đơn hàng"
