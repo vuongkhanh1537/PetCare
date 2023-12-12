@@ -1,43 +1,57 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import Header from '../../components/Header';
-import { Box, ListItem, ListItemButton, ListItemText, List } from '@mui/material';
+import { Box, ListItem, List } from '@mui/material';
 import { ProductItem, ProductBar } from '../../components/ProductItem';
-import { FixedSizeList } from 'react-window';
-
+import ProductList from '../../components/ProductList';
+import Button from 'react-bootstrap/esm/Button';
+import ChargedStaff from '../../components/ChargedStaff';
 
 const AddOrder = () => {
-  const mockData = [
-    {
-      productName: "abc",
-      unitPrice: 100000,
-      totalPrice: 2100000
-    },
-    {
-      productName: "zy",
-      unitPrice: 100000,
-      totalPrice: 2000000
-    },
-    {
-      productName: "ac",
-      unitPrice: 100000,
-      totalPrice: 2000000
-    },
-    {
-      productName: "bc",
-      unitPrice: 100000,
-      totalPrice: 2000000
-    },
-    {
-      productName: "bc",
-      unitPrice: 100000,
-      totalPrice: 2000000
-    },
-    {
-      productName: "bc",
-      unitPrice: 100000,
-      totalPrice: 2000000
+  const [orderList, setOrderList] = useState([]);
+  const [totalBill, setTotalBill] = useState(0);
+  const [personName, setPersonName] = useState("");
+  const addItem = (data) => {
+    console.log(data);
+    let contains = orderList.find(obj => obj.product.productId === data.productId);
+    if (contains) {return;}
+    const newItem = {
+      product: data,
+      amount: 1,
+      totalPrice: data.cost,
     }
-  ];
+    setOrderList([
+      ...orderList,
+      newItem,
+    ]);
+  }
+
+  const updateOrderItem = (id, amount, totalPrice) => {
+    setOrderList(prevOrderList => {
+      return prevOrderList.map(item => {
+        if (item.product.productId === id) {
+          return { ...item, amount: amount, totalPrice: totalPrice };
+        } else {
+          return item;
+        }
+      });
+    });
+  }
+
+  const deleteOrderItem = (id) => {
+    setOrderList(prevOrderList => {
+      return prevOrderList.filter(item => item.product.productId !== id);
+    });
+  }
+
+  useEffect(() => {
+    setTotalBill(prevTotalBill => orderList.reduce((accumulator, currentValue) => accumulator + currentValue.totalPrice, 0));
+  }, [orderList, updateOrderItem]);
+
+  const handleAddBillClick = () => {
+    console.log(orderList);
+    console.log(totalBill);
+    console.log(personName);
+  }
   return (
   <main className="content">  
     <Box m = "0 30px 10px 30px">
@@ -52,9 +66,12 @@ const AddOrder = () => {
       m="15px"
     >
       <Box  
-        gridColumn="span 9"
+        gridColumn="span 12"
         gridRow="span 4"
-        border="1px solid"> 
+        border="1px solid"
+        borderRadius={3}
+        margin=" 0 35px"
+        > 
           <ProductBar />
           <List
             sx={{
@@ -63,27 +80,52 @@ const AddOrder = () => {
               overflow: 'auto',
             }}
           >
-            {mockData.map(value => (
-              <ListItem key = {value}> 
-                <ProductItem {...value} />
+            {orderList.map(value => (
+              <ListItem> 
+                <ProductItem 
+                  {...value.product} 
+                  updateOrderItem= {updateOrderItem}
+                  deleteOrderItem= {deleteOrderItem}/>
               </ListItem>
             ))}
           </List>
       </Box>
-      <Box
+      {/* <Box
         gridColumn="span 3" border="1px solid"
         gridRow="span 4" >
-          Nhân viên phụ trách
+          
+          
+      </Box> */}
+      <Box
+        gridColumn="span 9" 
+        gridRow="span 3"
+        border="1px solid"
+        borderRadius={3}
+        margin=" 0 0 0 35px"
+        >
+        <ProductList 
+          addItem = {addItem}
+        />
       </Box>
       <Box
-        gridColumn="span 9" border="1px solid"
-        gridRow="span 3">
-        Danh sách sản phẩm
-      </Box>
-      <Box
-        gridColumn="span 3" border="1px solid"
-        gridRow="span 3" >
-          Thành tiền và thanh toán
+        display="flex"
+        gridColumn="span 3" 
+        gridRow="span 3" 
+        flexDirection="column"
+        justifyContent="space-between"
+        margin=" 0 35px 0 0">
+          <ChargedStaff 
+            personName = {personName}
+            setPersonName = {setPersonName}/>
+          <h4>Thành tiền: ₫{totalBill}</h4>
+          <Box
+            display="flex" 
+            flexDirection="column"
+            justifyContent="space-between"
+            rowGap={1}>
+            <Button variant='primary' onClick={handleAddBillClick}>Lưu đơn hàng</Button>
+            <Button variant='warning' onClick={handleAddBillClick}>Lưu và thanh toán đơn hàng</Button>
+          </Box>
       </Box>
     </Box>
   </main>

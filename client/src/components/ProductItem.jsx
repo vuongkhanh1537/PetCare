@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, Button, Checkbox, Input } from '@mui/material';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { IconButton } from '@mui/material';
@@ -12,8 +12,9 @@ export const ProductBar = () => {
       height="fit-content"
       alignItems="center"
       justifyContent="space-between"
-      borderBottom="1px solid "> 
-        <Checkbox/>
+      borderBottom="1px solid #cecece"
+      fontWeight={700}> 
+        <Box>ID</Box>
         <Box width="30%">Tên sản phẩm</Box>
         <Box textAlign="center">Đơn giá</Box>
         <Box width="14%" display="block" height="fit-content" textAlign="center">
@@ -27,18 +28,30 @@ export const ProductBar = () => {
     )
 }
 export const ProductItem = (props) => {
-    const {productName, unitPrice, totalPrice } = props;
-    const [quantity, setQuantity] = useState(1); 
+    let {productId, productName, quantity, cost, updateOrderItem, deleteOrderItem}= props;
+    const [amount, setAmount] = useState(1); 
+    const [totalPrice, setTotalPrice] = useState(cost);
+
+    useEffect(() => {
+      setTotalPrice(cost * amount);
+      updateOrderItem(productId, amount, totalPrice);
+    }, [amount, deleteOrderItem]);
 
     const handleIncrement = () => {
-      setQuantity(quantity + 1);
+      if (amount < quantity) {
+        setAmount(amount + 1);
+      }
     };
   
     const handleDecrement = () => {
-      if (quantity > 1) {
-        setQuantity(quantity - 1);
+      if (amount > 1) {
+        setAmount(amount - 1);
       }
     };
+
+    const handleDeleteClick = () => {
+      deleteOrderItem(productId);
+    }
   return (<>
     <Box 
       width="100%"
@@ -46,19 +59,20 @@ export const ProductItem = (props) => {
       p="0 20px 15px 20px"
       display="flex"
       height="fit-content"
-      justifyContent="space-between"> 
-        <Checkbox/>
+      justifyContent="space-between"
+      borderBottom="1px solid #cecece"> 
+        <Box>{productId}</Box>
         <Box 
-            width="30%">{props.productName}</Box>
-        <Box>₫{unitPrice}</Box>
+            width="30%">{productName}</Box>
+        <Box>₫{cost}</Box>
         <Box width="14%" display="flex" height="fit-content">
             <button className="input-group-text" type="button" onClick={handleDecrement}>-</button>
-            <input className="form-control" value={quantity} readOnly />
+            <input className="form-control" value={amount} readOnly />
             <button className="input-group-text" type="button" onClick={handleIncrement}>+</button>
         </Box>
         <Box>₫{totalPrice}</Box>
         <Box>
-        <IconButton aria-label="delete" color="error">
+        <IconButton aria-label="delete" color="error" onClick={handleDeleteClick}>
             <DeleteOutlineOutlinedIcon />
         </IconButton>
         </Box>

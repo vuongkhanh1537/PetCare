@@ -69,7 +69,6 @@ const UpdateProduct = () => {
                         <Form.Group as={Col}>
                         <Form.Label>Mã sản phẩm</Form.Label>
                         <Form.Control 
-                            type="text" 
                             placeholder="Mã sản phẩm" 
                             value={product.productId}
                             disabled />
@@ -119,16 +118,11 @@ const UpdateProduct = () => {
 
                         <Form.Group as={Col} >
                         <Form.Label>Phân loại</Form.Label>
-                        <Form.Select 
+                        <Form.Control
                             name="subCategory" 
                             value={product.subCategory}
                             onChange={handleChange}>
-                            <option>Chọn phân loại</option>
-                            <option>100</option>
-                            <option>200</option>
-                            <option>300</option>
-                            <option>500</option>
-                        </Form.Select>
+                        </Form.Control>
                         </Form.Group>
                     </Row>
 
@@ -136,6 +130,7 @@ const UpdateProduct = () => {
                         <Form.Group as={Col} >
                         <Form.Label>Giá sản phẩm</Form.Label>
                         <Form.Control 
+                            type="number"
                             placeholder="Nhập giá sản phẩm" 
                             name="cost" 
                             value={product.cost}
@@ -145,6 +140,7 @@ const UpdateProduct = () => {
                         <Form.Group as={Col} >
                         <Form.Label>Số lượng</Form.Label>
                         <Form.Control 
+                            type="number"
                             placeholder="Nhập số lượng" 
                             name="quantity" 
                             value={product.quantity}

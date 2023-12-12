@@ -107,13 +107,10 @@ const AddProduct = () => {
 
                         <Form.Group as={Col} >
                         <Form.Label>Phân loại</Form.Label>
-                        <Form.Select defaultValue="Chọn phân loại" name="subCategory" onChange={handleChange}>
-                            <option>Chọn phân loại</option>
-                            <option>100</option>
-                            <option>200</option>
-                            <option>300</option>
-                            <option>500</option>
-                        </Form.Select>
+                        <Form.Select 
+                            placeholder="Nhập phân loại" 
+                            name="subCategory" 
+                            onChange={handleChange} />                       
                         </Form.Group>
                     </Row>
 
@@ -121,6 +118,7 @@ const AddProduct = () => {
                         <Form.Group as={Col} >
                         <Form.Label>Giá sản phẩm</Form.Label>
                         <Form.Control 
+                            type="number"
                             placeholder="Nhập giá sản phẩm" 
                             name="cost" 
                             onChange={handleChange}/>
@@ -129,6 +127,7 @@ const AddProduct = () => {
                         <Form.Group as={Col} >
                         <Form.Label>Số lượng</Form.Label>
                         <Form.Control 
+                            type="number"
                             placeholder="Nhập số lượng" 
                             name="quantity" 
                             onChange={handleChange}/>
