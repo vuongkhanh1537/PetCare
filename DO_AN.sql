@@ -103,23 +103,24 @@ CREATE TABLE product_orders (
     ordersID INT NOT NULL,
     numberof INT NOT NULL,
     orderdate DATE NOT NULL,
+    paydate DATE NOT NULL,
     FOREIGN KEY(productID) REFERENCES product(ID),
     FOREIGN KEY(ordersID) REFERENCES  employee_orders(ID)
 );
-INSERT INTO `da_db`.`product_orders`(`productID`,`ordersID`,`numberof`,`orderdate`) VALUES ('1', '1','12','2023-12-09');
-INSERT INTO `da_db`.`product_orders`(`productID`,`ordersID`,`numberof`,`orderdate`) VALUES ('11', '1','11','2023-12-09');
-INSERT INTO `da_db`.`product_orders`(`productID`,`ordersID`,`numberof`,`orderdate`) VALUES ('13', '2','1','2023-12-09');
-INSERT INTO `da_db`.`product_orders`(`productID`,`ordersID`,`numberof`,`orderdate`) VALUES ('23', '2','5','2023-12-09');
-INSERT INTO `da_db`.`product_orders`(`productID`,`ordersID`,`numberof`,`orderdate`) VALUES ('25', '3','6','2023-12-09');
-INSERT INTO `da_db`.`product_orders`(`productID`,`ordersID`,`numberof`,`orderdate`) VALUES ('12', '4','10','2023-12-09');
-INSERT INTO `da_db`.`product_orders`(`productID`,`ordersID`,`numberof`,`orderdate`) VALUES ('9', '5','9','2023-12-09');
-INSERT INTO `da_db`.`product_orders`(`productID`,`ordersID`,`numberof`,`orderdate`) VALUES ('8', '6','8','2023-12-09');
-INSERT INTO `da_db`.`product_orders`(`productID`,`ordersID`,`numberof`,`orderdate`) VALUES ('12', '7','3','2023-12-09');
-INSERT INTO `da_db`.`product_orders`(`productID`,`ordersID`,`numberof`,`orderdate`) VALUES ('14', '7','3','2023-12-09');
-INSERT INTO `da_db`.`product_orders`(`productID`,`ordersID`,`numberof`,`orderdate`) VALUES ('16', '8','3','2023-12-09');
-INSERT INTO `da_db`.`product_orders`(`productID`,`ordersID`,`numberof`,`orderdate`) VALUES ('18', '8','3','2023-12-09');
-INSERT INTO `da_db`.`product_orders`(`productID`,`ordersID`,`numberof`,`orderdate`) VALUES ('12', '8','3','2023-12-09');
-INSERT INTO `da_db`.`product_orders`(`productID`,`ordersID`,`numberof`,`orderdate`) VALUES ('10', '8','3','2023-12-09');
+INSERT INTO `da_db`.`product_orders`(`productID`,`ordersID`,`numberof`,`orderdate`,`paydate`) VALUES ('1', '1','12','2023-12-09','2023-12-10');
+INSERT INTO `da_db`.`product_orders`(`productID`,`ordersID`,`numberof`,`orderdate`,`paydate`) VALUES ('11', '1','11','2023-12-09','2023-12-09');
+INSERT INTO `da_db`.`product_orders`(`productID`,`ordersID`,`numberof`,`orderdate`,`paydate`) VALUES ('13', '2','1','2023-12-09','2023-12-10');
+INSERT INTO `da_db`.`product_orders`(`productID`,`ordersID`,`numberof`,`orderdate`,`paydate`) VALUES ('23', '2','5','2023-12-09','2023-12-10');
+INSERT INTO `da_db`.`product_orders`(`productID`,`ordersID`,`numberof`,`orderdate`,`paydate`) VALUES ('25', '3','6','2023-12-09','2023-12-09');
+INSERT INTO `da_db`.`product_orders`(`productID`,`ordersID`,`numberof`,`orderdate`,`paydate`) VALUES ('12', '4','10','2023-12-09','2023-12-10');
+INSERT INTO `da_db`.`product_orders`(`productID`,`ordersID`,`numberof`,`orderdate`,`paydate`) VALUES ('9', '5','9','2023-12-09','2023-12-09');
+INSERT INTO `da_db`.`product_orders`(`productID`,`ordersID`,`numberof`,`orderdate`,`paydate`) VALUES ('8', '6','8','2023-12-09','2023-12-09');
+INSERT INTO `da_db`.`product_orders`(`productID`,`ordersID`,`numberof`,`orderdate`,`paydate`) VALUES ('12', '7','3','2023-12-09','2023-12-09');
+INSERT INTO `da_db`.`product_orders`(`productID`,`ordersID`,`numberof`,`orderdate`,`paydate`) VALUES ('14', '7','3','2023-12-09','2023-12-10');
+INSERT INTO `da_db`.`product_orders`(`productID`,`ordersID`,`numberof`,`orderdate`,`paydate`) VALUES ('16', '8','3','2023-12-09','2023-12-09');
+INSERT INTO `da_db`.`product_orders`(`productID`,`ordersID`,`numberof`,`orderdate`,`paydate`) VALUES ('18', '8','3','2023-12-09','2023-12-09');
+INSERT INTO `da_db`.`product_orders`(`productID`,`ordersID`,`numberof`,`orderdate`,`paydate`) VALUES ('12', '8','3','2023-12-09','2023-12-09');
+INSERT INTO `da_db`.`product_orders`(`productID`,`ordersID`,`numberof`,`orderdate`,`paydate`) VALUES ('10', '8','3','2023-12-09','2023-12-10');
 
 
 DELIMITER //
