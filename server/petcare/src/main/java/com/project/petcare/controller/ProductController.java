@@ -37,9 +37,11 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<Product> addProduct(@RequestBody Product newProduct) {
+        // Save the product
         Product savedProduct = productService.addOrUpdateProduct(newProduct);
         return new ResponseEntity<>(savedProduct, HttpStatus.CREATED);
     }
+
 
     @PutMapping("/{productId}")
     public ResponseEntity<Product> updateProduct(@PathVariable Long productId, @RequestBody Product updatedProduct) {
@@ -64,4 +66,11 @@ public class ProductController {
         List<Product> services = productService.getProductsByName(productName);
         return new ResponseEntity<>(services, HttpStatus.OK);
     }
+
+    @GetMapping("/providers")
+    public ResponseEntity<List<String>> getAllproviders() {
+        List<String> providers = productService.getAllProviders();
+        return new ResponseEntity<>(providers, HttpStatus.OK);
+    }
+
 }
