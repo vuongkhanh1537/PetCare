@@ -30,7 +30,7 @@ public class Product {
 
     @Column(name = "numberOf", nullable = false)
     @Min(value = 0, message = "Quantity must be greater than or equal to 0")
-    private int quantity;   
+    private Integer quantity;   
 
     @Column(name = "productName", nullable = false)
     @NotBlank(message = "Product name cannot be blank")

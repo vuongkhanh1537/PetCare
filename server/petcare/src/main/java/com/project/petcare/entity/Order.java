@@ -28,7 +28,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Boolean status;
+    private Integer status;
 
     private Integer totalPrice;
 

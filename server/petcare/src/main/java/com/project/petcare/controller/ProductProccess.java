@@ -33,13 +33,13 @@ public class ProductProccess {
     }
 
     @PostMapping("/{employee_id}")
-    public Order addOrder(@RequestBody List<ProductAmount> product, @PathVariable Integer employee_id){
-        return procService.addOrder(product, employee_id);
+    public Order addOrder(@RequestBody List<ProductAmount> product, @PathVariable Integer employee_id , @RequestParam Integer status){
+        return procService.addOrder(product, employee_id, status);
     }
 
     @PutMapping("")
-    public void payOrder(Boolean status, Integer id){
-        procService.updateOrderStatus(status, id);
+    public void updateOrder(@RequestBody List<ProductAmount> product , @RequestParam Integer status , @RequestParam Integer orderId){
+        procService.changeOrder(product,status, orderId);
     }
     
 }

@@ -26,10 +26,10 @@ public class Employee {
     @Column(name = "position")
     private String pos;
 
-    @Column(name = "CCCD", length = 20, nullable = false, unique = true)
+    @Column(name = "CCCD", length = 20, unique = true)
     private String cccd;
 
-    @Column(name = "place", nullable = false)
+    @Column(name = "place")
     private String place;
 
     @Column(name = "cccdDate")

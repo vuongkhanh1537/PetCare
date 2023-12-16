@@ -20,8 +20,6 @@ public class ProdInOrder {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    
-
     private Integer totalPrice;
 
     private Integer amount;
