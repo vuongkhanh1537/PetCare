@@ -5,21 +5,15 @@ import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/esm/Button";
 import { fetchAllProduct, deleteAnProduct } from "../../services/ProductServices";
 import Header from "../../components/Header"
+import { fetchAllOrder } from '../../services/OrderService';
 
 const Order = () => {
     const navigate = useNavigate();
+    const order_status = ["Đã lưu", "Đang xử lý", "Đã thanh toán", "Đã huỷ"];
     const columns = [
-        { field: 'productId', headerName: 'ID', width: 90, },
+        { field: 'id', headerName: 'ID', width: 90, },
         {
-            field: 'productName',
-            headerName: 'Mã đơn hàng',
-            width: 100,
-            flex: 1,
-            headerAlign: "center",
-            align: "left"
-        },
-        {
-            field: 'supplier',
+            field: 'orderDate',
             headerName: 'Ngày tạo đơn',
             width: 100,
             flex: 1,
@@ -27,7 +21,7 @@ const Order = () => {
             align: "center"
         },
         {
-            field: 'category',
+            field: 'employee',
             headerName: 'Nhân viên phụ trách',
             width: 100,
             flex: 1,
@@ -35,35 +29,46 @@ const Order = () => {
             align: "center"
         },
         {
-            field: 'quantity',
-            headerName: 'Giá thành',
+            field: 'totalPrice',
+            headerName: 'Tổng đơn',
             width: 100,
             flex: 1,
             headerAlign: "center",
             align: "center"
         },
         {
-            field: 'cost',
+            field: 'status',
             headerName: 'Tình trạng đơn',
             width: 100,
             flex: 1,
             headerAlign: "center",
-            align: "center"
+            align: "center",
+            valueGetter: (params) => {
+                return (params.row.status === false ? "Đang xử lý" : "Hoàn thành");
+            } 
         },
     ];
     const [rows, setRows] = useState([]);
     const [selectionModel, setSelectionModel] = useState([]);
 
     useEffect(() => {
-        getProduct();
+        getOrderList();
     }, []);
 
-    const getProduct = async () => {
+    const getOrderList = async () => {
         try {
-            let res = await fetchAllProduct();
-            console.log(res.data); 
-            if (res && res.data) {
-                setRows(res.data);
+            let res = await fetchAllOrder();
+            if (res) {
+                let tmp = res;
+                const data = tmp.map(item => ({
+                    id: item.id,
+                    totalPrice: item.totalPrice,
+                    orderDate: item.orderDate,
+                    employee: `${item.employee.firstName} ${item.employee.lastName}`,
+                    status: item.status
+                }));
+                console.log(data);
+                setRows(data);
             }
         } catch (err) {
             console.log(err);
@@ -74,39 +79,22 @@ const Order = () => {
         const id = params.row.productId;
         // navigate("/san_pham/" + id);
     }
-
-    const deleteProduct = async (id) => {
-        let res = await deleteAnProduct(id);
-        if (res) {
-            getProduct();
-        }
-    }
-
-    const handleDeleteClick = () => {
-        selectionModel.forEach((value) => {deleteProduct(value)})
-    }
     
     return (
         <main className='content'>
             <Box m = "0 30px 10px 30px">
-                <Header title="Đơn hàng" subtitle="Danh sách đơn hàng"/> 
+                <Header title="Đơn Hàng" subtitle="Danh sách đơn hàng"/> 
                 <Box
                     ml = "20px"
                     sx={{ height: "fit-content", width: '90%'}}>
                     <div className='button-list'>
                     <Button 
-                        variant="outline-primary mb-3" 
+                        variant="primary mb-3" 
                         onClick={()=>{navigate("add")}}
                         >Tạo đơn hàng</Button>
-                    <Button
-                        variant="danger mb-3"
-                        disabled={selectionModel.length === 0}
-                        onClick={handleDeleteClick}
-                        >Xoá sản phẩm    
-                    </Button>
                         </div>
                     <DataGrid
-                        getRowId={(row) => row.productId}
+                        getRowId={(row) => row.id}
                         rows={rows}
                         columns={columns}
                         onRowClick={handleClick}

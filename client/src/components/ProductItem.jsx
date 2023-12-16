@@ -14,38 +14,36 @@ export const ProductBar = () => {
       justifyContent="space-between"
       borderBottom="1px solid #cecece"
       fontWeight={700}> 
-        <Box>ID</Box>
-        <Box width="30%">Tên sản phẩm</Box>
-        <Box textAlign="center">Đơn giá</Box>
-        <Box width="14%" display="block" height="fit-content" textAlign="center">
+        <Box width="5%">ID</Box>
+        <Box width="40%">Tên sản phẩm</Box>
+        <Box width="20%" textAlign="center">Đơn giá</Box>
+        <Box width="15%" textAlign="center">
             Số lượng
         </Box>
-        <Box>Thành tiền</Box>
-        <Box>
+        <Box width="15%" textAlign="center">Thành tiền</Box>
+        <Box width="5%">
             Thao tác
         </Box>
     </Box>
     )
 }
 export const ProductItem = (props) => {
-    let {productId, productName, quantity, cost, updateOrderItem, deleteOrderItem}= props;
-    const [amount, setAmount] = useState(1); 
-    const [totalPrice, setTotalPrice] = useState(cost);
+    let {productId, productName, quantity, cost, amount, totalPrice, updateOrderItem, deleteOrderItem}= props;
 
     useEffect(() => {
-      setTotalPrice(cost * amount);
+      totalPrice = cost * amount;
       updateOrderItem(productId, amount, totalPrice);
     }, [amount, deleteOrderItem]);
 
     const handleIncrement = () => {
       if (amount < quantity) {
-        setAmount(amount + 1);
+        ++amount;
       }
     };
   
     const handleDecrement = () => {
       if (amount > 1) {
-        setAmount(amount - 1);
+        --amount;
       }
     };
 
@@ -61,21 +59,67 @@ export const ProductItem = (props) => {
       height="fit-content"
       justifyContent="space-between"
       borderBottom="1px solid #cecece"> 
-        <Box>{productId}</Box>
+        <Box width="5%">{productId}</Box>
         <Box 
-            width="30%">{productName}</Box>
-        <Box>₫{cost}</Box>
-        <Box width="14%" display="flex" height="fit-content">
+            width="40%">{productName}</Box>
+        <Box width="20%" textAlign="center">₫{cost}</Box>
+        <Box width="15%" display="flex" height="fit-content">
             <button className="input-group-text" type="button" onClick={handleDecrement}>-</button>
             <input className="form-control" value={amount} readOnly />
             <button className="input-group-text" type="button" onClick={handleIncrement}>+</button>
         </Box>
-        <Box>₫{totalPrice}</Box>
-        <Box>
+        <Box width="15%" textAlign="center">₫{totalPrice}</Box>
+        <Box width="5%" textAlign="center">
         <IconButton aria-label="delete" color="error" onClick={handleDeleteClick}>
             <DeleteOutlineOutlinedIcon />
         </IconButton>
         </Box>
+    </Box>
+  </>)
+}
+
+export const OnlyReadProductBar = () => {
+  return (
+    <Box 
+      width="100%"
+      marginTop="10px"
+      p="0 36px 15px 36px"
+      display="flex"
+      height="fit-content"
+      alignItems="center"
+      justifyContent="space-between"
+      borderBottom="1px solid #cecece"
+      fontWeight={700}> 
+        <Box width="5%">ID</Box>
+        <Box width="40%">Tên sản phẩm</Box>
+        <Box width="20%" textAlign="center">Đơn giá</Box>
+        <Box width="15%" display="block" height="fit-content" textAlign="center">
+            Số lượng
+        </Box>
+        <Box width="20%" textAlign="center">Thành tiền</Box>
+    </Box>
+    )
+}
+
+export const OnlyReadProductItem = (props) => {
+  let {productId, productName, cost, amount, totalPrice} = props;
+  return (<>
+    <Box 
+      width="100%"
+      marginTop="10px"
+      p="0 20px 15px 20px"
+      display="flex"
+      height="fit-content"
+      justifyContent="space-between"
+      borderBottom="1px solid #cecece"> 
+        <Box width="5%" >{productId}</Box>
+        <Box 
+            width="40%" >{productName}</Box>
+        <Box width="20%" textAlign="center">₫{cost}</Box>
+        <Box width="15%" textAlign="center">
+            {amount}
+        </Box>
+        <Box width="20%" textAlign="center">₫{totalPrice}</Box>
     </Box>
   </>)
 }

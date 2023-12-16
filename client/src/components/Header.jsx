@@ -12,7 +12,7 @@ const Header = ({ title, subtitle }) => {
         {title}
       </Typography>
       <Typography 
-        variant="h5" 
+        variant="h6" 
         color="grey"
         sx={{ m: "0px 0 5px 20px",}}
       >

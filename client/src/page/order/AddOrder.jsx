@@ -1,29 +1,44 @@
 import React, {useEffect, useState} from 'react'
 import Header from '../../components/Header';
 import { Box, ListItem, List } from '@mui/material';
-import { ProductItem, ProductBar } from '../../components/ProductItem';
+import { ProductItem, ProductBar, OnlyReadProductItem, OnlyReadProductBar } from '../../components/ProductItem';
 import ProductList from '../../components/ProductList';
 import Button from 'react-bootstrap/esm/Button';
 import ChargedStaff from '../../components/ChargedStaff';
 import { toast } from "react-toastify";
+import { addOrder } from '../../services/OrderService';
+import { useNavigate } from 'react-router-dom';
 
 const AddOrder = () => {
+  const navigate = useNavigate();
   const [orderList, setOrderList] = useState([]);
   const [totalBill, setTotalBill] = useState(0);
   const [personName, setPersonName] = useState({id: 0, name:""});
+
   const addItem = (data) => {
-    console.log(data);
-    let contains = orderList.find(obj => obj.product.productId === data.productId);
-    if (contains) {return;}
-    const newItem = {
-      product: data,
-      amount: 1,
-      totalPrice: data.cost,
+    let index = orderList.findIndex(obj => obj.product.productId === data.productId);
+    if (index !== -1) {
+      setOrderList(prevOrderList => {
+        return prevOrderList.map(item => {
+          if (item.product.productId === data.productId) {
+            return { ...item, amount: item.amount + 1, totalPrice: item.product.cost * (item.amount + 1) };
+          } else {
+            return item;
+          }
+        });
+      });
+    } else {
+      const newItem = {
+        product: data,
+        amount: 1,
+        totalPrice: data.cost,
+      }
+      setOrderList([
+        ...orderList,
+        newItem,
+      ]);
+      console.log(orderList);
     }
-    setOrderList([
-      ...orderList,
-      newItem,
-    ]);
   }
 
   const updateOrderItem = (id, amount, totalPrice) => {
@@ -48,18 +63,28 @@ const AddOrder = () => {
     setTotalBill(prevTotalBill => orderList.reduce((accumulator, currentValue) => accumulator + currentValue.totalPrice, 0));
   }, [orderList, updateOrderItem]);
 
-  const handleAddBillClick = () => {
+  const handleAddBillClick = async () => {
+    console.log(orderList);
     if (orderList.length === 0) {
       toast.error("Vui lòng nhập thông tin đơn hàng");
+      return;
     }
     if (personName.id === 0) {
       toast.error("Vui lòng chọn nhân viên phụ trách");
+      return;
     }
     const data = orderList.map(item => ({productId: item.product.productId, amount: item.amount}))
     const id = personName.id;
-    console.log(data);
-    console.log(personName);
+    // let res = await addOrder(id, data);
+    // if (res) {
+    //   console.log(res);
+    // }
+    toast.success("Tạo đơn hàng thành công");
+    setTimeout(() => {
+      navigate("/don_hang");
+    }, 3000);
   }
+
   return (
   <main className="content">  
     <Box m = "0 30px 10px 30px">
@@ -92,18 +117,15 @@ const AddOrder = () => {
               <ListItem key={index}> 
                 <ProductItem 
                   {...value.product} 
+                  amount = {value.amount}
+                  totalPrice = {value.totalPrice}
                   updateOrderItem= {updateOrderItem}
                   deleteOrderItem= {deleteOrderItem}/>
               </ListItem>
             ))}
           </List>
       </Box>
-      {/* <Box
-        gridColumn="span 3" border="1px solid"
-        gridRow="span 4" >
-          
-          
-      </Box> */}
+   
       <Box
         gridColumn="span 9" 
         gridRow="span 3"
@@ -131,8 +153,15 @@ const AddOrder = () => {
             flexDirection="column"
             justifyContent="space-between"
             rowGap={1}>
-            <Button variant='primary' onClick={handleAddBillClick}>Lưu đơn hàng</Button>
-            <Button variant='warning' onClick={handleAddBillClick}>Lưu và thanh toán đơn hàng</Button>
+            <Box
+              display="flex"
+              justifyContent="space-between">
+              <Button variant='secondary' onClick={handleAddBillClick}>Lưu đơn hàng</Button>
+              <Button variant='success' onClick={handleAddBillClick}>Xác nhận đơn</Button>
+            </Box>
+           
+            <Button variant='primary' onClick={handleAddBillClick}>Thanh toán</Button>
+        
           </Box>
       </Box>
     </Box>
