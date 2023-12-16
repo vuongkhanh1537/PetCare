@@ -17,8 +17,13 @@ import jakarta.transaction.Transactional;
 public interface OrderRepository extends JpaRepository<Order, Integer> {
     @Modifying
     @Transactional
+    @Query("update Order o set o.status = ?1 where o.id = ?2")
+    public void updateStatus(Integer status, Integer id);
+
+    @Modifying
+    @Transactional
     @Query("update Order o set o.status = ?1, o.payDate = ?3 where o.id = ?2")
-    public void updateStatus(Boolean status, Integer id, LocalDate payDate);
+    public void updateStatusPaid(Integer status, Integer id, LocalDate payDate);
 
     @Modifying
     @Transactional

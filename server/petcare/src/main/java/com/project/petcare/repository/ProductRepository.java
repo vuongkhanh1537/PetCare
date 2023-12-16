@@ -1,10 +1,13 @@
 package com.project.petcare.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.project.petcare.entity.Product;
+
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,4 +26,9 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     @Query("SELECT DISTINCT p.provider FROM Product p")
     List<String> findAllProviders();
+
+    @Transactional
+    @Modifying
+    @Query("update Product p set p.quantity = ?1 where p.id = ?2")
+    public void updateQuantity(Integer newQuantity, Integer id);
 }
