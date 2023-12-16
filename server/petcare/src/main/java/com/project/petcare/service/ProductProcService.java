@@ -37,6 +37,8 @@ public class ProductProcService {
         return orderRepository.findAll();
     }
 
+    // public Order findOrder (Integer Or)
+
     public Order addOrder(List<ProductAmount>product, Integer empId, Integer status){
         Order newOrder = new Order();
         newOrder.setEmployee(employeeRepository.findEmployee(empId));
