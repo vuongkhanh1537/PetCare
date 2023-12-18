@@ -9,15 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.project.petcare.dto.OrderDto;
 import com.project.petcare.entity.Employee;
 import com.project.petcare.entity.Order;
 import com.project.petcare.entity.ProdInOrder;
 import com.project.petcare.entity.Product;
+import com.project.petcare.receive.ProductAmount;
 import com.project.petcare.repository.EmployeeRepository;
 import com.project.petcare.repository.OrderRepository;
 import com.project.petcare.repository.ProdInOrderRepository;
 import com.project.petcare.repository.ProductRepository;
-import com.project.receive.ProductAmount;
 
 @Service
 public class ProductProcService {
@@ -33,11 +34,18 @@ public class ProductProcService {
     @Autowired
     EmployeeRepository employeeRepository;
 
-    public List<Order> findAllOrder(){
-        return orderRepository.findAll();
+    public List<OrderDto> findAllOrder(){
+        ArrayList<OrderDto> returnList = new ArrayList<>();
+        ArrayList<Order> orderList = new ArrayList<>(orderRepository.findAll());
+        for (int i = 0 ; i < orderList.size() ; i ++){
+            returnList.add(new OrderDto(orderList.get(i)));
+        } 
+        return  returnList;
     }
 
-    // public Order findOrder (Integer Or)
+    public Order findOrder (Integer orderId){
+        return orderRepository.findOrderById(orderId);
+    }
 
     public Order addOrder(List<ProductAmount>product, Integer empId, Integer status){
         Order newOrder = new Order();

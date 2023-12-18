@@ -6,10 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.petcare.dto.OrderDto;
 import com.project.petcare.entity.Order;
 import com.project.petcare.entity.ProdInOrder;
+import com.project.petcare.receive.ProductAmount;
 import com.project.petcare.service.ProductProcService;
-import com.project.receive.ProductAmount;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +29,7 @@ public class ProductProccess {
     ProductProcService procService;
 
     @GetMapping("")
-    public List<Order> orderList() {
+    public List<OrderDto> orderList() {
         return procService.findAllOrder();
     }
 
@@ -42,4 +43,8 @@ public class ProductProccess {
         procService.changeOrder(product,status, orderId);
     }
     
+    @GetMapping("/info")
+    public Order orderDetail(@RequestParam Integer id){
+        return procService.findOrder(id);
+    }
 }
