@@ -1,4 +1,4 @@
-package com.project.receive;
+package com.project.petcare.receive;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
