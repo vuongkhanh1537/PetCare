@@ -22,7 +22,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getAllProducts() {
-        return productRepository.findAll();
+        return productRepository.findAllProduct();
     }
 
     @Override
@@ -32,12 +32,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product addOrUpdateProduct(Product product) {
+        product.setIsAvailable(true);
         return productRepository.save(product);
     }
 
     @Override
     public void deleteProductById(Integer productId) {
-        productRepository.deleteById(productId);
+        productRepository.deleteProduct(productId);
     }
 
     @Override

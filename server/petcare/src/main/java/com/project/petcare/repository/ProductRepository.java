@@ -31,4 +31,9 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Modifying
     @Query("update Product p set p.quantity = ?1 where p.id = ?2")
     public void updateQuantity(Integer newQuantity, Integer id);
+
+    @Transactional
+    @Modifying
+    @Query("update Product p set p.isAvailable = false where p.id = ?1")
+    public void deleteProduct (Integer productID);
 }
