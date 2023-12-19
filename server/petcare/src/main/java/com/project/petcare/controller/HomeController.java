@@ -29,7 +29,7 @@ public class HomeController {
     public ResponseEntity<UserDto> loginProccess(@RequestBody User user){
         User findUser = userService.findByUsername(user.getUsername());
         if (findUser != null){
-            if (findUser.getPassword().equals(user.getPassword()) ) return ResponseEntity.ok(new UserDto(findUser));
+            if (findUser.getPassword().equals(user.getPassword()) ) return ResponseEntity.status(HttpStatus.OK).body(new UserDto(findUser));
             else return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);

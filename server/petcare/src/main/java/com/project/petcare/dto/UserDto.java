@@ -8,7 +8,7 @@ public class UserDto {
 
     public UserDto(User user) {
         this.id = user.getId();
-        this.name = user.getEmployee().getFirstName() + user.getEmployee().getLastName();
+        this.name = user.getEmployee().getFirstName() + " " + user.getEmployee().getLastName();
     }
 
     public Integer getId() {
