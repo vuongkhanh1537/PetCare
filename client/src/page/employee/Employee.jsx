@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/esm/Button";
 import Header from "../../components/Header"
 import CustomToolbar from "../../components/CustomToolbar";
+import { GridToolbar } from "@mui/x-data-grid";
 
 const Employee = () => {
     const navigate = useNavigate();
@@ -99,7 +100,7 @@ const Employee = () => {
                             rows={rows}
                             columns={columns}
                             onRowClick={handleClick}
-                            slots={{ toolbar: CustomToolbar }}
+                            // slots={{ toolbar: CustomToolbar }}
                             initialState={{
                             pagination: {
                                 paginationModel: {
@@ -107,6 +108,14 @@ const Employee = () => {
                                 },
                             },
                             }} 
+                            slots={{ toolbar: GridToolbar }}
+                            slotProps={{
+                                toolbar: {
+                                  showQuickFilter: true,
+                                  csvOptions: { disableToolbarButton: true },
+                                  printOptions: { disableToolbarButton: true },
+                                },
+                            }}
                             pageSizeOptions={[10]}
                             checkboxSelection
                             disableRowSelectionOnClick

@@ -11,6 +11,8 @@ import AddProduct from './page/product/AddProduct';
 import UpdateProduct from './page/product/UpdateProduct';
 import Order from './page/order/Order';
 import AddOrder from './page/order/AddOrder';
+import UpdateOrder from './page/order/UpdateOrder';
+import OnlyReadOrder from './page/order/OnlyReadOrder';
 
 function App() {
 
@@ -33,6 +35,8 @@ function App() {
           <Route path="don_hang" element={<Outlet />}>
             <Route index element={<Order/>} />
             <Route path='add' element={<AddOrder />} />
+            <Route path='update/:id' element={<UpdateOrder />} />
+            <Route path='view/:id' element={<OnlyReadOrder />} />
           </Route>
         </Route>
       </Routes>

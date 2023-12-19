@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { DataGrid } from "@mui/x-data-grid"
+import { DataGrid, GridToolbar } from "@mui/x-data-grid"
 import { useEffect, useState } from "react";
 import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/esm/Button";
@@ -94,17 +94,16 @@ const Product = () => {
                     ml = "20px"
                     sx={{ height: "fit-content", width: '90%'}}>
                     <div className='button-list'>
-                    <Button 
-                        variant="primary mb-3" 
-                        onClick={()=>{navigate("/san_pham/add")}}
-                        >Thêm sản phẩm</Button>
-                    <Button
-                        variant="danger mb-3"
-                        disabled={selectionModel.length === 0}
-                        onClick={handleDeleteClick}
-                        >Xoá sản phẩm    
-                    </Button>
-                        </div>
+                        <Button
+                            variant="danger mb-3"
+                            disabled={selectionModel.length === 0}
+                            onClick={handleDeleteClick}
+                            >Xoá sản phẩm</Button>
+                        <Button 
+                            variant="primary mb-3" 
+                            onClick={()=>{navigate("/san_pham/add")}}
+                            >Thêm sản phẩm</Button>
+                    </div>
                     <DataGrid
                         getRowId={(row) => row.productId}
                         rows={rows}
@@ -116,6 +115,14 @@ const Product = () => {
                             pageSize: 10,
                             },
                         },
+                        }}
+                        slots={{ toolbar: GridToolbar }}
+                        slotProps={{
+                            toolbar: {
+                                showQuickFilter: true,
+                                csvOptions: { disableToolbarButton: true },
+                                printOptions: { disableToolbarButton: true },
+                            },
                         }}
                         pageSizeOptions={[10]}
                         checkboxSelection

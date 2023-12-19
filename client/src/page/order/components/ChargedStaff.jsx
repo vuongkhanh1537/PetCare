@@ -5,7 +5,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { fetchAllEmployee } from '../services/EmployeeService';
+import { fetchAllEmployee } from '../../../services/EmployeeService';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -18,19 +18,10 @@ const MenuProps = {
   },
 };
 
-function getStyles(name, personName, theme) {
-  return {
-    fontWeight:
-      personName.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-}
-
 export default function ChargedStaff(props) {
   const theme = useTheme();
   const [nameList, setNameList] = useState([]);
-  const { personName, setPersonName } = props;
+  const { personName, setPersonName, isDisable } = props;
   useEffect(() => {
     getListName();
   }, [])

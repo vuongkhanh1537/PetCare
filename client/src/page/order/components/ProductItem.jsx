@@ -30,20 +30,17 @@ export const ProductBar = () => {
 export const ProductItem = (props) => {
     let {productId, productName, quantity, cost, amount, totalPrice, updateOrderItem, deleteOrderItem}= props;
 
-    useEffect(() => {
-      totalPrice = cost * amount;
-      updateOrderItem(productId, amount, totalPrice);
-    }, [amount, deleteOrderItem]);
-
     const handleIncrement = () => {
       if (amount < quantity) {
         ++amount;
+        updateOrderItem(productId, amount, cost * amount);
       }
     };
   
     const handleDecrement = () => {
       if (amount > 1) {
         --amount;
+        updateOrderItem(productId, amount, cost * amount);
       }
     };
 

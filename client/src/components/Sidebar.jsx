@@ -95,13 +95,6 @@ const Sidebar = ({site}) => {
               selected={selected}
               setSelected={setSelected}
             />
-              <Item
-                title="Ngân sách"
-                to="/ngan_sach"
-                icon={<AssessmentOutlinedIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
             <Item
               title="Sản phẩm"
               to="/san_pham"

@@ -3,18 +3,38 @@ import Header from '../../components/Header';
 import { Box, ListItem, List } from '@mui/material';
 import { ProductItem, ProductBar, OnlyReadProductItem, OnlyReadProductBar } from './components/ProductItem';
 import ProductList from './components/ProductList';
-import Button from 'react-bootstrap/esm/Button';
+import { Button, Stack } from 'react-bootstrap/';
 import ChargedStaff from './components/ChargedStaff';
 import { toast } from "react-toastify";
-import { addOrder } from '../../services/OrderService';
-import { useNavigate } from 'react-router-dom';
+import { fetchAnOrder, updateOrder } from '../../services/OrderService';
+import { useNavigate, useParams } from 'react-router-dom';
 
-const AddOrder = () => {
+const UpdateOrder = () => {
   const navigate = useNavigate();
   const [orderList, setOrderList] = useState([]);
   const [totalBill, setTotalBill] = useState(0);
   const [personName, setPersonName] = useState({id: 0, name:""});
 
+  const { id } = useParams();
+  const order_status = ["Đã thanh toán","Đã lưu", "Đang xử lý", "Đã thanh toán", "Đã huỷ"];
+
+  useEffect(() => {
+    getOrderInfo();
+  }, []);
+
+  const getOrderInfo = async () => {
+    const res = await fetchAnOrder(id);
+    if (res) {
+        console.log(res);
+        let tmp = res;
+        const data = tmp.prodInOrder.map(item => ({
+            product: item.product,
+            amount: item.amount,
+            totalPrice: item.totalPrice
+        }));
+        setOrderList(data);
+    }
+  }
   const addItem = (data) => {
     let index = orderList.findIndex(obj => obj.product.productId === data.productId);
     if (index !== -1) {
@@ -63,24 +83,20 @@ const AddOrder = () => {
     setTotalBill(prevTotalBill => orderList.reduce((accumulator, currentValue) => accumulator + currentValue.totalPrice, 0));
   }, [orderList, updateOrderItem]);
 
-  const handleAddBillClick = async (e) => {
+  const handleBillClick = async (e) => {
     // console.log(orderList);
     if (orderList.length === 0) {
       toast.error("Vui lòng nhập thông tin đơn hàng");
       return;
     }
-    if (personName.id === 0) {
-      toast.error("Vui lòng chọn nhân viên phụ trách");
-      return;
-    }
     const data = orderList.map(item => ({productId: item.product.productId, amount: item.amount}))
-    const id = personName.id;
+    const billId = parseInt(id);
     const status = parseInt(e.target.value);
-    // console.log(data, id, status);
-    let res = await addOrder(id, status, data);
+    console.log(data, billId, status);
+    let res = await updateOrder(billId, status, data);
     console.log(res);
     if (res) {
-      toast.success("Tạo đơn hàng thành công");
+      toast.success("Chỉnh sửa đơn hàng thành công");
       setTimeout(() => {
         navigate("/don_hang");
       }, 3000);
@@ -90,7 +106,7 @@ const AddOrder = () => {
   return (
   <main className="content">  
     <Box m = "0 30px 10px 30px">
-      <Header title="Tạo đơn hàng" />
+      <Header title="Thông tin đơn hàng" />
     </Box>  
 
     <Box 
@@ -152,18 +168,33 @@ const AddOrder = () => {
           <h4>Thành tiền: ₫{totalBill}</h4>
           <Box
             display="flex" 
-            flexDirection="column"
             justifyContent="space-between"
-            rowGap={1}>
-            <Box
-              display="flex"
-              justifyContent="space-between">
-              <Button variant='secondary' value="1" onClick={handleAddBillClick}>Lưu đơn hàng</Button>
-              <Button variant='success' value="2" onClick={handleAddBillClick}>Xác nhận đơn</Button>
-            </Box>
-           
-            <Button variant='primary' value="3" onClick={handleAddBillClick}>Thanh toán</Button>
-        
+            sx={{
+              "& .vstack": {
+                margin: "0 10px",
+              },
+            }}
+          >
+            <Stack gap={2} className="">
+              <Button 
+                variant='secondary' 
+                value="1" 
+                onClick={handleBillClick}>Lưu đơn hàng</Button>
+              <Button 
+                  variant='success' 
+                  value="2" 
+                  onClick={handleBillClick}>Xác nhận đơn</Button>
+            </Stack>
+            <Stack gap={2} className="c">
+              <Button 
+                variant='danger' 
+                value="4"
+                onClick={handleBillClick}>Huỷ đơn hàng</Button>
+              <Button 
+                variant='primary' 
+                value="3" 
+                onClick={handleBillClick}>Thanh toán</Button>
+            </Stack>
           </Box>
       </Box>
     </Box>
@@ -171,4 +202,4 @@ const AddOrder = () => {
   )
 }
 
-export default AddOrder;
+export default UpdateOrder;

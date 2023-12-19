@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import { fetchAllProduct } from "../services/ProductServices";
+import { fetchAllProduct } from "../../../services/ProductServices";
 
 const ProductList = (props) => {
     const { addItem } = props;

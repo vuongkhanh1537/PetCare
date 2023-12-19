@@ -1,15 +1,14 @@
 import { Box } from '@mui/material';
-import { DataGrid } from "@mui/x-data-grid"
+import { DataGrid, GridToolbar } from "@mui/x-data-grid"
 import { useEffect, useState } from "react";
 import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/esm/Button";
-import { fetchAllProduct, deleteAnProduct } from "../../services/ProductServices";
 import Header from "../../components/Header"
 import { fetchAllOrder } from '../../services/OrderService';
 
 const Order = () => {
     const navigate = useNavigate();
-    const order_status = ["Đã lưu", "Đang xử lý", "Đã thanh toán", "Đã huỷ"];
+    const order_status = ["Đã thanh toán","Đã lưu", "Đang xử lý", "Đã thanh toán", "Đã huỷ"];
     const columns = [
         { field: 'id', headerName: 'ID', width: 90, },
         {
@@ -26,7 +25,7 @@ const Order = () => {
             width: 100,
             flex: 1,
             headerAlign: "center",
-            align: "center"
+            align: "center",
         },
         {
             field: 'totalPrice',
@@ -44,7 +43,7 @@ const Order = () => {
             headerAlign: "center",
             align: "center",
             valueGetter: (params) => {
-                return (params.row.status === false ? "Đang xử lý" : "Hoàn thành");
+                return (order_status[params.row.status]);
             } 
         },
     ];
@@ -58,13 +57,14 @@ const Order = () => {
     const getOrderList = async () => {
         try {
             let res = await fetchAllOrder();
+            console.log(res);
             if (res) {
                 let tmp = res;
                 const data = tmp.map(item => ({
                     id: item.id,
                     totalPrice: item.totalPrice,
                     orderDate: item.orderDate,
-                    employee: `${item.employee.firstName} ${item.employee.lastName}`,
+                    employee: `${item.empFName} ${item.empLName}`,
                     status: item.status
                 }));
                 console.log(data);
@@ -76,8 +76,13 @@ const Order = () => {
     }
 
     const handleClick = (params) => {
-        const id = params.row.productId;
-        // navigate("/san_pham/" + id);
+        const id = params.row.id;
+        const status = params.row.status;
+        if (status === 1) {
+            navigate("update/" + id);
+        } else {
+            navigate("view/" + id);
+        }
     }
     
     return (
@@ -88,11 +93,19 @@ const Order = () => {
                     ml = "20px"
                     sx={{ height: "fit-content", width: '90%'}}>
                     <div className='button-list'>
+                    {/* <Button
+                        variant='success mb-3'
+                        disabled={selectionModel.length === 0}
+                    >Xác nhận thanh toán</Button>
+                    <Button
+                        variant='danger mb-3'
+                        disabled={selectionModel.length === 0}
+                    >Huỷ đơn hàng</Button> */}
                     <Button 
                         variant="primary mb-3" 
                         onClick={()=>{navigate("add")}}
-                        >Tạo đơn hàng</Button>
-                        </div>
+                    >Tạo đơn hàng</Button>
+                    </div>
                     <DataGrid
                         getRowId={(row) => row.id}
                         rows={rows}
@@ -104,6 +117,14 @@ const Order = () => {
                             pageSize: 10,
                             },
                         },
+                        }}
+                        slots={{ toolbar: GridToolbar }}
+                        slotProps={{
+                            toolbar: {
+                                showQuickFilter: true,
+                                csvOptions: { disableToolbarButton: true },
+                                printOptions: { disableToolbarButton: true },
+                            },
                         }}
                         pageSizeOptions={[10]}
                         checkboxSelection
