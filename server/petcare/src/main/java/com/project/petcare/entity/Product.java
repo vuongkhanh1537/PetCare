@@ -43,11 +43,11 @@ public class Product {
 
     @Column(name = "type1", nullable = false)
     @NotBlank(message = "Pet type cannot be blank")
-    private String petType;
+    private String type1; // pet type
 
     @Column(name = "type2", nullable = false)
     @NotBlank(message = "Category cannot be blank")
-    private String category;
+    private String type2; // category
 
     @Column(name = "cost", nullable = false)
     @Min(value = 0, message = "Cost must be greater than or equal to 0")
@@ -71,8 +71,8 @@ public class Product {
         this.quantity = 0;
         this.productName = productName;
         this.description = description;
-        this.petType = petType;
-        this.category = category;
+        this.type1 = petType;
+        this.type2 = category;
         this.cost = cost;
     }
 
@@ -117,21 +117,7 @@ public class Product {
         this.description = description;
     }
 
-    public String getPetType() {
-        return petType;
-    }
-
-    public void setPetType(String petType) {
-        this.petType = petType;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
+   
 
     public int getCost() {
         return cost;
@@ -153,8 +139,8 @@ public class Product {
                 ", quantity=" + quantity +
                 ", productName='" + productName + '\'' +
                 ", description='" + description + '\'' +
-                ", petType='" + petType + '\'' +
-                ", category='" + category + '\'' +
+                ", petType='" + type1 + '\'' +
+                ", category='" + type2 + '\'' +
                 ", cost=" + cost +
                 '}';
     }
@@ -173,5 +159,29 @@ public class Product {
 
     public void setProdInOrder(List<ProdInOrder> prodInOrder) {
         this.prodInOrder = prodInOrder;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getType1() {
+        return type1;
+    }
+
+    public void setType1(String type1) {
+        this.type1 = type1;
+    }
+
+    public String getType2() {
+        return type2;
+    }
+
+    public void setType2(String type2) {
+        this.type2 = type2;
+    }
+
+    public void setIsAvailable(Boolean isAvailable) {
+        this.isAvailable = isAvailable;
     }
 }
