@@ -39,6 +39,8 @@ public class AdminServiceImpl implements AdminService{
     public Employee delEmp(Integer id) {
         Employee findEmployee = adminRepository.findEmployee(id);
         adminRepository.delete(findEmployee);
+        User findUser = userRepository.findByUsername(findEmployee.getEmail());
+        userRepository.delete(findUser);
         return findEmployee;
     }
 
