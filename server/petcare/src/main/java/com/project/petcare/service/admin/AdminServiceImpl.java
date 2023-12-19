@@ -25,9 +25,12 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     public Employee saveEmp(Employee emp) {
-        User newUser = new User(emp.getEmail(), "123456789");
-        emp.setUser(userRepository.save(newUser));
-        return adminRepository.save(emp);
+        Employee newEmp = adminRepository.save(emp);
+        if (newEmp != null) {
+            User newUser = new User(newEmp.getEmail(), "123456789");
+            emp.setUser(userRepository.save(newUser));
+        }
+        return newEmp;
     }
 
     @Override

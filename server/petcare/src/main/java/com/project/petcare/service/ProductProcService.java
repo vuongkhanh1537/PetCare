@@ -90,7 +90,7 @@ public class ProductProcService {
             for (ProdInOrder prodOrder : prodList){
                 if (prod.getProductId().equals(prodOrder.getProduct().getProductId())){
                     if (status == 3){
-                        if (productRepository.findProductById(prod.getProductId()).getQuantity()- prod.getAmount() + prodOrder.getAmount() < 0) return "Cannot pay: Out of number!";
+                        if (productRepository.findProductById(prod.getProductId()).getQuantity()- prod.getAmount() < 0) return "Cannot pay: Out of number!";
                     }
                     find = true;
                     break;
@@ -98,7 +98,7 @@ public class ProductProcService {
             }
             if (find == true) continue;
             if (status == 3){
-                if (productRepository.findProductById(prod.getProductId()).getQuantity()- prod.getAmount() < 0) return "Cannot pay: Out of number!";
+                if (productRepository.findProductById(prod.getProductId()).getQuantity() - prod.getAmount() < 0) return "Cannot pay: Out of number!";
             }
         }
 
@@ -110,7 +110,7 @@ public class ProductProcService {
                     checkList.set(prodList.indexOf(prodOrder),true);
                     if (status == 3){
                         
-                        productRepository.updateQuantity(productRepository.findProductById(prod.getProductId()).getQuantity()- prod.getAmount() + prodOrder.getAmount(), prod.getProductId());
+                        productRepository.updateQuantity(productRepository.findProductById(prod.getProductId()).getQuantity()- prod.getAmount(), prod.getProductId());
                         orderRepository.updateStatusPaid(status, orderId, LocalDate.now());
                     }
                     else orderRepository.updateStatus(status, orderId);
