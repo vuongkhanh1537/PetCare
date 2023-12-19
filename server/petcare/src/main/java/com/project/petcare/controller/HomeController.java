@@ -26,8 +26,7 @@ public class HomeController {
     public String loginProccess(@RequestBody User user){
         User findUser = userService.findByUsername(user.getUsername());
         if (findUser != null){
-            if (findUser.getPassword().equals(user.getPassword()) && findUser.getRole().equals("guest")) return "this is a guest";
-            if (findUser.getPassword().equals(user.getPassword()) && findUser.getRole().equals("employee")) return "this is an empolyee";
+            if (findUser.getPassword().equals(user.getPassword()) ) return "Login success";
             else return "Wrong password";
         }
         return "User not found";

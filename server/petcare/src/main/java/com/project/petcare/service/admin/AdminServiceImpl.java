@@ -6,12 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.petcare.entity.Employee;
+import com.project.petcare.entity.User;
 import com.project.petcare.repository.EmployeeRepository;
+import com.project.petcare.repository.UserRepository;
 
 @Service
 public class AdminServiceImpl implements AdminService{
     @Autowired
     EmployeeRepository adminRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     public List<Employee> listOfEmployee() {
@@ -20,6 +25,8 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     public Employee saveEmp(Employee emp) {
+        User newUser = new User(emp.getEmail(), "123456789");
+        emp.setUser(userRepository.save(newUser));
         return adminRepository.save(emp);
     }
 
@@ -46,8 +53,6 @@ public class AdminServiceImpl implements AdminService{
         adminRepository.updateLName(newEmp.getLastName(), id);
         adminRepository.updatePhoneNum(newEmp.getPhoneNum(), id);
         adminRepository.updatePlace(newEmp.getPlace(), id);
-        adminRepository.updatePos(newEmp.getPos(), id);
-        adminRepository.updateRole(newEmp.getRole(), id);
         adminRepository.updateSex(newEmp.getSex(), id);
     }
 

@@ -1,8 +1,10 @@
 package com.project.petcare.controller;
 
+import java.net.http.HttpResponse;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,8 +41,10 @@ public class ProductProccess {
     }
 
     @PutMapping("")
-    public void updateOrder(@RequestBody List<ProductAmount> product , @RequestParam Integer status , @RequestParam Integer orderId){
-        procService.changeOrder(product,status, orderId);
+    public ResponseEntity<String> updateOrder(@RequestBody List<ProductAmount> product , @RequestParam Integer status , @RequestParam Integer orderId){
+        String message = procService.changeOrder(product,status, orderId);
+        if (message == "Cannot pay: Out of number!") return ResponseEntity.badRequest().body("Cannot pay: Out of number!");
+        return ResponseEntity.ok().body("Update success!");
     }
     
     @GetMapping("/info")
