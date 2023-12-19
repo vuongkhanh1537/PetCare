@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.project.petcare.detail.OrderDetail;
 import com.project.petcare.dto.OrderDto;
 import com.project.petcare.entity.Employee;
 import com.project.petcare.entity.Order;
@@ -45,8 +46,8 @@ public class ProductProcService {
         return  returnList;
     }
 
-    public Order findOrder (Integer orderId){
-        return orderRepository.findOrderById(orderId);
+    public OrderDetail findOrder (Integer orderId){
+        return new OrderDetail(orderRepository.findOrderById(orderId));
     }
 
     public Order addOrder(List<ProductAmount>product, Integer empId, Integer status){

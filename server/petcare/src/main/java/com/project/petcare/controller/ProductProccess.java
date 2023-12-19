@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.petcare.detail.OrderDetail;
 import com.project.petcare.dto.OrderDto;
 import com.project.petcare.entity.Order;
 import com.project.petcare.entity.ProdInOrder;
@@ -48,7 +49,7 @@ public class ProductProccess {
     }
     
     @GetMapping("/info")
-    public Order orderDetail(@RequestParam Integer id){
-        return procService.findOrder(id);
+    public ResponseEntity<OrderDetail> orderDetail(@RequestParam Integer id){
+        return ResponseEntity.ok(procService.findOrder(id));
     }
 }
