@@ -21,13 +21,12 @@ public class User {
     @Column(name = "password",nullable = false, length = 20)
     private String password;
 
-    @Column(name = "role")
-    private String role;
+    @OneToOne(mappedBy = "user")
+    private Employee employee;
 
     public User(String username, String password) {
         this.username = username;
         this.password = password;
-        this.role = "guest";
     }
 
 }

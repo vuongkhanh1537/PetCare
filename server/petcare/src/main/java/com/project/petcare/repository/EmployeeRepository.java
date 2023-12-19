@@ -15,12 +15,7 @@ import jakarta.transaction.Transactional;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee,Integer> {
     @Query("SELECT e FROM Employee e WHERE e.id= ?1")
-    public Employee findEmployee(Integer id);
-
-    @Transactional
-    @Modifying
-    @Query("UPDATE Employee e set e.pos = ?1 where e.id = ?2")
-    public void updatePos(String pos, Integer id);    
+    public Employee findEmployee(Integer id);   
 
     @Transactional
     @Modifying
@@ -67,10 +62,6 @@ public interface EmployeeRepository extends JpaRepository<Employee,Integer> {
     @Query("UPDATE Employee e set e.address = ?1 where e.id = ?2")
     public void updateAddress(String address, Integer id);
 
-    @Transactional
-    @Modifying
-    @Query("UPDATE Employee e set e.role = ?1 where e.id = ?2")
-    public void updateRole(String role, Integer id);
 
     @Transactional
     @Modifying

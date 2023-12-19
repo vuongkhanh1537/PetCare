@@ -23,8 +23,6 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name = "position")
-    private String pos;
 
     @Column(name = "CCCD", length = 20, unique = true)
     private String cccd;
@@ -55,8 +53,6 @@ public class Employee {
     @Column(name = "address",length = 50)
     private String address;
     
-    @Column(name = "role")
-    private String role;
 
     @Column(name = "email", length =50)
     private String email;
@@ -65,9 +61,13 @@ public class Employee {
     @JsonIgnore
     private List<Order> order;
 
-    public Employee(String pos, String cccd, String place, LocalDate date, String sex, String phoneNum,
-            String firstName, String lastName, String address, String role, String email, LocalDate bDate) {
-        this.pos = pos;
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonIgnore
+    private User user;
+
+    public Employee(String cccd, String place, LocalDate date, String sex, String phoneNum,
+            String firstName, String lastName, String address, String email, LocalDate bDate) {
         this.cccd = cccd;
         this.place = place;
         this.date = date;
@@ -76,7 +76,6 @@ public class Employee {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
-        this.role = role;
         this.email = email;
         this.bdate = bDate;
     }
@@ -89,8 +88,6 @@ public class Employee {
         this.lastName = newEmployee.getLastName();
         this.phoneNum = newEmployee.getPhoneNum();
         this.place = newEmployee.getPlace();
-        this.pos = newEmployee.getPos();
-        this.role = newEmployee.getRole();
         this.sex = newEmployee.getSex();
         this.email = newEmployee.getEmail();
         this.bdate = newEmployee.getBdate();
