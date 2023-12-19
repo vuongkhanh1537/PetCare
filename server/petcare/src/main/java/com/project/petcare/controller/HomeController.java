@@ -1,12 +1,16 @@
 package com.project.petcare.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.petcare.dto.UserDto;
 import com.project.petcare.entity.User;
 import com.project.petcare.service.UserService;
 
@@ -22,13 +26,13 @@ public class HomeController {
     }
 
     @PostMapping("/login")
-    public String loginProccess(@RequestBody User user){
+    public ResponseEntity<UserDto> loginProccess(@RequestBody User user){
         User findUser = userService.findByUsername(user.getUsername());
         if (findUser != null){
-            if (findUser.getPassword().equals(user.getPassword()) ) return "Login success";
-            else return "Wrong password";
+            if (findUser.getPassword().equals(user.getPassword()) ) return ResponseEntity.ok(new UserDto(findUser));
+            else return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
-        return "User not found";
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 
     @PostMapping("/register")
