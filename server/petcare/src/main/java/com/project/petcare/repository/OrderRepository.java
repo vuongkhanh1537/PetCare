@@ -33,4 +33,6 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     @Query("select o from Order o where o.id = ?1")
     public Order findOrderById(Integer id);
     
+    @Query("select count(o.id) from Order o where o.employee.id = ?1 and o.status = 3")
+    public Integer countOrder(Integer empId);
 }

@@ -25,6 +25,7 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     public Employee saveEmp(Employee emp) {
+        emp.setIsDel(false);
         Employee newEmp = adminRepository.save(emp);
         if (newEmp != null) {
             User newUser = new User(newEmp.getEmail(), "123456789");
@@ -41,7 +42,8 @@ public class AdminServiceImpl implements AdminService{
     @Override
     public Employee delEmp(Integer id) {
         Employee findEmployee = adminRepository.findEmployee(id);
-        adminRepository.delete(findEmployee);
+        findEmployee.setIsDel(true);
+        adminRepository.save(findEmployee);
         User findUser = userRepository.findByUsername(findEmployee.getEmail());
         userRepository.delete(findUser);
         return findEmployee;
@@ -49,16 +51,18 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     public void updateEmp(Integer id, Employee newEmp) {
-        adminRepository.updateAddress(newEmp.getAddress(), id);
-        adminRepository.updateBDate(newEmp.getBdate(), id);
-        adminRepository.updateCCCD(newEmp.getCccd(), id);
-        adminRepository.updateDate(newEmp.getDate(), id);
-        adminRepository.updateEmail(newEmp.getEmail(), id);
-        adminRepository.updateFName(newEmp.getFirstName(), id);
-        adminRepository.updateLName(newEmp.getLastName(), id);
-        adminRepository.updatePhoneNum(newEmp.getPhoneNum(), id);
-        adminRepository.updatePlace(newEmp.getPlace(), id);
-        adminRepository.updateSex(newEmp.getSex(), id);
+        newEmp.setId(id);
+        adminRepository.save(newEmp);
+        // adminRepository.updateAddress(newEmp.getAddress(), id);
+        // adminRepository.updateBDate(newEmp.getBdate(), id);
+        // adminRepository.updateCCCD(newEmp.getCccd(), id);
+        // adminRepository.updateDate(newEmp.getDate(), id);
+        // adminRepository.updateEmail(newEmp.getEmail(), id);
+        // adminRepository.updateFName(newEmp.getFirstName(), id);
+        // adminRepository.updateLName(newEmp.getLastName(), id);
+        // adminRepository.updatePhoneNum(newEmp.getPhoneNum(), id);
+        // adminRepository.updatePlace(newEmp.getPlace(), id);
+        // adminRepository.updateSex(newEmp.getSex(), id);
     }
 
     // @Override

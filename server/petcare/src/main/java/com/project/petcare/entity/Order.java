@@ -45,6 +45,7 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "employee_id", referencedColumnName = "id")
+    @JsonIgnore
     private Employee employee;
 
 }
