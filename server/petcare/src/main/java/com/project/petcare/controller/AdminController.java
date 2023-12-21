@@ -3,6 +3,7 @@ package com.project.petcare.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,8 +33,10 @@ public class AdminController {
     }
 
     @PostMapping("/admin/employee")
-    public Employee addEmployee (@RequestBody Employee emp){
-        return adminService.saveEmp(emp);
+    public ResponseEntity<Employee> addEmployee (@RequestBody Employee emp){
+        Employee savedEmp = adminService.saveEmp(emp);
+        if (savedEmp != null) return ResponseEntity.ok(savedEmp);
+        return ResponseEntity.badRequest().body(null) ;
     }
 
     @GetMapping("/admin/employee")

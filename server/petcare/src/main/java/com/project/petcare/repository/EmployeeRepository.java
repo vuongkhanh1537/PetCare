@@ -73,5 +73,7 @@ public interface EmployeeRepository extends JpaRepository<Employee,Integer> {
     @Query("UPDATE Employee e set e.email = ?1 where e.id = ?2")
     public void updateEmail(String email, Integer id);
 
+    @Query("select e from Employee e where e.cccd = ?1")
+    public Employee findEmpByCccd(String cccd);
 
 }
