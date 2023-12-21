@@ -60,7 +60,8 @@ public class ProductProcService {
 
     public Order addOrder(List<ProductAmount>product, Integer empId, Integer status){
         Order newOrder = new Order();
-        newOrder.setEmployee(employeeRepository.findEmployee(empId));
+        Employee fromEmp = employeeRepository.findEmployee(empId);
+        newOrder.setEmployee(fromEmp);
         newOrder.setStatus(status);
         Integer totalPrice = 0;
         newOrder.setOrderDate(LocalDate.now());
@@ -82,10 +83,19 @@ public class ProductProcService {
             newOrderProd.setUnitPrice(productRepository.findProductById(prod.getProductId()).getCost());
             newOrderProd.setTotalPrice(newOrderProd.getAmount()*newOrderProd.getUnitPrice());
             totalPrice += newOrderProd.getTotalPrice();
-            prodInOrderRepository.save(newOrderProd);
+            newOrderProd = prodInOrderRepository.save(newOrderProd);
             // newOrder.getProdInOrder().add(newOrderProd);
         }
         orderRepository.updateTotalPrice(totalPrice, orderId);
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setFrom(adminMail);
+        if (status == 3){
+            mailMessage.setTo(fromEmp.getEmail());
+            mailMessage.setSubject("ĐƠN HÀNG ĐÃ ĐƯỢC THANH TOÁN");
+            mailMessage.setText("Đơn hàng "+orderId+" của " + fromEmp.getLastName() + " quản lý đã được thanh toán vào lúc "+ LocalDateTime.now()+ ".\n" +
+                                "Xin chúc mừng đơn thứ "+ orderRepository.countOrder(fromEmp.getId())+ " của " + fromEmp.getLastName() +"!" );
+            mailSender.send(mailMessage);
+        }
         
         return orderRepository.findOrderById(orderId);
     }
