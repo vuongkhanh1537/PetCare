@@ -30,6 +30,8 @@ public class AdminServiceImpl implements AdminService{
         if (newEmp != null) {
             User newUser = new User(newEmp.getEmail(), "123456789");
             emp.setUser(userRepository.save(newUser));
+            emp.setId(newEmp.getId());
+            adminRepository.save(emp);
         }
         return newEmp;
     }
