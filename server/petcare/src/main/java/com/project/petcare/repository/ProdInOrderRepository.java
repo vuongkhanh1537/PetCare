@@ -21,4 +21,5 @@ public interface ProdInOrderRepository extends JpaRepository<ProdInOrder, Intege
     @Transactional
     @Query("update ProdInOrder p set p.amount = ?1 , p.totalPrice = ?2 where p.order.id = ?3")
     public void updateInfo(Integer amount, Integer totalPrice, Integer orderId);
+
 }

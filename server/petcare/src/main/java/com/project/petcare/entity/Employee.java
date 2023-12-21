@@ -53,6 +53,7 @@ public class Employee {
     @Column(name = "address",length = 50)
     private String address;
     
+    private Boolean isDel;
 
     @Column(name = "email", length =50)
     private String email;
