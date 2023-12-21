@@ -62,10 +62,10 @@ public class Employee {
     @JsonIgnore
     private List<Order> order;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @JsonIgnore
-    private User user;
+    // @OneToOne
+    // @JoinColumn(name = "user_id", referencedColumnName = "id")
+    // @JsonIgnore
+    // private User user;
 
     public Employee(String cccd, String place, LocalDate date, String sex, String phoneNum,
             String firstName, String lastName, String address, String email, LocalDate bDate) {
