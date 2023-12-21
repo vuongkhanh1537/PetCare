@@ -15,6 +15,13 @@ const AddOrder = () => {
   const [totalBill, setTotalBill] = useState(0);
   const [personName, setPersonName] = useState({id: 0, name:""});
 
+  useEffect(() => {
+    const id = localStorage.getItem("id");
+    const name = localStorage.getItem("username");
+    setPersonName({id: id, name: name});
+    console.log(personName);
+  }, []);
+
   const addItem = (data) => {
     let index = orderList.findIndex(obj => obj.product.productId === data.productId);
     if (index !== -1) {
@@ -103,7 +110,7 @@ const AddOrder = () => {
       <Box  
         gridColumn="span 12"
         gridRow="span 4"
-        border="1px solid"
+        border="1px solid #ccc"
         borderRadius={3}
         margin=" 0 35px"
         > 
@@ -131,7 +138,7 @@ const AddOrder = () => {
       <Box
         gridColumn="span 9" 
         gridRow="span 3"
-        border="1px solid"
+        border="1px solid #ccc"
         borderRadius={3}
         margin=" 0 0 0 35px"
         >

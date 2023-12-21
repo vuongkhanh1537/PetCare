@@ -5,6 +5,7 @@ import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/esm/Button";
 import { fetchAllProduct, deleteAnProduct } from "../../services/ProductServices";
 import Header from "../../components/Header"
+import { toast } from 'react-toastify';
 
 const Product = () => {
     const navigate = useNavigate();
@@ -19,7 +20,7 @@ const Product = () => {
             align: "left"
         },
         {
-            field: 'category',
+            field: 'type2',
             headerName: 'Loại',
             width: 100,
             flex: 1,
@@ -43,7 +44,7 @@ const Product = () => {
             align: "center"
         },
         {
-            field: 'supplier',
+            field: 'provider',
             headerName: 'Nhà cung cấp',
             width: 100,
             flex: 1,
@@ -76,9 +77,13 @@ const Product = () => {
     }
 
     const deleteProduct = async (id) => {
-        let res = await deleteAnProduct(id);
-        if (res) {
-            getProduct();
+        try {
+            let res = await deleteAnProduct(id);
+            if (res) {
+                getProduct();
+            }
+        } catch (err) {
+            console.log(err);
         }
     }
 
@@ -132,7 +137,6 @@ const Product = () => {
                         }}
                         setSelectionModel={selectionModel}
                         sx={{
-                            boxShadow: 2,
                             borderRadius: 3,
                             '& .MuiDataGrid-cell:hover': {
                                 color: 'primary.main',

@@ -48,14 +48,16 @@ const OnlyReadOrder = (props) => {
     const data = orderList.map(item => ({productId: item.product.productId, amount: item.amount}))
     const id = detail.id;
     const status = parseInt(e.target.value);
-    console.log(data, id, status);
+    // console.log(data, id, status);
     if (order_status[status] === detail.status) {
         navigate("/don_hang");
         return;
     }
     let res = await updateOrder(id, status, data);
     console.log(res);
-    if (res) {
+    if (res && res.status === 400) {
+      toast.error("Sản phẩm hiện tại không đủ số lượng");
+    } else {
       toast.success("Chỉnh sửa đơn hàng thành công");
       setTimeout(() => {
         navigate("/don_hang");

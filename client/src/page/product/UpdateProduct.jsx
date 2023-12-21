@@ -13,6 +13,7 @@ import Header from "../../components/Header"
 const UpdateProduct = () => {
     const navigate = useNavigate();
     const {id} = useParams();
+    const [changed, setChanged] = useState(false);
 
     useEffect(() => {
         getProduct();
@@ -31,6 +32,7 @@ const UpdateProduct = () => {
     const handleChange = (e) => {
         const name = e.target.name;
         const value = e.target.value;
+        setChanged(true);
         setProduct((prev) => {
             return {...prev, [name] : value}
         })
@@ -57,7 +59,7 @@ const UpdateProduct = () => {
                 <Form>
                     <Row className="mb-3">
                         <Form.Group as={Col} >
-                        <Form.Label>Tên sản phẩm</Form.Label>
+                        <Form.Label className="required-field">Tên sản phẩm</Form.Label>
                         <Form.Control 
                             type="text" 
                             placeholder="Nhập tên sản phẩm" 
@@ -67,7 +69,7 @@ const UpdateProduct = () => {
                         </Form.Group>
 
                         <Form.Group as={Col}>
-                        <Form.Label>Mã sản phẩm</Form.Label>
+                        <Form.Label >Mã sản phẩm</Form.Label>
                         <Form.Control 
                             placeholder="Mã sản phẩm" 
                             value={product.productId}
@@ -77,23 +79,25 @@ const UpdateProduct = () => {
 
                     <Row className="mb-3">
                         <Form.Group as={Col} >
-                            <Form.Label>Nhà cung cấp</Form.Label>
+                            <Form.Label className="required-field">Nhà cung cấp</Form.Label>
                             <Form.Select  
-                                name="supplier" 
-                                value={product.supplier}
+                                name="provider" 
+                                value={product.provider}
                                 onChange={handleChange}>
                                     <option>Chọn nhà cung cấp</option>
                                     <option>Royal Canin</option>
                                     <option>Bioline</option>
                                     <option>Cannin</option>
+                                    <option>A company</option>
+                                    <option>B company</option>
                             </Form.Select>
                         </Form.Group>
                     
                         <Form.Group as={Col} >
-                            <Form.Label>Dành cho thú cưng</Form.Label>
+                            <Form.Label className="required-field">Dành cho thú cưng</Form.Label>
                             <Form.Select  
-                                name="petType"
-                                value={product.petType} 
+                                name="type1"
+                                value={product.type1} 
                                 onChange={handleChange}>
                                     <option>Chọn thú cưng</option>
                                     <option>Chó</option>
@@ -102,33 +106,10 @@ const UpdateProduct = () => {
                         </Form.Group>
                     </Row>
 
-                    <Row className="mb-3">
-                        <Form.Group as={Col} >
-                            <Form.Label>Loại</Form.Label>
-                            <Form.Select 
-                                name="category"
-                                value={product.category} 
-                                onChange={handleChange}>
-                                    <option>Chọn loại</option>
-                                    <option>Nhà ở</option>
-                                    <option>Đồ chơi</option>
-                                    <option>Thực phẩm</option>
-                            </Form.Select>
-                        </Form.Group>
-
-                        <Form.Group as={Col} >
-                        <Form.Label>Phân loại</Form.Label>
-                        <Form.Control
-                            name="subCategory" 
-                            value={product.subCategory}
-                            onChange={handleChange}>
-                        </Form.Control>
-                        </Form.Group>
-                    </Row>
 
                     <Row className="mb-3">
                         <Form.Group as={Col} >
-                        <Form.Label>Giá sản phẩm</Form.Label>
+                        <Form.Label className="required-field">Giá sản phẩm</Form.Label>
                         <Form.Control 
                             type="number"
                             placeholder="Nhập giá sản phẩm" 
@@ -138,7 +119,7 @@ const UpdateProduct = () => {
                         </Form.Group>
 
                         <Form.Group as={Col} >
-                        <Form.Label>Số lượng</Form.Label>
+                        <Form.Label className="required-field">Số lượng</Form.Label>
                         <Form.Control 
                             type="number"
                             placeholder="Nhập số lượng" 
@@ -147,13 +128,32 @@ const UpdateProduct = () => {
                             onChange={handleChange}/>
                         </Form.Group>
                     </Row>
+                    <Row className="mb-3">
+                        <Form.Group as={Col} >
+                            <Form.Label className="required-field">Loại</Form.Label>
+                            <Form.Select 
+                                name="type2"
+                                value={product.type2} 
+                                onChange={handleChange}>
+                                    <option disabled>Chọn loại</option>
+                                    <option>Lồng</option>
+                                    <option>Rọ mõm</option>
+                                    <option>Đồ chơi</option>
+                                    <option>Thức ăn</option>
+                                    <option>Khay đựng thức ăn</option>
+                            </Form.Select>
+                        </Form.Group>
+                    </Row>
 
                     <Form.Group className="mb-3" >
                     <Form.Label>Mô tả</Form.Label>
                     <Form.Control as="textarea" rows={8} name="description" value={product.description} onChange={handleChange}/>
                     </Form.Group>
 
-                    <Button variant="primary float-end" onClick={handleClick}>
+                    <Button 
+                      variant="primary float-end" 
+                      onClick={handleClick}
+                      disabled={changed === false}>
                         Cập nhật
                     </Button>
                 </Form>

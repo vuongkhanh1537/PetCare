@@ -12,6 +12,7 @@ import Header from "../../components/Header"
 const UpdateEmployee = () => {
 
     const { id } = useParams();
+    const [changed, setChanged] = useState(false);
 
     useEffect(() => {
         getEmployee();
@@ -30,20 +31,55 @@ const UpdateEmployee = () => {
     const handleChange = (e) => {
         const name = e.target.name;
         const value = e.target.value;
+        setChanged(true);
         setEmployee((prev) => {
             return {...prev, [name] : value}
         })
     }
 
+    const validate = () => {
+        let check = true;
+        if (employee.firstName === "" || employee.lastName === "") {
+            toast.error("Vui lòng nhập đầy đủ họ tên");
+            check = false;
+        }
+        if (employee.email === "") {
+            toast.error("Vui lòng nhập email");
+            check = false;
+        }
+        if (employee.cccd === "") {
+            toast.error("Vui lòng nhập CCCD");
+            check = false;
+        } 
+        if (employee.date === "") {
+            toast.error("Vui lòng chọn ngày cấp");
+            check = false;
+        }
+        if (employee.place === "") {
+            toast.error("Vui lòng chọn nơi cấp");
+            check = false;
+        }
+        if (employee.bdate === "") {
+            toast.error("Vui lòng chọn ngày sinh");
+        }
+        if (employee.sex === "") {
+            toast.error("Vui lòng chọn giới tính");
+        }
+        return check;
+    }
+
     
     const navigate = useNavigate();
     const handleClick = async () => {
-        let res = await updateAnEmployee(employee);
-        console.log(employee);
-        toast.success("Đã chỉnh sửa thành công thông tin nhân viên");
-        setTimeout(() => {
-            navigate("/nhan_vien"); 
-        }, 3000);
+        if (validate()) {
+            let res = await updateAnEmployee(employee);
+            if (res) {
+                toast.success("Đã chỉnh sửa thành công thông tin nhân viên");
+                setTimeout(() => {
+                    navigate("/nhan_vien"); 
+                }, 3000);
+            }
+        } 
     }
 
     return (
@@ -56,7 +92,7 @@ const UpdateEmployee = () => {
                 <Form>
                     <Row className="mb-3">
                         <Form.Group as={Col} >
-                        <Form.Label>Họ</Form.Label>
+                        <Form.Label className="required-field">Họ</Form.Label>
                         <Form.Control 
                             type="text" 
                             placeholder="Nhập họ" 
@@ -66,7 +102,7 @@ const UpdateEmployee = () => {
                         </Form.Group>
 
                         <Form.Group as={Col} >
-                        <Form.Label>Tên</Form.Label>
+                        <Form.Label className="required-field">Tên</Form.Label>
                         <Form.Control 
                             type="text" 
                             placeholder="Nhập tên" 
@@ -78,7 +114,7 @@ const UpdateEmployee = () => {
 
                     <Row className="mb-3">
                         <Form.Group as={Col} >
-                        <Form.Label>Email</Form.Label>
+                        <Form.Label className="required-field">Email</Form.Label>
                         <Form.Control 
                             type="email" 
                             placeholder="Nhập Email" 
@@ -88,7 +124,7 @@ const UpdateEmployee = () => {
                         </Form.Group>
 
                         <Form.Group as={Col} >
-                        <Form.Label>Số điện thoại</Form.Label>
+                        <Form.Label className="required-field">Số điện thoại</Form.Label>
                         <Form.Control 
                             type="phone" 
                             placeholder="Nhập số điện thoại" 
@@ -100,7 +136,7 @@ const UpdateEmployee = () => {
 
                     <Row className="mb-3">
                         <Form.Group as={Col} >
-                        <Form.Label>CCCD</Form.Label>
+                        <Form.Label className="required-field">CCCD</Form.Label>
                         <Form.Control 
                             type="text" 
                             placeholder="Nhập CCCD" 
@@ -110,7 +146,7 @@ const UpdateEmployee = () => {
                         </Form.Group>
 
                         <Form.Group as={Col} >
-                        <Form.Label>Ngày cấp</Form.Label>
+                        <Form.Label className="required-field">Ngày cấp</Form.Label>
                         <Form.Control
                             type="date"
                             placeholder="DateRange"
@@ -123,7 +159,7 @@ const UpdateEmployee = () => {
 
                     <Row className="mb-3">
                         <Form.Group as={Col} >
-                        <Form.Label>Nơi cấp</Form.Label>
+                        <Form.Label className="required-field">Nơi cấp</Form.Label>
                         <Form.Control 
                             type="text" 
                             placeholder="Nhập nơi cấp" 
@@ -133,7 +169,7 @@ const UpdateEmployee = () => {
                         </Form.Group>
 
                         <Form.Group as={Col} >
-                        <Form.Label>Địa chỉ hiện tại</Form.Label>
+                        <Form.Label >Địa chỉ hiện tại</Form.Label>
                         <Form.Control 
                             type="address" 
                             placeholder="Nhập địa chỉ" 
@@ -145,7 +181,7 @@ const UpdateEmployee = () => {
 
                     <Row className="mb-3">
                         <Form.Group as={Col} >
-                        <Form.Label>Ngày sinh</Form.Label>
+                        <Form.Label className="required-field">Ngày sinh</Form.Label>
                         <Form.Control
                             type="date"
                             placeholder="DateRange"
@@ -154,9 +190,22 @@ const UpdateEmployee = () => {
                             onChange={handleChange}
                         />
                         </Form.Group>
-
                         <Form.Group as={Col} >
-                        <Form.Label>Giới tính</Form.Label>
+                        <Form.Label>Mã nhân viên</Form.Label>
+                        <Form.Control 
+                            type="text" 
+                            placeholder="Nhập họ" 
+                            name="firstName" 
+                            value={id} 
+                            disabled />
+                        </Form.Group>
+
+                        
+                    </Row>
+
+                    <Row className="mb-3">
+                    <Form.Group as={Col} >
+                        <Form.Label className="required-field">Giới tính</Form.Label>
                         <Form.Check
                             label="Nam"
                             type="radio"
@@ -176,32 +225,7 @@ const UpdateEmployee = () => {
                         </Form.Group>
                     </Row>
 
-                    <Row className="mb-3">
-                        <Form.Group as={Col} >
-                        <Form.Label>Mã nhân viên</Form.Label>
-                        <Form.Control 
-                            type="text" 
-                            placeholder="Nhập họ" 
-                            name="firstName" 
-                            value={id} 
-                            disabled />
-                        </Form.Group>
-
-                        <Form.Group as={Col} >
-                            <Form.Label>Chức vụ</Form.Label>
-                            <Form.Select
-                                name="pos" 
-                                value={employee.pos}
-                                onChange={handleChange}
-                            >
-                                <option>Bác sĩ</option>
-                                <option>Saler</option>
-                                <option>Quản lý</option>
-                            </Form.Select>
-                        </Form.Group>
-                    </Row>
-
-                    <Button variant="primary float-end" onClick={handleClick}>
+                    <Button variant="primary float-end" onClick={handleClick} disabled={changed === false}>
                         Lưu
                     </Button>
                 </Form>

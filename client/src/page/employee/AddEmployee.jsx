@@ -8,12 +8,13 @@ import Row from 'react-bootstrap/Row';
 import { addEmployee } from "../../services/EmployeeService";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header"
+import { gridRowMaximumTreeDepthSelector } from "@mui/x-data-grid";
 
 const AddEmployee = () => {
-
+    const navigate = useNavigate();
     const [newEmployee, setNewEmployee] = useState({
-        pos: "doctor",
         cccd:"",
+        email:"",
         place:"",
         date:"",
         sex :"",
@@ -21,7 +22,7 @@ const AddEmployee = () => {
         firstName:"",
         lastName:"",
         address:"",
-        role:"employee"
+        bdate:""
     });
 
     const handleChange = (e) => {
@@ -32,15 +33,51 @@ const AddEmployee = () => {
         })
     }
 
-    
-    const navigate = useNavigate();
+    const validate = () => {
+        let check = true;
+        if (newEmployee.firstName === "" || newEmployee.lastName === "") {
+            toast.error("Vui lòng nhập đầy đủ họ tên");
+            check = false;
+        }
+        if (newEmployee.email === "") {
+            toast.error("Vui lòng nhập email");
+            check = false;
+        }
+        if (newEmployee.cccd === "") {
+            toast.error("Vui lòng nhập CCCD");
+            check = false;
+        } 
+        if (newEmployee.phoneNum === "") {
+            toast.error("Vui lòng nhập số điện thoại");
+        }
+        if (newEmployee.date === "") {
+            toast.error("Vui lòng chọn ngày cấp");
+            check = false;
+        }
+        if (newEmployee.place === "") {
+            toast.error("Vui lòng chọn nơi cấp");
+            check = false;
+        }
+        if (newEmployee.bdate === "") {
+            toast.error("Vui lòng chọn ngày sinh");
+        }
+        if (newEmployee.sex === "") {
+            toast.error("Vui lòng chọn giới tính");
+        }
+        return check;
+    }
     const handleClick = async () => {
         console.log(newEmployee);
-        let res = await addEmployee(newEmployee);
-        toast.success("Đã thêm thành công một nhân viên");
-        setTimeout(() => {
-            navigate("/nhan_vien");
-        }, 3000);
+        // console.log(validate());
+        if (validate()) {
+            let res = await addEmployee(newEmployee);
+            if (res) {
+                toast.success("Đã thêm thành công một nhân viên");
+                setTimeout(() => {
+                    navigate("/nhan_vien");
+                }, 3000);
+            }
+        }
     }
 
     return(
@@ -53,36 +90,36 @@ const AddEmployee = () => {
                     <Form>
                         <Row className="mb-3">
                             <Form.Group as={Col} >
-                            <Form.Label>Họ</Form.Label>
+                            <Form.Label className="required-field">Họ</Form.Label>
                             <Form.Control type="text" placeholder="Nhập họ" name="firstName" onChange={handleChange}/>
                             </Form.Group>
 
                             <Form.Group as={Col} >
-                            <Form.Label>Tên</Form.Label>
+                            <Form.Label className="required-field">Tên</Form.Label>
                             <Form.Control type="text" placeholder="Nhập tên" name="lastName" onChange={handleChange}/>
                             </Form.Group>
                         </Row>
 
                         <Row className="mb-3">
                             <Form.Group as={Col} >
-                            <Form.Label>Email</Form.Label>
+                            <Form.Label className="required-field">Email</Form.Label>
                             <Form.Control type="email" placeholder="Nhập Email" name="email" onChange={handleChange}/>
                             </Form.Group>
 
                             <Form.Group as={Col} >
-                            <Form.Label>Số điện thoại</Form.Label>
+                            <Form.Label className="required-field">Số điện thoại</Form.Label>
                             <Form.Control type="phone" placeholder="Nhập số điện thoại" name="phoneNum" onChange={handleChange}/>
                             </Form.Group>
                         </Row>
 
                         <Row className="mb-3">
                             <Form.Group as={Col} >
-                            <Form.Label>CCCD</Form.Label>
+                            <Form.Label className="required-field">CCCD</Form.Label>
                             <Form.Control type="text" placeholder="Nhập CCCD" name="cccd" onChange={handleChange}/>
                             </Form.Group>
 
                             <Form.Group as={Col} >
-                            <Form.Label>Ngày cấp</Form.Label>
+                            <Form.Label className="required-field">Ngày cấp</Form.Label>
                             <Form.Control
                                 type="date"
                                 placeholder="DateRange"
@@ -94,7 +131,7 @@ const AddEmployee = () => {
 
                         <Row className="mb-3">
                             <Form.Group as={Col} >
-                            <Form.Label>Nơi cấp</Form.Label>
+                            <Form.Label className="required-field">Nơi cấp</Form.Label>
                             <Form.Control type="text" placeholder="Nhập nơi cấp" name="place" onChange={handleChange}/>
                             </Form.Group>
 
@@ -106,7 +143,7 @@ const AddEmployee = () => {
 
                         <Row className="mb-3">
                             <Form.Group as={Col} >
-                            <Form.Label>Ngày sinh</Form.Label>
+                            <Form.Label className="required-field">Ngày sinh</Form.Label>
                             <Form.Control
                                 type="date"
                                 placeholder="DateRange"
@@ -116,7 +153,17 @@ const AddEmployee = () => {
                             </Form.Group>
 
                             <Form.Group as={Col} >
-                            <Form.Label>Giới tính</Form.Label>
+                            <Form.Label>Mã nhân viên</Form.Label>
+                            <Form.Control 
+                                type="text" 
+                                placeholder="Mã nhân viên" 
+                                disabled />
+                            </Form.Group>
+                        </Row>
+
+                        <Row className="mb-3">
+                            <Form.Group as={Col} >
+                            <Form.Label className="required-field">Giới tính</Form.Label>
                             <Form.Check
                                 label="Nam"
                                 name="sex"
@@ -131,30 +178,6 @@ const AddEmployee = () => {
                                 value="Female"
                                 onChange={handleChange}
                             />
-                            </Form.Group>
-                        </Row>
-
-                        <Row className="mb-3">
-                            <Form.Group as={Col} >
-                            <Form.Label>Mã nhân viên</Form.Label>
-                            <Form.Control 
-                                type="text" 
-                                placeholder="Mã nhân viên" 
-                                disabled />
-                            </Form.Group>
-
-                            <Form.Group as={Col} >
-                                <Form.Label>Chức vụ</Form.Label>
-                                <Form.Select
-                                    name="pos" 
-                                    defaultValue="Chọn chức vụ"
-                                    onChange={handleChange}
-                                >
-                                    <option>Chọn chức vụ</option>
-                                    <option>Bác sĩ</option>
-                                    <option>Saler</option>
-                                    <option>Quản lý</option>
-                                </Form.Select>
                             </Form.Group>
                         </Row>
 

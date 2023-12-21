@@ -134,7 +134,6 @@ const Order = () => {
                         }}
                         setSelectionModel={selectionModel}
                         sx={{
-                            boxShadow: 2,
                             borderRadius: 3,
                             '& .MuiDataGrid-cell:hover': {
                                 color: 'primary.main',

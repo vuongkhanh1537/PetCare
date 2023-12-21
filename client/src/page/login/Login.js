@@ -15,8 +15,8 @@ function Login() {
     const [password, setPassword] = useState('');
 
     useEffect(() => {
-        let token = localStorage.getItem("token");
-        if (token) {
+        let check = localStorage.getItem("username");
+        if (check) {
             navigate("/");
         }
     })
@@ -27,44 +27,36 @@ function Login() {
         } else {
             let res = await loginApi(username, password);
             localStorage.setItem("token", "checked");
-            navigate("/dashboard");
             console.log(res);
+            // if (res && res.status === 200) {
+            //     toast.success("Đăng nhập thành công");
+            //     // navigate("/dashboard");
+            // }
+            // if (res && (res.status === 404 || res.status === 401)) {
+            //     toast.error("Sai thông tin đăng nhập");
+            // }
             if (res) {
-                toast.success("Đăng nhập thành công");
-            } else {
-                if (res && res.status === 400) {
+                if (res.name) {
+                    toast.success("Đăng nhập thành công");
+                    localStorage.setItem("username", res.name);
+                    localStorage.setItem("id", res.id);
+                    navigate("/");
+                } else if (res.status === 404) {
                     toast.error("Sai thông tin đăng nhập");
+                } else if (res.status === 401) {
+                    toast.error("Sai mật khẩu");
                 }
-            }
+            } 
+            
         }
     }
 
-    // const handleClick = () => {
-    //     fetch('http://localhost:8080/login', 
-    //     {
-    //         method: "POST",
-    //         headers: {
-    //             'Accept': 'application/json',
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({username : username, password : password})
-    //     })
-    //     .then(function(response) {
-    //         return response.text();
-    //     })
-    //     .then(function(text) {
-    //         console.log('Request successful', text);
-    //     })
-    //     .catch(function(error) {
-    //         console.log('Request failed', error);
-    //     });
-    // }
     return (
     <>
-        <nav class="navbar navbar-light ">
+        <nav className="navbar navbar-light ">
             <div class="container-fluid">
-                <a class="navbar-brand">
-                <img src={LogoBrand} alt="" class="d-inline-block align-text-top" />
+                <a className="navbar-brand">
+                <img src={LogoBrand} alt="" className="d-inline-block align-text-top" />
                 </a>
             </div>
         </nav>

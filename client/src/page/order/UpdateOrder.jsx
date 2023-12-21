@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import Header from '../../components/Header';
-import { Box, ListItem, List } from '@mui/material';
+import { Box, ListItem, List, TextField } from '@mui/material';
 import { ProductItem, ProductBar, OnlyReadProductItem, OnlyReadProductBar } from './components/ProductItem';
 import ProductList from './components/ProductList';
 import { Button, Stack } from 'react-bootstrap/';
@@ -162,9 +162,12 @@ const UpdateOrder = () => {
         flexDirection="column"
         justifyContent="space-between"
         margin=" 0 35px 0 0">
-          <ChargedStaff 
-            personName = {personName}
-            setPersonName = {setPersonName}/>
+          <TextField
+            disabled
+            id="outlined-disabled"
+            label="Nhân viên"
+            defaultValue="Employee name"
+          />
           <h4>Thành tiền: ₫{totalBill}</h4>
           <Box
             display="flex" 
@@ -175,7 +178,7 @@ const UpdateOrder = () => {
               },
             }}
           >
-            <Stack gap={2} className="">
+            <Stack gap={2}>
               <Button 
                 variant='secondary' 
                 value="1" 
@@ -185,7 +188,7 @@ const UpdateOrder = () => {
                   value="2" 
                   onClick={handleBillClick}>Xác nhận đơn</Button>
             </Stack>
-            <Stack gap={2} className="c">
+            <Stack gap={2}>
               <Button 
                 variant='danger' 
                 value="4"

@@ -37,8 +37,8 @@ const Employee = () => {
             align: "center"
         },
         {
-            field: 'pos',
-            headerName: 'Chức vụ',
+            field: 'phoneNum',
+            headerName: 'Số điện thoại',
             width: 100,
             flex: 1,
             headerAlign: "center",
@@ -124,7 +124,6 @@ const Employee = () => {
                             }}
                             selectionModel={selectionModel}
                             sx={{
-                                boxShadow: 2,
                                 borderRadius: 3,
                                 '& .MuiDataGrid-cell:hover': {
                                   color: 'primary.main',

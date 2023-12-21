@@ -16,6 +16,12 @@ body,
   gap: 10px;
 }
 
+.required-field::after {
+  content: "*";
+  color: red;
+  margin-left: 4px;
+}
+
 .app {
   display: flex;
   position: relative;

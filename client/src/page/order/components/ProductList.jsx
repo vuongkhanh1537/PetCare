@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { fetchAllProduct } from "../../../services/ProductServices";
+import { toast } from 'react-toastify';
 
 const ProductList = (props) => {
     const { addItem } = props;
@@ -15,7 +16,7 @@ const ProductList = (props) => {
           align: "left"
       },
       {
-          field: 'category',
+          field: 'type2',
           headerName: 'Loại',
           width: 100,
           flex: 1,
@@ -39,7 +40,7 @@ const ProductList = (props) => {
           align: "center"
       },
       {
-          field: 'supplier',
+          field: 'provider',
           headerName: 'Nhà cung cấp',
           width: 100,
           flex: 1,
@@ -64,6 +65,10 @@ const ProductList = (props) => {
     }, []);
   
     const handleClick = (params) => {
+      if (params.row.quantity === 0) {
+        toast.warning("Sản phẩm hiện tại đã hết hàng");
+        return;
+      }
       addItem(params.row);
     } 
     return (

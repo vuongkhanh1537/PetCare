@@ -11,16 +11,7 @@ import { addProduct } from "../../services/ProductServices"
 
 const AddProduct = () => {
     const navigate = useNavigate();
-    const [newProduct, setNewProduct] = useState({
-        productName: "",
-        supplier: "",
-        category: "",
-        subCategory: "",
-        description: "",
-        petType: "",
-        quantity: 0,
-        cost: 0
-    });
+    const [newProduct, setNewProduct] = useState({});
 
     const handleChange = (e) => {
         const name = e.target.name;
@@ -33,12 +24,13 @@ const AddProduct = () => {
     const handleClick = async () => {
         console.log(newProduct);
         let res = await addProduct(newProduct);
+        console.log(res);
         if (res) {
             toast.success("Đã thêm thành công sản phẩm mới")
+            setTimeout(() => {
+                navigate("/san_pham");
+            }, 3000);
         }
-        setTimeout(() => {
-            navigate("/san_pham");
-        }, 3000);
     }
 
 
@@ -52,7 +44,7 @@ const AddProduct = () => {
                 <Form>
                     <Row className="mb-3">
                         <Form.Group as={Col} >
-                        <Form.Label>Tên sản phẩm</Form.Label>
+                        <Form.Label className="required-field">Tên sản phẩm</Form.Label>
                         <Form.Control 
                             type="text" 
                             placeholder="Nhập tên sản phẩm" 
@@ -71,10 +63,10 @@ const AddProduct = () => {
 
                     <Row className="mb-3">
                         <Form.Group as={Col} >
-                            <Form.Label>Nhà cung cấp</Form.Label>
+                            <Form.Label className="required-field">Nhà cung cấp</Form.Label>
                             <Form.Select 
                                 defaultValue="Chọn nhà cung cấp" 
-                                name="supplier" 
+                                name="provider" 
                                 onChange={handleChange}>
                                     <option>Chọn nhà cung cấp</option>
                                     <option>Royal Canin</option>
@@ -83,38 +75,17 @@ const AddProduct = () => {
                         </Form.Group>
                     
                         <Form.Group as={Col} >
-                            <Form.Label>Dành cho thú cưng</Form.Label>
-                            <Form.Select defaultValue="Loại thú cưng" name="petType" onChange={handleChange}>
+                            <Form.Label className="required-field">Dành cho thú cưng</Form.Label>
+                            <Form.Select defaultValue="Loại thú cưng" name="type1" onChange={handleChange}>
                                 <option>Chọn thú cưng</option>
                                 <option>Chó</option>
                                 <option>Mèo</option> 
                             </Form.Select>
                         </Form.Group>
                     </Row>
-
                     <Row className="mb-3">
                         <Form.Group as={Col} >
-                            <Form.Label>Loại</Form.Label>
-                            <Form.Select defaultValue="Chọn loại" name="category" onChange={handleChange}>
-                                <option>Chọn loại</option>
-                                <option>Nhà ở</option>
-                                <option>Đồ chơi</option>
-                                <option>Thực phẩm</option>
-                            </Form.Select>
-                        </Form.Group>
-
-                        <Form.Group as={Col} >
-                        <Form.Label>Phân loại</Form.Label>
-                        <Form.Select 
-                            placeholder="Nhập phân loại" 
-                            name="subCategory" 
-                            onChange={handleChange} />                       
-                        </Form.Group>
-                    </Row>
-
-                    <Row className="mb-3">
-                        <Form.Group as={Col} >
-                        <Form.Label>Giá sản phẩm</Form.Label>
+                        <Form.Label className="required-field">Giá sản phẩm</Form.Label>
                         <Form.Control 
                             type="number"
                             placeholder="Nhập giá sản phẩm" 
@@ -123,14 +94,30 @@ const AddProduct = () => {
                         </Form.Group>
 
                         <Form.Group as={Col} >
-                        <Form.Label>Số lượng</Form.Label>
+                        <Form.Label className="required-field">Số lượng</Form.Label>
                         <Form.Control 
+                            defaultValue={0}
                             type="number"
                             placeholder="Nhập số lượng" 
                             name="quantity" 
                             onChange={handleChange}/>
                         </Form.Group>
                     </Row>
+
+                    <Row className="mb-3">
+                        <Form.Group as={Col} >
+                            <Form.Label className="required-field">Loại</Form.Label>
+                            <Form.Select defaultValue="Chọn loại" name="type2" onChange={handleChange}>
+                                <option disabled>Chọn loại</option>
+                                <option>Lồng</option>
+                                <option>Rọ mõm</option>
+                                <option>Đồ chơi</option>
+                                <option>Thức ăn</option>
+                                <option>Khay đựng thức ăn</option>
+                            </Form.Select>
+                        </Form.Group>
+                    </Row>
+
 
                     <Form.Group className="mb-3" >
                     <Form.Label>Mô tả</Form.Label>
