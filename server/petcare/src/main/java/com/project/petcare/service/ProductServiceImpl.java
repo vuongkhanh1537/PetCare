@@ -55,4 +55,23 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
     // Other methods...
+
+    @Override
+    public List<String> getAllPetType() {
+        // TODO Auto-generated method stub
+        return productRepository.findAll()
+                .stream()
+                .map(Product::getType1)
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> getAllCategory() {
+        return productRepository.findAll()
+                .stream()
+                .map(Product::getType2)
+                .distinct()
+                .collect(Collectors.toList());
+    }
 }
