@@ -1,8 +1,11 @@
 package com.project.petcare.service;
 
 import java.net.http.HttpResponse;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -58,6 +61,31 @@ public class ProductProcService {
         return new OrderDetail(orderRepository.findOrderById(orderId));
     }
 
+    private void mailSending(Employee fromEmp, Integer orderId, Integer status){
+        Order findOrder = orderRepository.findOrderById(orderId);
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        LocalDate currDate = LocalDate.now();
+        DateTimeFormatter dateFromatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        String date = currDate.format(dateFromatter);
+        LocalTime currTime = LocalTime.now();
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        String time = currTime.format(timeFormatter);
+        mailMessage.setFrom(adminMail);
+        if (status == 3){
+            mailMessage.setTo(fromEmp.getEmail());
+            mailMessage.setSubject("ĐƠN HÀNG ĐÃ ĐƯỢC THANH TOÁN");
+            mailMessage.setText("Đơn hàng "+orderId+" của " + fromEmp.getLastName() + " quản lý đã được thanh toán vào lúc "+ time + " " + date + ". \n" + findOrder.toString() + "\n" +
+                                "Xin chúc mừng đơn thứ "+ orderRepository.countOrder(fromEmp.getId())+ " của " + fromEmp.getLastName() +"!" );
+            mailSender.send(mailMessage);
+        }
+        if (status == 4){
+            mailMessage.setTo(fromEmp.getEmail());
+            mailMessage.setSubject("ĐƠN HÀNG ĐÃ BỊ HỦY");
+            mailMessage.setText("Đơn hàng "+findOrder.getId()+" của " + fromEmp.getLastName() + " quản lý đã bị hủy vào lúc "+ time + " " + date + ".\n" + findOrder.toString()+ ". \n");
+            mailSender.send(mailMessage);
+        }
+    }
+
     public Order addOrder(List<ProductAmount>product, Integer empId, Integer status){
         Order newOrder = new Order();
         Employee fromEmp = employeeRepository.findEmployee(empId);
@@ -65,17 +93,26 @@ public class ProductProcService {
         newOrder.setStatus(status);
         Integer totalPrice = 0;
         newOrder.setOrderDate(LocalDate.now());
-        Integer orderId = orderRepository.save(newOrder).getId();
+        newOrder = orderRepository.save(newOrder);
+        newOrder.setProdInOrder(new ArrayList<ProdInOrder>());
+        Integer orderId = newOrder.getId();
+        //update status:
+        if (status == 3) {
+            newOrder.setPayDate(LocalDate.now());
+            newOrder.setStatus(status);
+            newOrder = orderRepository.save(newOrder);
+        }
+        else {
+            newOrder.setStatus(status);
+            newOrder = orderRepository.save(newOrder);
+        } 
         for (ProductAmount prod : product){
             if (status == 3 ){
                 productRepository.updateQuantity(productRepository.findProductById(prod.getProductId()).getQuantity()- prod.getAmount(), prod.getProductId());
-                orderRepository.updateStatusPaid(status, orderId, LocalDate.now());
             }
             else if (status == 2) {
                 productRepository.updateQuantity(productRepository.findProductById(prod.getProductId()).getQuantity()- prod.getAmount(), prod.getProductId());
-                orderRepository.updateStatus(status, orderId);
             }
-            else orderRepository.updateStatus(status, orderId);           
             ProdInOrder newOrderProd = new ProdInOrder();
             newOrderProd.setOrder(newOrder);
             newOrderProd.setProduct(productRepository.findProductById(prod.getProductId()));
@@ -84,20 +121,13 @@ public class ProductProcService {
             newOrderProd.setTotalPrice(newOrderProd.getAmount()*newOrderProd.getUnitPrice());
             totalPrice += newOrderProd.getTotalPrice();
             newOrderProd = prodInOrderRepository.save(newOrderProd);
+            newOrder.getProdInOrder().add(newOrderProd);
             // newOrder.getProdInOrder().add(newOrderProd);
         }
-        orderRepository.updateTotalPrice(totalPrice, orderId);
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setFrom(adminMail);
-        if (status == 3){
-            mailMessage.setTo(fromEmp.getEmail());
-            mailMessage.setSubject("ĐƠN HÀNG ĐÃ ĐƯỢC THANH TOÁN");
-            mailMessage.setText("Đơn hàng "+orderId+" của " + fromEmp.getLastName() + " quản lý đã được thanh toán vào lúc "+ LocalDateTime.now()+ ".\n" +
-                                "Xin chúc mừng đơn thứ "+ orderRepository.countOrder(fromEmp.getId())+ " của " + fromEmp.getLastName() +"!" );
-            mailSender.send(mailMessage);
-        }
-        
-        return orderRepository.findOrderById(orderId);
+        newOrder.setTotalPrice(totalPrice);
+        orderRepository.save(newOrder);
+        mailSending(fromEmp, orderId, status);
+        return newOrder;
     }
 
     public String changeOrder(List<ProductAmount>product, Integer status, Integer orderId){
@@ -125,8 +155,18 @@ public class ProductProcService {
                 if (productRepository.findProductById(prod.getProductId()).getQuantity() - prod.getAmount() < 0) return "Cannot pay: Out of number!";
             }
         }
+        if (status == 3){
+            findOrder.setPayDate(LocalDate.now());
+            findOrder.setStatus(status);
+            findOrder = orderRepository.save(findOrder);   
+        }
+        else {
+            findOrder.setStatus(status);
+            findOrder = orderRepository.save(findOrder);
+        }
 
         //Update order info
+        
         for (ProductAmount prod : product){
             boolean find = false;       
             for (ProdInOrder prodOrder : prodList){
@@ -135,13 +175,13 @@ public class ProductProcService {
                     //update number of product in store
                     if (status == 3 && findOrder.getStatus() == 1 ) {
                         productRepository.updateQuantity(productRepository.findProductById(prod.getProductId()).getQuantity()- prod.getAmount(), prod.getProductId());
-                        orderRepository.updateStatusPaid(status, orderId, LocalDate.now());
+                        //orderRepository.updateStatusPaid(status, orderId, LocalDate.now());
                     }
                     else if (status == 2) {
                         productRepository.updateQuantity(productRepository.findProductById(prod.getProductId()).getQuantity()- prod.getAmount(), prod.getProductId());
-                        orderRepository.updateStatus(status, orderId);
+                        //orderRepository.updateStatus(status, orderId);
                     }
-                    else orderRepository.updateStatus(status, orderId);
+                    //else orderRepository.updateStatus(status, orderId);
 
                     prodOrder.setAmount(prod.getAmount());
                     prodOrder.setTotalPrice(prodOrder.getUnitPrice()*prod.getAmount());
@@ -178,26 +218,9 @@ public class ProductProcService {
                 prodInOrderRepository.delete(prodList.get(i));
             }
         }
-
-        //update total price of order
-        orderRepository.updateTotalPrice(totalPrice, orderId);
-
-        //send mail to Employee
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setFrom(adminMail);
-        if (status == 3){
-            mailMessage.setTo(fromEmp.getEmail());
-            mailMessage.setSubject("ĐƠN HÀNG ĐÃ ĐƯỢC THANH TOÁN");
-            mailMessage.setText("Đơn hàng "+findOrder.getId()+" của " + fromEmp.getLastName() + " quản lý đã được thanh toán vào lúc "+ LocalDateTime.now()+ ".\n" +
-                                "Xin chúc mừng đơn thứ "+ orderRepository.countOrder(fromEmp.getId())+ " của " + fromEmp.getLastName() +"!" );
-            mailSender.send(mailMessage);
-        }
-        if (status == 4){
-            mailMessage.setTo(fromEmp.getEmail());
-            mailMessage.setSubject("ĐƠN HÀNG ĐÃ BỊ HỦY");
-            mailMessage.setText("Đơn hàng "+findOrder.getId()+" của " + fromEmp.getLastName() + " quản lý đã bị hủy vào lúc "+ LocalDateTime.now()+ ".\n");
-            mailSender.send(mailMessage);
-        }
+        findOrder.setTotalPrice(totalPrice);
+        orderRepository.save(findOrder);
+        mailSending(fromEmp, orderId, status);
         return "Update success!";
     }
 }

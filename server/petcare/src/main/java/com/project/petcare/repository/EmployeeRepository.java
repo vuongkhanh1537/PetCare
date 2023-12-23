@@ -22,6 +22,9 @@ public interface EmployeeRepository extends JpaRepository<Employee,Integer> {
     @Query("SELECT e FROM Employee e WHERE e.id= ?1")
     public Employee findEmployee(Integer id);   
 
+    @Query("select e.isDel from Employee e where e.email = ?1")
+    public Boolean checkIsDel(String email);
+
     @Transactional
     @Modifying
     @Query("UPDATE Employee e set e.cccd = ?1 where e.id = ?2")
