@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { DataGrid, GridToolbar } from "@mui/x-data-grid"
 import { useEffect, useState } from "react";
-import { Link, Routes, Route, useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import Button from "react-bootstrap/esm/Button";
 import { fetchAllProduct, deleteAnProduct } from "../../services/ProductServices";
 import Header from "../../components/Header"
@@ -9,6 +9,8 @@ import { toast } from 'react-toastify';
 
 const Product = () => {
     const navigate = useNavigate();
+    const [top, setTop] = useOutletContext();
+    let countId = 0;
     const columns = [
         { field: 'productId', headerName: 'ID', width: 90, },
         {
@@ -62,9 +64,21 @@ const Product = () => {
     const getProduct = async () => {
         try {
             let res = await fetchAllProduct();
-            console.log(res.data); 
+            // console.log(res.data); 
             if (res && res.data) {
-                setRows(res.data);
+                let newData = res.data;
+                if (newData.length > 0) {
+                    newData = newData.map((item, index) => {
+                        return {...item, id: index};
+                    })
+                    if (top === true) {
+                        const lastObject = newData[newData.length - 1];
+                        const rest = newData.slice(0, newData.length - 1);
+                        newData = [lastObject, ...rest];
+                    }
+                    setRows(newData);
+                }
+                // console.log(rows); 
             }
         } catch (err) {
             console.log(err);
@@ -73,6 +87,7 @@ const Product = () => {
 
     const handleClick = (params) => {
         const id = params.row.productId;
+        // console.log(rows);
         navigate("/san_pham/" + id);
     }
 
@@ -110,7 +125,7 @@ const Product = () => {
                             >Thêm sản phẩm</Button>
                     </div>
                     <DataGrid
-                        getRowId={(row) => row.productId}
+                        getRowId={(row) => row.id}
                         rows={rows}
                         columns={columns}
                         onRowClick={handleClick}

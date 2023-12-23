@@ -42,9 +42,9 @@ export default function ChargedStaff(props) {
 
   return (
     <div>
-      <h4>Nhân viên phụ trách</h4>
+      <h4 className='required-field'>Nhân viên phụ trách</h4>
       <FormControl sx={{ m: 1, width: 300 }}>
-        <InputLabel>Nhân viên</InputLabel>
+        <InputLabel >Nhân viên</InputLabel>
         <Select
           value={personName.name}
           onChange={handleChange}

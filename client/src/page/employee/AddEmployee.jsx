@@ -42,6 +42,9 @@ const AddEmployee = () => {
         if (newEmployee.email === "") {
             toast.error("Vui lòng nhập email");
             check = false;
+        } else if (!newEmployee.email.includes('@')) {
+            toast.warning("Sai định dạng email");
+            check = false;
         }
         if (newEmployee.cccd === "") {
             toast.error("Vui lòng nhập CCCD");
@@ -67,15 +70,21 @@ const AddEmployee = () => {
         return check;
     }
     const handleClick = async () => {
-        console.log(newEmployee);
+        // console.log(newEmployee);
         // console.log(validate());
         if (validate()) {
-            let res = await addEmployee(newEmployee);
-            if (res) {
-                toast.success("Đã thêm thành công một nhân viên");
-                setTimeout(() => {
-                    navigate("/nhan_vien");
-                }, 3000);
+            try {
+                let res = await addEmployee(newEmployee);
+                if (res && res.status === 400) {
+                    toast.error("CCCD đã tồn tại");
+                } else {
+                    toast.success("Đã thêm thành công một nhân viên");
+                    setTimeout(() => {
+                        navigate("/nhan_vien");
+                    }, 3000);
+                }
+            } catch (err) {
+                console.log(err);
             }
         }
     }

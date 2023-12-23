@@ -26,7 +26,6 @@ function Login() {
             toast.warn("Vui lòng điền đầy đủ thông tin đăng nhập!");
         } else {
             let res = await loginApi(username, password);
-            localStorage.setItem("token", "checked");
             console.log(res);
             // if (res && res.status === 200) {
             //     toast.success("Đăng nhập thành công");

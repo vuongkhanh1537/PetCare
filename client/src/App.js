@@ -1,4 +1,4 @@
-import {Routes, Route, useNavigate, Outlet} from 'react-router-dom'
+import {Routes, Route, Outlet} from 'react-router-dom';
 import { ToastContainer} from 'react-toastify';
 import Login from './page/login/Login';
 import { Home } from './components/Home';
@@ -13,6 +13,7 @@ import Order from './page/order/Order';
 import AddOrder from './page/order/AddOrder';
 import UpdateOrder from './page/order/UpdateOrder';
 import OnlyReadOrder from './page/order/OnlyReadOrder';
+import HomeProduct from './page/product/HomeProduct';
 
 function App() {
 
@@ -22,7 +23,7 @@ function App() {
 
         <Route path="/" element={<Home/>}>
           <Route path="/dashboard" element={<Dashboard/>} />
-          <Route path="/san_pham" element={<Outlet />}>
+          <Route path="/san_pham" element={<HomeProduct />}>
             <Route index element={<Product />} />
             <Route path="add" element={<AddProduct />} /> 
             <Route path=":id" element={<UpdateProduct />} />

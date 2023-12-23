@@ -46,6 +46,9 @@ const UpdateEmployee = () => {
         if (employee.email === "") {
             toast.error("Vui lòng nhập email");
             check = false;
+        } else if (!employee.email.includes('@')) {
+            toast.warning("Sai định dạng email");
+            check = false;
         }
         if (employee.cccd === "") {
             toast.error("Vui lòng nhập CCCD");
@@ -211,7 +214,7 @@ const UpdateEmployee = () => {
                             type="radio"
                             name="sex"
                             value="Nam"
-                            checked={employee.sex === "male"}
+                            checked={employee.sex === "Male"}
                             onChange={handleChange}
                         />
                         <Form.Check

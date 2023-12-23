@@ -38,14 +38,44 @@ const UpdateProduct = () => {
         })
     }
 
+    const validate = () => {
+        let check = true;
+        if (product.productName === "") {
+            toast.error("Vui lòng nhập tên sản phẩm");
+            check = false;
+        }
+        if (product.provider === "") {
+            toast.error("Vui lòng chọn nhà cung cấp");
+            check = false;
+        }
+        if (product.type1 === "") {
+            toast.error("Vui lòng chọn sản phẩm dành cho thú cưng");
+            check = false;
+        }
+        if (product.cost === "") {
+            toast.error("Vui lòng nhập giá sản phẩm");
+            check = false;
+        }
+        if (product.quantity === "") {
+            toast.error("Vui lòng nhập số lượng sản phẩm");
+        }
+        if (product.type2 === "") {
+            toast.error("Vui lòng chọn loại sản phẩm");
+            check = false;
+        }
+        return check;
+    }
+
     const handleClick = async () => {
-        console.log(product);
-        let res = await updateAnProduct(product);
-        if (res) {
-            toast.success("Đã cập nhật một sản phẩm");
-            setTimeout(() => {
-                navigate("/san_pham");
-            }, 3000);
+        // console.log(product);
+        if (validate()) {
+            let res = await updateAnProduct(product);
+            if (res) {
+                toast.success("Đã cập nhật một sản phẩm");
+                setTimeout(() => {
+                    navigate("/san_pham");
+                }, 3000);
+            }
         }
     }
 
@@ -124,6 +154,7 @@ const UpdateProduct = () => {
                             type="number"
                             placeholder="Nhập số lượng" 
                             name="quantity" 
+                            min={0}
                             value={product.quantity}
                             onChange={handleChange}/>
                         </Form.Group>

@@ -1,10 +1,8 @@
 import React, {useEffect, useState} from 'react'
 import Header from '../../components/Header';
 import { Box, ListItem, List, TextField } from '@mui/material';
-import { ProductItem, ProductBar, OnlyReadProductItem, OnlyReadProductBar } from './components/ProductItem';
-import ProductList from './components/ProductList';
+import { OnlyReadProductItem, OnlyReadProductBar } from './components/ProductItem';
 import Button from 'react-bootstrap/esm/Button';
-import ChargedStaff from './components/ChargedStaff';
 import { toast } from "react-toastify";
 import { fetchAnOrder, updateOrder } from '../../services/OrderService';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -13,7 +11,8 @@ const OnlyReadOrder = (props) => {
   const navigate = useNavigate();
   const [orderList, setOrderList] = useState([]);
   const [detail, setDetail] = useState({});
-  const [personName, setPersonName] = useState({id: 0, name:""});
+  const [personName, setPersonName] = useState();
+  const [isLoading, setLoading] = useState(false);
 
   const { id } = useParams();
   const order_status = ["Đã thanh toán","Đã lưu", "Đang xử lý", "Đã thanh toán", "Đã huỷ"];
@@ -26,7 +25,9 @@ const OnlyReadOrder = (props) => {
     const res = await fetchAnOrder(id);
     if (res) {
         console.log(res);
-        let tmp = res;
+        let tmp = res.order;
+        setPersonName(res.empName);
+        
         const data = tmp.prodInOrder.map(item => ({
             product: item.product,
             amount: item.amount,
@@ -53,7 +54,9 @@ const OnlyReadOrder = (props) => {
         navigate("/don_hang");
         return;
     }
+    setLoading(true);
     let res = await updateOrder(id, status, data);
+    setLoading(false);
     console.log(res);
     if (res && res.status === 400) {
       toast.error("Sản phẩm hiện tại không đủ số lượng");
@@ -66,7 +69,7 @@ const OnlyReadOrder = (props) => {
   }
 
   const isPaymentDisabled = detail.status === "Đã thanh toán" || detail.status === "Đã huỷ";
-
+  const isConfirmedDisable = detail.status === "Đang xử lý";
   return (
   <main className="content">  
     <Box m = "0 30px 10px 30px">
@@ -133,7 +136,8 @@ const OnlyReadOrder = (props) => {
             disabled
             id="outlined-disabled"
             label="Nhân viên"
-            defaultValue="Employee name"
+            defaultValue="name"
+            value={personName}
           />
           <h4>Thành tiền: ₫{detail.totalPrice}</h4>
           <Box
@@ -141,7 +145,7 @@ const OnlyReadOrder = (props) => {
             flexDirection="column"
             justifyContent="space-between"
             rowGap={1}>
-            <Box
+            {/* <Box
               display="flex"
               justifyContent="space-between">
                 <Button 
@@ -152,15 +156,17 @@ const OnlyReadOrder = (props) => {
                 <Button 
                     variant='success' 
                     value="2" 
-                    disabled={isPaymentDisabled}
+                    disabled={isPaymentDisabled || isConfirmedDisable}
                     onClick={handleBillClick}>Xác nhận đơn</Button>
-            </Box>
+            </Box> */}
 
             <Button 
-                variant='primary' 
-                value="3" 
-                disabled={isPaymentDisabled}
-                onClick={handleBillClick}>Thanh toán</Button>
+              variant='primary' 
+              value="3" 
+              disabled={isPaymentDisabled || isLoading}
+              onClick={handleBillClick}>
+                {isLoading ? 'Loading...' : 'Thanh toán'}
+            </Button>
           </Box>
       </Box>
     </Box>

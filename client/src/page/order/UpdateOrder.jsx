@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from 'react'
 import Header from '../../components/Header';
 import { Box, ListItem, List, TextField } from '@mui/material';
-import { ProductItem, ProductBar, OnlyReadProductItem, OnlyReadProductBar } from './components/ProductItem';
+import { ProductItem, ProductBar } from './components/ProductItem';
 import ProductList from './components/ProductList';
 import { Button, Stack } from 'react-bootstrap/';
-import ChargedStaff from './components/ChargedStaff';
 import { toast } from "react-toastify";
 import { fetchAnOrder, updateOrder } from '../../services/OrderService';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -13,7 +12,7 @@ const UpdateOrder = () => {
   const navigate = useNavigate();
   const [orderList, setOrderList] = useState([]);
   const [totalBill, setTotalBill] = useState(0);
-  const [personName, setPersonName] = useState({id: 0, name:""});
+  const [personName, setPersonName] = useState("");
 
   const { id } = useParams();
   const order_status = ["Đã thanh toán","Đã lưu", "Đang xử lý", "Đã thanh toán", "Đã huỷ"];
@@ -26,7 +25,8 @@ const UpdateOrder = () => {
     const res = await fetchAnOrder(id);
     if (res) {
         console.log(res);
-        let tmp = res;
+        let tmp = res.order;
+        setPersonName(res.empName);
         const data = tmp.prodInOrder.map(item => ({
             product: item.product,
             amount: item.amount,
@@ -167,6 +167,7 @@ const UpdateOrder = () => {
             id="outlined-disabled"
             label="Nhân viên"
             defaultValue="Employee name"
+            value={personName}
           />
           <h4>Thành tiền: ₫{totalBill}</h4>
           <Box

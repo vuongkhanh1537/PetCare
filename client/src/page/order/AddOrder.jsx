@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import Header from '../../components/Header';
 import { Box, ListItem, List } from '@mui/material';
-import { ProductItem, ProductBar, OnlyReadProductItem, OnlyReadProductBar } from './components/ProductItem';
+import { ProductItem, ProductBar } from './components/ProductItem';
 import ProductList from './components/ProductList';
 import Button from 'react-bootstrap/esm/Button';
 import ChargedStaff from './components/ChargedStaff';
@@ -14,6 +14,7 @@ const AddOrder = () => {
   const [orderList, setOrderList] = useState([]);
   const [totalBill, setTotalBill] = useState(0);
   const [personName, setPersonName] = useState({id: 0, name:""});
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     const id = localStorage.getItem("id");
@@ -84,7 +85,9 @@ const AddOrder = () => {
     const id = personName.id;
     const status = parseInt(e.target.value);
     // console.log(data, id, status);
+    setLoading(true);
     let res = await addOrder(id, status, data);
+    setLoading(false);
     console.log(res);
     if (res) {
       toast.success("Tạo đơn hàng thành công");
@@ -169,7 +172,7 @@ const AddOrder = () => {
               <Button variant='success' value="2" onClick={handleAddBillClick}>Xác nhận đơn</Button>
             </Box>
            
-            <Button variant='primary' value="3" onClick={handleAddBillClick}>Thanh toán</Button>
+            <Button variant='primary' value="3" disabled={isLoading} onClick={handleAddBillClick}>{isLoading ? 'Loading...' : 'Thanh toán'}</Button>
         
           </Box>
       </Box>

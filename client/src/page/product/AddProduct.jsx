@@ -5,13 +5,21 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import Header from "../../components/Header"
 import { addProduct } from "../../services/ProductServices"
 
 const AddProduct = () => {
     const navigate = useNavigate();
-    const [newProduct, setNewProduct] = useState({});
+    const [top, setTop] = useOutletContext();
+    const [newProduct, setNewProduct] = useState({
+        productName: "",
+        provider: "",
+        type1: "",
+        cost: "",
+        quantity: 0,
+        type2: "",
+    });
 
     const handleChange = (e) => {
         const name = e.target.name;
@@ -21,16 +29,51 @@ const AddProduct = () => {
         })
     }
 
-    const handleClick = async () => {
-        console.log(newProduct);
-        let res = await addProduct(newProduct);
-        console.log(res);
-        if (res) {
-            toast.success("Đã thêm thành công sản phẩm mới")
-            setTimeout(() => {
-                navigate("/san_pham");
-            }, 3000);
+    const validate = () => {
+        let check = true;
+        if (newProduct.productName === "") {
+            toast.error("Vui lòng nhập tên sản phẩm");
+            check = false;
         }
+        if (newProduct.provider === "") {
+            toast.error("Vui lòng chọn nhà cung cấp");
+            check = false;
+        }
+        if (newProduct.type1 === "") {
+            toast.error("Vui lòng chọn sản phẩm dành cho thú cưng");
+            check = false;
+        }
+        if (newProduct.cost === "") {
+            toast.error("Vui lòng nhập giá sản phẩm");
+            check = false;
+        }
+        if (newProduct.quantity === "") {
+            toast.error("Vui lòng nhập số lượng sản phẩm");
+        }
+        if (newProduct.type2 === "") {
+            toast.error("Vui lòng chọn loại sản phẩm");
+            check = false;
+        }
+        return check;
+    }
+
+    const handleClick = async () => {
+        // console.log(newProduct);
+        try {
+            if (validate()) {
+                let res = await addProduct(newProduct);
+                if (res) {
+                    toast.success("Đã thêm thành công sản phẩm mới")
+                    setTimeout(() => {
+                        navigate("/san_pham");
+                    }, 3000);
+                }
+                setTop(true);
+            }
+        } catch (err) {
+            toast.error("Quá trình thêm sản phẩm đã xảy ra lỗi");
+        }
+        // console.log(res);
     }
 
 
@@ -96,6 +139,7 @@ const AddProduct = () => {
                         <Form.Group as={Col} >
                         <Form.Label className="required-field">Số lượng</Form.Label>
                         <Form.Control 
+                            min={0}
                             defaultValue={0}
                             type="number"
                             placeholder="Nhập số lượng" 
