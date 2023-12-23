@@ -36,7 +36,7 @@ public class Product {
     @NotBlank(message = "Product name cannot be blank")
     private String productName;
 
-    @Column(name = "descriptions", nullable = false, length = 1000)
+    @Column(name = "descriptions", length = 1000)
     @NotBlank(message = "Description cannot be blank")
     @Size(max = 60, message = "Description cannot exceed 60 characters")    
     private String description;
