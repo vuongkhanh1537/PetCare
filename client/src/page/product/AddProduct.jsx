@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
@@ -7,11 +7,14 @@ import Row from 'react-bootstrap/Row';
 import { toast } from "react-toastify";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import Header from "../../components/Header"
-import { addProduct } from "../../services/ProductServices"
+import { addProduct, fetchAllCategories, fetchAllPetType, fetchAllProviders } from "../../services/ProductServices"
 
 const AddProduct = () => {
     const navigate = useNavigate();
     const [top, setTop] = useOutletContext();
+    const [providers, setProviders] = useState([]);
+    const [petType, setPetType] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [newProduct, setNewProduct] = useState({
         productName: "",
         provider: "",
@@ -20,6 +23,45 @@ const AddProduct = () => {
         quantity: 0,
         type2: "",
     });
+
+    useEffect(() => {
+        getProviders();
+        getPetType();
+        getCategories();
+    }, []);
+
+    const getProviders = async () => {
+        try {
+            let res = await fetchAllProviders();
+            if (res && res.data) {
+                setProviders(res.data);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    const getPetType = async () => {
+        try {
+            let res = await fetchAllPetType();
+            if (res && res.data) {
+                setPetType(res.data);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    const getCategories = async () => {
+        try {
+            let res = await fetchAllCategories();
+            if (res && res.data) {
+                setCategories(res.data);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
 
     const handleChange = (e) => {
         const name = e.target.name;
@@ -111,18 +153,16 @@ const AddProduct = () => {
                                 defaultValue="Chọn nhà cung cấp" 
                                 name="provider" 
                                 onChange={handleChange}>
-                                    <option>Chọn nhà cung cấp</option>
-                                    <option>Royal Canin</option>
-                                    <option>Bioline</option>
+                                    <option disabled>Chọn nhà cung cấp</option>
+                                    {providers.map((item, index)=>{return(<option key={index}>{item}</option>)})}
                             </Form.Select>
                         </Form.Group>
                     
                         <Form.Group as={Col} >
                             <Form.Label className="required-field">Dành cho thú cưng</Form.Label>
                             <Form.Select defaultValue="Loại thú cưng" name="type1" onChange={handleChange}>
-                                <option>Chọn thú cưng</option>
-                                <option>Chó</option>
-                                <option>Mèo</option> 
+                                <option disabled>Chọn thú cưng</option>
+                                {petType.map((item, index)=>{return(<option key={index}>{item}</option>)})} 
                             </Form.Select>
                         </Form.Group>
                     </Row>

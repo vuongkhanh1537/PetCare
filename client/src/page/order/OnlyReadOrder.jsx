@@ -61,7 +61,7 @@ const OnlyReadOrder = (props) => {
     if (res && res.status === 400) {
       toast.error("Sản phẩm hiện tại không đủ số lượng");
     } else {
-      toast.success("Chỉnh sửa đơn hàng thành công");
+      toast.success("Thanh toán đơn hàng thành công");
       setTimeout(() => {
         navigate("/don_hang");
       }, 3000);

@@ -168,11 +168,11 @@ const AddOrder = () => {
             <Box
               display="flex"
               justifyContent="space-between">
-              <Button variant='secondary' value="1" onClick={handleAddBillClick}>Lưu đơn hàng</Button>
-              <Button variant='success' value="2" onClick={handleAddBillClick}>Xác nhận đơn</Button>
+              <Button variant='secondary' value="1" disabled={isLoading} onClick={handleAddBillClick}>Lưu đơn hàng</Button>
+              <Button variant='success' value="2" disabled={isLoading} onClick={handleAddBillClick}>Xác nhận đơn</Button>
             </Box>
            
-            <Button variant='primary' value="3" disabled={isLoading} onClick={handleAddBillClick}>{isLoading ? 'Loading...' : 'Thanh toán'}</Button>
+            <Button variant='primary' value="3" disabled={isLoading} onClick={handleAddBillClick}>Thanh toán</Button>
         
           </Box>
       </Box>

@@ -13,6 +13,7 @@ const UpdateOrder = () => {
   const [orderList, setOrderList] = useState([]);
   const [totalBill, setTotalBill] = useState(0);
   const [personName, setPersonName] = useState("");
+  const [isLoading, setLoading] = useState(false);
 
   const { id } = useParams();
   const order_status = ["Đã thanh toán","Đã lưu", "Đang xử lý", "Đã thanh toán", "Đã huỷ"];
@@ -92,10 +93,14 @@ const UpdateOrder = () => {
     const data = orderList.map(item => ({productId: item.product.productId, amount: item.amount}))
     const billId = parseInt(id);
     const status = parseInt(e.target.value);
-    console.log(data, billId, status);
+    // console.log(data, billId, status);
+    setLoading(true);
     let res = await updateOrder(billId, status, data);
-    console.log(res);
-    if (res) {
+    setLoading(false);
+    // console.log(res);
+    if (res.status === 400) {
+      toast.error("Đơn hàng không đủ số lượng")
+    } else {
       toast.success("Chỉnh sửa đơn hàng thành công");
       setTimeout(() => {
         navigate("/don_hang");
@@ -183,20 +188,24 @@ const UpdateOrder = () => {
               <Button 
                 variant='secondary' 
                 value="1" 
+                disabled={isLoading}
                 onClick={handleBillClick}>Lưu đơn hàng</Button>
               <Button 
                   variant='success' 
                   value="2" 
+                  disabled={isLoading}
                   onClick={handleBillClick}>Xác nhận đơn</Button>
             </Stack>
             <Stack gap={2}>
               <Button 
                 variant='danger' 
                 value="4"
+                disabled={isLoading}
                 onClick={handleBillClick}>Huỷ đơn hàng</Button>
               <Button 
                 variant='primary' 
                 value="3" 
+                disabled={isLoading}
                 onClick={handleBillClick}>Thanh toán</Button>
             </Stack>
           </Box>

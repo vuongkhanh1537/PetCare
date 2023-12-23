@@ -69,7 +69,7 @@ const Product = () => {
                 let newData = res.data;
                 if (newData.length > 0) {
                     newData = newData.map((item, index) => {
-                        return {...item, id: index};
+                        return {...item, id: index + 1};
                     })
                     if (top === true) {
                         const lastObject = newData[newData.length - 1];

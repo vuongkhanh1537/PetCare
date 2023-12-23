@@ -214,7 +214,7 @@ const UpdateEmployee = () => {
                             type="radio"
                             name="sex"
                             value="Nam"
-                            checked={employee.sex === "Male"}
+                            checked={employee.sex === "Male" || employee.sex === "male"}
                             onChange={handleChange}
                         />
                         <Form.Check
@@ -222,7 +222,7 @@ const UpdateEmployee = () => {
                             type="radio"
                             name="Nữ"
                             value={employee.sex}
-                            checked={employee.sex === "female"}
+                            checked={employee.sex === "female" || employee.sex === "Female"}
                             onChange={handleChange} 
                         />
                         </Form.Group>

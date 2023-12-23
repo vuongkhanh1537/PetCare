@@ -60,7 +60,7 @@ const Employee = () => {
             let newData = res;
             if (newData.length > 0) {
                 newData = newData.map((item, index) => {
-                    return {...item, rowId: index};
+                    return {...item, rowId: index + 1};
                 });
                 if (top === true) {
                     const lastObject = newData[newData.length - 1];
@@ -85,6 +85,7 @@ const Employee = () => {
     }
 
     const handleDeleteClick = () => {
+        // console.log(selectionModel);
         selectionModel.forEach((value) => {deleteEmployee(value)})
     }
     return (
