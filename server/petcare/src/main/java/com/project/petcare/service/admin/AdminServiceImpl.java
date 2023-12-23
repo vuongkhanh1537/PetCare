@@ -46,8 +46,8 @@ public class AdminServiceImpl implements AdminService{
         Employee findEmployee = adminRepository.findEmployee(id);
         findEmployee.setIsDel(true);
         adminRepository.save(findEmployee);
-        User findUser = userRepository.findByUsername(findEmployee.getEmail());
-        userRepository.delete(findUser);
+        // User findUser = userRepository.findByUsername(findEmployee.getEmail());
+        // userRepository.delete(findUser);
         return findEmployee;
     }
 
