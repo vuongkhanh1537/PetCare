@@ -45,6 +45,20 @@ public class DashboardServiceImpl implements DashboardService {
         return calculateRevenueFromOrders(paidOrders);
     }
 
+    @Override
+    public double calculateRevenueForYear(int year) {
+        try {
+            LocalDate startDate = LocalDate.of(year, 1, 1);
+            LocalDate endDate = startDate.plusYears(1).minusDays(1);
+
+            List<Order> paidOrders = orderRepository.findPaidOrdersBetweenDates(startDate, endDate);
+            return calculateRevenueFromOrders(paidOrders);
+        } catch (Exception e) {
+            // Log the error or handle it appropriately
+            e.printStackTrace();
+            throw new RuntimeException("Error calculating revenue for the year");
+        }
+    }
 
     @Override
     public double calculateRevenue() {
@@ -148,10 +162,10 @@ public class DashboardServiceImpl implements DashboardService {
         return ((thisMonthOrder - lastMonthOrder) / lastMonthOrder) * 100.0;
     }
 
-    private double calculateRevenueFromPastMonths(int months) {
-        LocalDate startDate = LocalDate.now().minusMonths(months);
-        List<Order> paidOrders = orderRepository.findPaidOrdersAfterDate(startDate);
-        return calculateRevenueFromOrders(paidOrders);
-    }
+    // private double calculateRevenueFromPastMonths(int months) {
+    //     LocalDate startDate = LocalDate.now().minusMonths(months);
+    //     List<Order> paidOrders = orderRepository.findPaidOrdersAfterDate(startDate);
+    //     return calculateRevenueFromOrders(paidOrders);
+    // }
     // Implement other methods for dashboard functionalities
 }

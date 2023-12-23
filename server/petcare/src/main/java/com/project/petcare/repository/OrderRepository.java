@@ -39,11 +39,13 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     @Query("select o from Order o where o.id = ?1")
     public Order findOrderById(Integer id);
     
-    @Query("SELECT o FROM Order o WHERE o.payDate IS NOT NULL AND o.payDate >= ?1")
+    @Query("SELECT o FROM Order o WHERE o.payDate IS NOT NULL AND o.payDate >= ?1 AND o.status = 4")
     List<Order> findPaidOrdersAfterDate(LocalDate date);
 
-    @Query("SELECT o FROM Order o WHERE o.payDate >= :startDate AND o.payDate <= :endDate")
+    @Query("SELECT o FROM Order o WHERE o.payDate >= :startDate AND o.payDate <= :endDate AND o.status = 4")
     List<Order> findPaidOrdersBetweenDates(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+
+
 
     @Query("SELECT o FROM Order o WHERE o.orderDate >= ?1 AND o.orderDate <= ?2")
     List<Order> findOrdersBetweenDates(LocalDate startDate, LocalDate endDate);

@@ -5,6 +5,7 @@ import java.time.YearMonth;
 public interface DashboardService {
     double calculateMonthlyRevenue();
     public double calculateRevenueForMonth(YearMonth yearMonth);
+    public double calculateRevenueForYear(int year);
     public int calculateTotalOrdersForMonth(YearMonth yearMonth);
     double calculateRevenue();
     int calculateTotalProductAvailability();
