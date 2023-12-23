@@ -2,6 +2,7 @@ package com.project.petcare.repository;
 
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -19,6 +20,10 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     @Transactional
     @Query("update Order o set o.status = ?1 where o.id = ?2")
     public void updateStatus(Integer status, Integer id);
+
+    @Override
+    @Query("select o from Order o order by o.id DESC")
+    public List<Order> findAll();
 
     @Modifying
     @Transactional
