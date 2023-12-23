@@ -1,6 +1,5 @@
 package com.project.petcare.controller;
 
-import java.net.http.HttpResponse;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.petcare.detail.OrderDetail;
 import com.project.petcare.dto.OrderDto;
 import com.project.petcare.entity.Order;
-import com.project.petcare.entity.ProdInOrder;
 import com.project.petcare.receive.ProductAmount;
 import com.project.petcare.service.ProductProcService;
 
@@ -27,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RestController
 @CrossOrigin
 @RequestMapping("/order")
-public class ProductProccess {
+public class OrderController {
     @Autowired
     ProductProcService procService;
 
