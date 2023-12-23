@@ -16,5 +16,7 @@ public interface ProductService {
     void deleteProductById(Integer productId);
     List<Product> getProductsByName(String productName);
     List<String> getAllProviders();
+    List<String> getAllPetType();
+    List<String> getAllCategory();
     // Other methods...
 }
