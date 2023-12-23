@@ -1,9 +1,6 @@
 package com.project.petcare.service;
 
-import java.net.http.HttpResponse;
-import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -11,18 +8,14 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-
 import com.project.petcare.detail.OrderDetail;
 import com.project.petcare.dto.OrderDto;
 import com.project.petcare.entity.Employee;
 import com.project.petcare.entity.Order;
 import com.project.petcare.entity.ProdInOrder;
-import com.project.petcare.entity.Product;
 import com.project.petcare.receive.ProductAmount;
 import com.project.petcare.repository.EmployeeRepository;
 import com.project.petcare.repository.OrderRepository;
@@ -74,14 +67,14 @@ public class ProductProcService {
         if (status == 3){
             mailMessage.setTo(fromEmp.getEmail());
             mailMessage.setSubject("ĐƠN HÀNG ĐÃ ĐƯỢC THANH TOÁN");
-            mailMessage.setText("Đơn hàng "+orderId+" của " + fromEmp.getLastName() + " quản lý đã được thanh toán vào lúc "+ time + " " + date + ". \n" + findOrder.toString() + "\n" +
+            mailMessage.setText("Đơn hàng "+ orderId +" của " + fromEmp.getLastName() + " quản lý đã được thanh toán vào lúc "+ time + " " + date + ". \n" + findOrder.toString() + "\n" +
                                 "Xin chúc mừng đơn thứ "+ orderRepository.countOrder(fromEmp.getId())+ " của " + fromEmp.getLastName() +"!" );
             mailSender.send(mailMessage);
         }
         if (status == 4){
             mailMessage.setTo(fromEmp.getEmail());
             mailMessage.setSubject("ĐƠN HÀNG ĐÃ BỊ HỦY");
-            mailMessage.setText("Đơn hàng "+findOrder.getId()+" của " + fromEmp.getLastName() + " quản lý đã bị hủy vào lúc "+ time + " " + date + ".\n" + findOrder.toString()+ ". \n");
+            mailMessage.setText("Đơn hàng "+ orderId +" của " + fromEmp.getLastName() + " quản lý đã bị hủy vào lúc "+ time + " " + date + ".\n" + findOrder.toString()+ ". \n");
             mailSender.send(mailMessage);
         }
     }

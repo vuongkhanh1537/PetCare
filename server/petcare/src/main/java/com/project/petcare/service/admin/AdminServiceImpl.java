@@ -1,6 +1,5 @@
 package com.project.petcare.service.admin;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,9 @@ public class AdminServiceImpl implements AdminService{
         Employee newEmp = adminRepository.save(emp);
         if (newEmp != null) {
             User newUser = new User(newEmp.getEmail(), "123456789");
-            userRepository.save(newUser);
+            newUser = userRepository.save(newUser);
+            newEmp.setUser(newUser);
+            newEmp = adminRepository.save(newEmp);
         }
         return newEmp;
     }
@@ -46,8 +47,8 @@ public class AdminServiceImpl implements AdminService{
         Employee findEmployee = adminRepository.findEmployee(id);
         findEmployee.setIsDel(true);
         adminRepository.save(findEmployee);
-        User findUser = userRepository.findByUsername(findEmployee.getEmail());
-        userRepository.delete(findUser);
+        // User findUser = userRepository.findByUsername(findEmployee.getEmail());
+        // userRepository.delete(findUser);
         return findEmployee;
     }
 

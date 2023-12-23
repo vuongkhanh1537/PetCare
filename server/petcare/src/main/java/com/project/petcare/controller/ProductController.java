@@ -73,4 +73,14 @@ public class ProductController {
         return new ResponseEntity<>(providers, HttpStatus.OK);
     }
 
+    @GetMapping("/pet-type")
+    public ResponseEntity<List<String>> getAllPetType(){
+        return ResponseEntity.ok(productService.getAllPetType());
+    }
+
+    @GetMapping("/category")
+    public ResponseEntity<List<String>> getAllCategory(){
+        return ResponseEntity.ok(productService.getAllCategory());
+    }
+
 }

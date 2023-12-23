@@ -22,6 +22,10 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     @Query("update Order o set o.status = ?1 where o.id = ?2")
     public void updateStatus(Integer status, Integer id);
 
+    @Override
+    @Query("select o from Order o order by o.id DESC")
+    public List<Order> findAll();
+
     @Modifying
     @Transactional
     @Query("update Order o set o.status = ?1, o.payDate = ?3 where o.id = ?2")

@@ -2,7 +2,6 @@ package com.project.petcare.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +31,7 @@ public class HomeController {
     @PostMapping("/login")
     public ResponseEntity<UserDto> loginProccess(@RequestBody User user){
         User findUser = userService.findByUsername(user.getUsername());
-        if (findUser != null && employeeRepository.checkIsDel(findUser.getUsername())){
+        if (findUser != null && employeeRepository.checkIsDel(findUser.getUsername()) == false){
             if (findUser.getPassword().equals(user.getPassword()) ) return ResponseEntity.status(HttpStatus.OK).body(new UserDto(findUser));
             else return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
