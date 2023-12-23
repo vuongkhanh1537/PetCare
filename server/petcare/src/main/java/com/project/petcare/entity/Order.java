@@ -58,6 +58,7 @@ public class Order {
             result = result + "  Số lượng: " + prod.getAmount() + ". \n";
             result = result + "  Đơn giá: " + prod.getUnitPrice() + ". \n";
             result = result + "  Tổng: " + prod.getTotalPrice() + ". \n";
+            count ++;
         }
         result = result + "Tổng giá tiền đơn hàng: " + this.totalPrice + '.';
         return result;

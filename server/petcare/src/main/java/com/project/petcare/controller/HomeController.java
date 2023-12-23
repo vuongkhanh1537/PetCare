@@ -33,7 +33,7 @@ public class HomeController {
     @PostMapping("/login")
     public ResponseEntity<UserDto> loginProccess(@RequestBody User user){
         User findUser = userService.findByUsername(user.getUsername());
-        if (findUser != null && employeeRepository.checkIsDel(findUser.getUsername())){
+        if (findUser != null && employeeRepository.checkIsDel(findUser.getUsername()) == false){
             if (findUser.getPassword().equals(user.getPassword()) ) return ResponseEntity.status(HttpStatus.OK).body(new UserDto(findUser));
             else return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
