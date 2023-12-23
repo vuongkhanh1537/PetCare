@@ -2,10 +2,12 @@ package com.project.petcare.repository;
 
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.project.petcare.entity.Order;
@@ -33,4 +35,12 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     @Query("select o from Order o where o.id = ?1")
     public Order findOrderById(Integer id);
     
+    @Query("SELECT o FROM Order o WHERE o.payDate IS NOT NULL AND o.payDate >= ?1")
+    List<Order> findPaidOrdersAfterDate(LocalDate date);
+
+    @Query("SELECT o FROM Order o WHERE o.payDate BETWEEN :startDate AND :endDate")
+    List<Order> findPaidOrdersBetweenDates(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+    
+    @Query("SELECT o FROM Order o WHERE o.orderDate >= ?1 AND o.orderDate <= ?2")
+    List<Order> findOrdersBetweenDates(LocalDate startDate, LocalDate endDate);
 }
