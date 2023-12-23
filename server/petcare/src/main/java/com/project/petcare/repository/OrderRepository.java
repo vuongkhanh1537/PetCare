@@ -43,4 +43,6 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     
     @Query("SELECT o FROM Order o WHERE o.orderDate >= ?1 AND o.orderDate <= ?2")
     List<Order> findOrdersBetweenDates(LocalDate startDate, LocalDate endDate);
+    @Query("select count(o.id) from Order o where o.employee.id = ?1 and o.status = 3")
+    public Integer countOrder(Integer empId);
 }

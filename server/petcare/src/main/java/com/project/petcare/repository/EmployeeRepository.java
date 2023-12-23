@@ -2,6 +2,7 @@ package com.project.petcare.repository;
 
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -14,8 +15,15 @@ import jakarta.transaction.Transactional;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee,Integer> {
+    @Override
+    @Query("select e from Employee e where e.isDel = false")
+    public List<Employee> findAll();
+
     @Query("SELECT e FROM Employee e WHERE e.id= ?1")
     public Employee findEmployee(Integer id);   
+
+    @Query("select e.isDel from Employee e where e.email = ?1")
+    public Boolean checkIsDel(String email);
 
     @Transactional
     @Modifying
@@ -68,5 +76,7 @@ public interface EmployeeRepository extends JpaRepository<Employee,Integer> {
     @Query("UPDATE Employee e set e.email = ?1 where e.id = ?2")
     public void updateEmail(String email, Integer id);
 
+    @Query("select e from Employee e where e.cccd = ?1")
+    public Employee findEmpByCccd(String cccd);
 
 }

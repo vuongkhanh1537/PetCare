@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.petcare.dto.UserDto;
 import com.project.petcare.entity.User;
+import com.project.petcare.repository.EmployeeRepository;
 import com.project.petcare.service.UserService;
 
 @RestController
@@ -19,6 +20,9 @@ import com.project.petcare.service.UserService;
 public class HomeController {
     @Autowired
     UserService userService;
+
+    @Autowired
+    EmployeeRepository employeeRepository;
 
     @GetMapping("")
     public String homePage(){
@@ -28,7 +32,7 @@ public class HomeController {
     @PostMapping("/login")
     public ResponseEntity<UserDto> loginProccess(@RequestBody User user){
         User findUser = userService.findByUsername(user.getUsername());
-        if (findUser != null){
+        if (findUser != null && employeeRepository.checkIsDel(findUser.getUsername())){
             if (findUser.getPassword().equals(user.getPassword()) ) return ResponseEntity.status(HttpStatus.OK).body(new UserDto(findUser));
             else return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }

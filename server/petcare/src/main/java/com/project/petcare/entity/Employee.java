@@ -53,6 +53,7 @@ public class Employee {
     @Column(name = "address",length = 50)
     private String address;
     
+    private Boolean isDel;
 
     @Column(name = "email", length =50)
     private String email;
@@ -62,7 +63,7 @@ public class Employee {
     private List<Order> order;
 
     @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    // @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonIgnore
     private User user;
 

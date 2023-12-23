@@ -48,4 +48,18 @@ public class Order {
     @JsonIgnore
     private Employee employee;
 
+
+    @Override
+    public String toString(){
+        String result ="Thông tin đơn hàng: \n";
+        Integer count = 1;
+        for (ProdInOrder prod : prodInOrder){
+            result = result + count.toString()+ ". Tên sản phẩm: " + prod.getProduct().getProductName() + ". \n";
+            result = result + "  Số lượng: " + prod.getAmount() + ". \n";
+            result = result + "  Đơn giá: " + prod.getUnitPrice() + ". \n";
+            result = result + "  Tổng: " + prod.getTotalPrice() + ". \n";
+        }
+        result = result + "Tổng giá tiền đơn hàng: " + this.totalPrice + '.';
+        return result;
+    };
 }
