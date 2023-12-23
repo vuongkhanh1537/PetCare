@@ -39,9 +39,10 @@ public class DashboardController {
     }
 
     @GetMapping("/monthly-revenue")
-    public ResponseEntity<?> calculateRevenueForMonth(@RequestParam YearMonth yearMonth) {
+    public ResponseEntity<?> calculateRevenueForMonth(@RequestParam int year, @RequestParam int month) {
         try {
-            double revenue = dashboardService.calculateRevenueForMonth(yearMonth);
+            YearMonth targetYearMonth = YearMonth.of(year, month);
+            double revenue = dashboardService.calculateRevenueForMonth(targetYearMonth);
             return ResponseEntity.ok(revenue);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body("Invalid argument: " + e.getMessage());
@@ -53,9 +54,10 @@ public class DashboardController {
     }
 
     @GetMapping("/total-orders")
-    public ResponseEntity<?> calculateTotalOrdersForMonth(@RequestParam YearMonth yearMonth) {
+    public ResponseEntity<?> calculateTotalOrdersForMonth(@RequestParam int year, @RequestParam int month) {
         try {
-            int totalOrders = dashboardService.calculateTotalOrdersForMonth(yearMonth);
+            YearMonth targetYearMonth = YearMonth.of(year, month);
+            int totalOrders = dashboardService.calculateTotalOrdersForMonth(targetYearMonth);
             return ResponseEntity.ok(totalOrders);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body("Invalid argument: " + e.getMessage());
@@ -77,11 +79,23 @@ public class DashboardController {
         }
     }
 
-    @GetMapping("/percentage-change")
+    @GetMapping("/revenue-percentage-change")
     public ResponseEntity<Double> getRevenuePercentageChange(@RequestParam int year, @RequestParam int month) {
         try {
             YearMonth targetYearMonth = YearMonth.of(year, month);
             double percentageChange = dashboardService.calculateRevenuePercentageChange(targetYearMonth);
+            return ResponseEntity.ok(percentageChange);
+        } catch (Exception e) {
+            // Log the error or handle it appropriately
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(-1.0);
+        }
+    }
+
+    @GetMapping("/order-percentage-change")
+    public ResponseEntity<Double> getOrderPercentageChange(@RequestParam int year, @RequestParam int month) {
+        try {
+            YearMonth targetYearMonth = YearMonth.of(year, month);
+            double percentageChange = dashboardService.calculateOrderPercentageChange(targetYearMonth);
             return ResponseEntity.ok(percentageChange);
         } catch (Exception e) {
             // Log the error or handle it appropriately

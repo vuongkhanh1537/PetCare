@@ -99,21 +99,32 @@ public class DashboardServiceImpl implements DashboardService {
             throw new RuntimeException("Error calculating percentage change for the month");
         }
     }
-    
+
+    @Override
+    public double calculateOrderPercentageChange(YearMonth targetYearMonth) {
+        try {
+            int thisMonthOrder = calculateTotalOrdersForMonth(targetYearMonth);
+            int lastMonthOrder = calculateTotalOrdersForMonth(targetYearMonth.minusMonths(1));
+
+            // Calculate percentage change
+            return calculateOrderPercentageChange(thisMonthOrder, lastMonthOrder);
+        } catch (Exception e) {
+            // Log the error or handle it appropriately
+            e.printStackTrace();
+            throw new RuntimeException("Error calculating percentage change for the month");
+        }
+    }
 
     private double calculateRevenueFromOrders(List<Order> orders) {
         double totalRevenue = 0.0;
-
+    
         for (Order order : orders) {
-            List<ProdInOrder> productsInOrder = prodInOrderRepository.findInfoOfOrder(order.getId());
-
-            for (ProdInOrder productInOrder : productsInOrder) {
-                totalRevenue += productInOrder.getTotalPrice();
-            }
+            totalRevenue += order.getTotalPrice();
         }
-
+    
         return totalRevenue;
     }
+    
 
     private int calculateProductAvailability(List<Product> products) {
         int totalAvailability = 0;
@@ -128,6 +139,13 @@ public class DashboardServiceImpl implements DashboardService {
             return 100.0; // To handle cases where last month revenue is zero
         }
         return ((thisMonthRevenue - lastMonthRevenue) / lastMonthRevenue) * 100.0;
+    }
+
+    private double calculateOrderPercentageChange(int thisMonthOrder, int lastMonthOrder) {
+        if (lastMonthOrder == 0) {
+            return 100.0; // To handle cases where last month order is zero
+        }
+        return ((thisMonthOrder - lastMonthOrder) / lastMonthOrder) * 100.0;
     }
 
     private double calculateRevenueFromPastMonths(int months) {
