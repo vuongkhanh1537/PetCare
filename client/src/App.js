@@ -14,6 +14,7 @@ import AddOrder from './page/order/AddOrder';
 import UpdateOrder from './page/order/UpdateOrder';
 import OnlyReadOrder from './page/order/OnlyReadOrder';
 import HomeProduct from './page/product/HomeProduct';
+import HomeEmployee from './page/employee/HomeEmployee';
 
 function App() {
 
@@ -28,7 +29,7 @@ function App() {
             <Route path="add" element={<AddProduct />} /> 
             <Route path=":id" element={<UpdateProduct />} />
           </Route>
-          <Route path="nhan_vien" element={<Outlet />}> 
+          <Route path="nhan_vien" element={<HomeEmployee />}> 
             <Route index element={<Employee/>} /> 
             <Route path="add" element={<AddEmployee/>} />
             <Route path=":id" element={<UpdateEmployee />} />

@@ -2,7 +2,7 @@ import { fetchAllEmployee, deleteAnEmployee } from "../../services/EmployeeServi
 import { Box } from '@mui/material';
 import { DataGrid } from "@mui/x-data-grid"
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import Button from "react-bootstrap/esm/Button";
 import Header from "../../components/Header"
 import CustomToolbar from "../../components/CustomToolbar";
@@ -10,6 +10,7 @@ import { GridToolbar } from "@mui/x-data-grid";
 
 const Employee = () => {
     const navigate = useNavigate();
+    const [top, setTop] = useOutletContext();
     const columns = [
         { field: 'id', headerName: 'ID', width: 90, },
         {
@@ -56,7 +57,18 @@ const Employee = () => {
     const getEmployee = async () => {
         let res = await fetchAllEmployee();
         if (res) {
-            setRows(res);
+            let newData = res;
+            if (newData.length > 0) {
+                newData = newData.map((item, index) => {
+                    return {...item, rowId: index};
+                });
+                if (top === true) {
+                    const lastObject = newData[newData.length - 1];
+                    const rest = newData.slice(0, newData.length - 1);
+                    newData = [lastObject, ...rest];
+                }
+                setRows(newData);
+            }
         }
     }
 
@@ -97,6 +109,7 @@ const Employee = () => {
                             </Button>
                         </div>
                         <DataGrid 
+                            getRowId={(row) => row.rowId}
                             rows={rows}
                             columns={columns}
                             onRowClick={handleClick}

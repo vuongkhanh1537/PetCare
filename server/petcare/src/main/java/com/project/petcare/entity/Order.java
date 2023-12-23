@@ -54,7 +54,7 @@ public class Order {
         String result ="Thông tin đơn hàng: \n";
         Integer count = 1;
         for (ProdInOrder prod : prodInOrder){
-            result = result + count.toString()+ ". Tên sản phẩm:" + prod.getProduct().getProductName() + ". \n";
+            result = result + count.toString()+ ". Tên sản phẩm: " + prod.getProduct().getProductName() + ". \n";
             result = result + "  Số lượng: " + prod.getAmount() + ". \n";
             result = result + "  Đơn giá: " + prod.getUnitPrice() + ". \n";
             result = result + "  Tổng: " + prod.getTotalPrice() + ". \n";

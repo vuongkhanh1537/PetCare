@@ -31,7 +31,7 @@ import com.project.petcare.repository.ProductRepository;
 
 @Service
 public class ProductProcService {
-    private final String adminMail = "congamaidau134@gmail.com";
+    private final String adminMail = "tuan.kieudangquoc03@hcmut.edu.vn";
 
     @Autowired
     private JavaMailSender mailSender;

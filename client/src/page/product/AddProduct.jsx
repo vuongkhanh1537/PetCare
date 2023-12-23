@@ -67,8 +67,8 @@ const AddProduct = () => {
                     setTimeout(() => {
                         navigate("/san_pham");
                     }, 3000);
+                    setTop(true);
                 }
-                setTop(true);
             }
         } catch (err) {
             toast.error("Quá trình thêm sản phẩm đã xảy ra lỗi");

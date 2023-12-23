@@ -6,12 +6,13 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import { addEmployee } from "../../services/EmployeeService";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import Header from "../../components/Header"
 import { gridRowMaximumTreeDepthSelector } from "@mui/x-data-grid";
 
 const AddEmployee = () => {
     const navigate = useNavigate();
+    const [top, setTop] = useOutletContext();
     const [newEmployee, setNewEmployee] = useState({
         cccd:"",
         email:"",
@@ -82,6 +83,7 @@ const AddEmployee = () => {
                     setTimeout(() => {
                         navigate("/nhan_vien");
                     }, 3000);
+                    setTop(true);
                 }
             } catch (err) {
                 console.log(err);

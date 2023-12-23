@@ -1,5 +1,13 @@
 package com.project.petcare.service;
 
-public class DashboardService {
-    
+import java.time.YearMonth;
+
+public interface DashboardService {
+    double calculateMonthlyRevenue();
+    public double calculateRevenueForMonth(YearMonth yearMonth);
+    public int calculateTotalOrdersForMonth(YearMonth yearMonth);
+    double calculateRevenue();
+    int calculateTotalProductAvailability();
+    public double calculateRevenuePercentageChange(YearMonth targetYearMonth);
+    // Add other methods for dashboard functionalities
 }
