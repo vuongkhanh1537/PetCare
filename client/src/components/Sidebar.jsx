@@ -90,7 +90,7 @@ const Sidebar = ({site}) => {
             </Typography>
             <Item
               title="Tổng quan"
-              to="/dashboard"
+              to="/"
               icon={<DashboardOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}

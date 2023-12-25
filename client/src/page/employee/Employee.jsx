@@ -7,6 +7,7 @@ import Button from "react-bootstrap/esm/Button";
 import Header from "../../components/Header"
 import CustomToolbar from "../../components/CustomToolbar";
 import { GridToolbar } from "@mui/x-data-grid";
+import { toast } from "react-toastify";
 
 const Employee = () => {
     const navigate = useNavigate();
@@ -88,7 +89,14 @@ const Employee = () => {
 
     const handleDeleteClick = () => {
         console.log(selectionModel);
-        selectionModel.forEach((value) => {deleteEmployee(value)})
+        const workingId = parseInt(localStorage.getItem("id"));
+        selectionModel.forEach((value) => {
+            if (value !== workingId) {
+                deleteEmployee(value);
+            } else {
+                toast.error(`Nhân viên ${localStorage.getItem("username")} không thể tự xoá chính mình`);
+            }
+        })
     }
     return (
         <>

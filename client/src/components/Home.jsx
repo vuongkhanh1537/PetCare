@@ -7,7 +7,7 @@ import Header from './Header'
 export const Home = () => {
   const navigate = useNavigate();
   useEffect(() => {
-    if (!localStorage.getItem("token")) {
+    if (!localStorage.getItem("username")) {
       navigate("/login");
     }
   }, []);
