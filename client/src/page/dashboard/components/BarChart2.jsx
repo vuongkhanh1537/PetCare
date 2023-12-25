@@ -1,27 +1,32 @@
 import * as React from "react";
-import { useEffect } from 'react';
+import { useState,useEffect } from 'react';
 import { ChartComponent, SeriesCollectionDirective, SeriesDirective, Inject, Legend, Category, StackingColumnSeries, Tooltip, Highlight } from '@syncfusion/ej2-react-charts';
 import { Browser } from '@syncfusion/ej2-base';
-export let data1 = [
-    { x: '2013', y: 9628912 },
-    { x: '2014', y: 9609326 },
-    { x: '2015', y: 7485587 },
-    { x: '2016', y: 7793066 },
-    { x: '2017', y: 6856880 }
-];
-export let data2 = [
-    { x: '2013', y: 4298390 },
-    { x: '2014', y: 4513769 },
-    { x: '2015', y: 4543838 },
-    { x: '2016', y: 4999266 },
-    { x: '2017', y: 5235842 }
-];
-
+import { FetchDataForStack } from "../Dashboard";
 const SAMPLE_CSS = `
     .control-fluid {
         padding: 0px !important;
     }`;
 const StackedColumn = () => {
+  const currentDate = new Date();
+  const currentMonth = currentDate.getMonth() + 1;
+  const currentYear = currentDate.getFullYear();
+  const [selectedDataDog, setSelectedDataDog] = useState([]);
+  const [selectedDataCat, setSelectedDataCat] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await FetchDataForStack(currentMonth, currentYear);
+      setSelectedDataDog(response.barChartData1);
+      setSelectedDataCat(response.barChartData2);
+      console.log("dog", selectedDataDog);
+      console.log("cat", selectedDataCat);
+      console.log(response.barChartData1);
+    }
+    fetchData();
+  }, [currentMonth, currentYear]);
+
+    
+
     const onChartLoad = (args) => {
         let chart = document.getElementById('charts');
         chart.setAttribute('title', '');
@@ -70,7 +75,7 @@ const StackedColumn = () => {
   <Inject services={[StackingColumnSeries, Category, Legend, Tooltip, Highlight]} />
   <SeriesCollectionDirective>
     <SeriesDirective
-      dataSource={data1}
+      dataSource={selectedDataDog}
       xName='x'
       yName='y'
       name='Chó '
@@ -79,7 +84,7 @@ const StackedColumn = () => {
       type='StackingColumn'
     />
     <SeriesDirective
-      dataSource={data2}
+      dataSource={selectedDataCat}
       xName='x'
       yName='y'
       name='Mèo'

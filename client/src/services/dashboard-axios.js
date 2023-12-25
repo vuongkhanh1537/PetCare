@@ -107,3 +107,27 @@ export const getEffEmployeeNum = async (month, year) => {
     throw error;
   }
 };
+export const getDog = async (month, year) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:8080/api/dashboard/amount-of-dogs-in-month?year=${year}&month=${month}`
+    );
+
+    return response;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+export const getCat = async (month, year) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:8080/api/dashboard/amount-of-cats-in-month?year=${year}&month=${month}`
+    );
+
+    return response;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};

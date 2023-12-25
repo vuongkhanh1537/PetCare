@@ -171,4 +171,38 @@ public class DashboardController {
         }
     }
 
+    @GetMapping("/amount-of-dogs-in-month")
+    public ResponseEntity<?> getAmountOfDogsInOrdersForMonth(
+            @RequestParam int year,
+            @RequestParam int month) {
+        try {
+            YearMonth yearMonth = YearMonth.of(year, month);
+            int amount = dashboardService.calculateAmountOfDogsInOrdersForMonth(yearMonth);
+            return ResponseEntity.ok(amount);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Invalid argument: " + e.getMessage());
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(-1);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(-1);
+        }
+    }
+
+    @GetMapping("/amount-of-cats-in-month")
+    public ResponseEntity<?> getAmountOfCatsInOrdersForMonth(
+            @RequestParam int year,
+            @RequestParam int month) {
+        try {
+            YearMonth yearMonth = YearMonth.of(year, month);
+            int amount = dashboardService.calculateAmountOfCatsInOrdersForMonth(yearMonth);
+            return ResponseEntity.ok(amount);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Invalid argument: " + e.getMessage());
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(-1);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(-1);
+        }
+    }
+
 }

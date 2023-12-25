@@ -15,13 +15,15 @@ import java.util.Optional;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
     List<Product> findAll();
+
     Optional<Product> findById(Integer productId);
+
     List<Product> findByProductName(String productName);
 
-    @Query ("select p from Product p where p.id = ?1")
+    @Query("select p from Product p where p.id = ?1")
     public Product findProductById(Integer prodId);
 
-    @Query ("select p from Product p where p.isAvailable = true")
+    @Query("select p from Product p where p.isAvailable = true")
     List<Product> findAllProduct();
 
     @Query("SELECT DISTINCT p.provider FROM Product p")
@@ -35,5 +37,8 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Transactional
     @Modifying
     @Query("update Product p set p.isAvailable = false where p.id = ?1")
-    public void deleteProduct (Integer productID);
+    public void deleteProduct(Integer productID);
+
+    @Query("SELECT p FROM Product p WHERE p.type1 = 'Chó'")
+    List<Product> findDogProducts();
 }
