@@ -1,3 +1,7 @@
+Giới thiệu chung
+
+PetCare là phần mềm quản lý nhân viên, đơn hàng và sản phẩm của dịch vụ chăm sóc thú cưng.
+
 Hướng dẫn chạy file phía client
 
 1. Mở terminal
@@ -15,8 +19,6 @@ Công nghệ sử dụng phía front-end
 3. Axios
 4. Toastify
 5. Material UI
-
-Lu
 
 Hướng dẫn config bên BE:
 1. Mở file applcation.properties trong server/petcare/src/main/resources
