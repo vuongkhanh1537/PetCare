@@ -53,7 +53,10 @@ const UpdateEmployee = () => {
         if (employee.cccd === "") {
             toast.error("Vui lòng nhập CCCD");
             check = false;
-        } 
+        } else if (employee.cccd.length === 12) {
+            toast.warning("Sai định dạng CCCD");
+            check = false;
+        }
         if (employee.date === "") {
             toast.error("Vui lòng chọn ngày cấp");
             check = false;
@@ -144,6 +147,7 @@ const UpdateEmployee = () => {
                             type="text" 
                             placeholder="Nhập CCCD" 
                             name="cccd" 
+                            maxLength={12}
                             value={employee.cccd} 
                             onChange={handleChange}/>
                         </Form.Group>

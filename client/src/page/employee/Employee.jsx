@@ -66,9 +66,11 @@ const Employee = () => {
                     const lastObject = newData[newData.length - 1];
                     const rest = newData.slice(0, newData.length - 1);
                     newData = [lastObject, ...rest];
+                    setTop(false);
                 }
                 setRows(newData);
             }
+            console.log(rows);
         }
     }
 
@@ -85,7 +87,7 @@ const Employee = () => {
     }
 
     const handleDeleteClick = () => {
-        // console.log(selectionModel);
+        console.log(selectionModel);
         selectionModel.forEach((value) => {deleteEmployee(value)})
     }
     return (
@@ -110,7 +112,7 @@ const Employee = () => {
                             </Button>
                         </div>
                         <DataGrid 
-                            getRowId={(row) => row.rowId}
+                            getRowId={(row) => row.id}
                             rows={rows}
                             columns={columns}
                             onRowClick={handleClick}
@@ -134,6 +136,7 @@ const Employee = () => {
                             checkboxSelection
                             disableRowSelectionOnClick
                             onRowSelectionModelChange={(newSelection) => {
+                                console.log(newSelection);
                                 setSelectionModel(newSelection);
                             }}
                             selectionModel={selectionModel}

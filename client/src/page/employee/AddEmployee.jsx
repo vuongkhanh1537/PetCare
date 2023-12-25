@@ -50,7 +50,10 @@ const AddEmployee = () => {
         if (newEmployee.cccd === "") {
             toast.error("Vui lòng nhập CCCD");
             check = false;
-        } 
+        } else if (newEmployee.cccd.length === 12) {
+            toast.warning("Sai định dạng CCCD");
+            check = false;
+        }
         if (newEmployee.phoneNum === "") {
             toast.error("Vui lòng nhập số điện thoại");
         }
@@ -126,7 +129,7 @@ const AddEmployee = () => {
                         <Row className="mb-3">
                             <Form.Group as={Col} >
                             <Form.Label className="required-field">CCCD</Form.Label>
-                            <Form.Control type="text" placeholder="Nhập CCCD" name="cccd" onChange={handleChange}/>
+                            <Form.Control type="text" placeholder="Nhập CCCD" maxLength={12} name="cccd" onChange={handleChange}/>
                             </Form.Group>
 
                             <Form.Group as={Col} >

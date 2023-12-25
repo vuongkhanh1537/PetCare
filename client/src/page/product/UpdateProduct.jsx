@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-import { fetchAnProduct, updateAnProduct } from "../../services/ProductServices";
+import { fetchAnProduct, updateAnProduct, fetchAllPetType, fetchAllCategories, fetchAllProviders } from "../../services/ProductServices";
 import { toast } from "react-toastify";
 import Header from "../../components/Header"
 
@@ -14,9 +14,15 @@ const UpdateProduct = () => {
     const navigate = useNavigate();
     const {id} = useParams();
     const [changed, setChanged] = useState(false);
+    const [providers, setProviders] = useState([]);
+    const [petType, setPetType] = useState([]);
+    const [categories, setCategories] = useState([]);
 
     useEffect(() => {
         getProduct();
+        getPetType();
+        getCategories();
+        getProviders();
     }, []);
 
     const getProduct = async () => {
@@ -24,6 +30,39 @@ const UpdateProduct = () => {
         console.log(res);
         if (res && res.data) {
             setProduct(res.data);
+        }
+    }
+
+    const getProviders = async () => {
+        try {
+            let res = await fetchAllProviders();
+            if (res && res.data) {
+                setProviders(res.data);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    const getPetType = async () => {
+        try {
+            let res = await fetchAllPetType();
+            if (res && res.data) {
+                setPetType(res.data);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    const getCategories = async () => {
+        try {
+            let res = await fetchAllCategories();
+            if (res && res.data) {
+                setCategories(res.data);
+            }
+        } catch (err) {
+            console.log(err);
         }
     }
     
@@ -114,12 +153,8 @@ const UpdateProduct = () => {
                                 name="provider" 
                                 value={product.provider}
                                 onChange={handleChange}>
-                                    <option>Chọn nhà cung cấp</option>
-                                    <option>Royal Canin</option>
-                                    <option>Bioline</option>
-                                    <option>Cannin</option>
-                                    <option>A company</option>
-                                    <option>B company</option>
+                                    <option disabled>Chọn nhà cung cấp</option>
+                                    {providers.map((item, index)=>{return(<option key={index}>{item}</option>)})}
                             </Form.Select>
                         </Form.Group>
                     
@@ -129,9 +164,8 @@ const UpdateProduct = () => {
                                 name="type1"
                                 value={product.type1} 
                                 onChange={handleChange}>
-                                    <option>Chọn thú cưng</option>
-                                    <option>Chó</option>
-                                    <option>Mèo</option>
+                                    <option disabled>Chọn thú cưng</option>
+                                    {petType.map((item, index)=>{return(<option key={index}>{item}</option>)})}
                             </Form.Select>
                         </Form.Group>
                     </Row>

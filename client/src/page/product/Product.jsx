@@ -75,6 +75,7 @@ const Product = () => {
                         const lastObject = newData[newData.length - 1];
                         const rest = newData.slice(0, newData.length - 1);
                         newData = [lastObject, ...rest];
+                        setTop(false);
                     }
                     setRows(newData);
                 }
@@ -125,7 +126,7 @@ const Product = () => {
                             >Thêm sản phẩm</Button>
                     </div>
                     <DataGrid
-                        getRowId={(row) => row.id}
+                        getRowId={(row) => row.productId}
                         rows={rows}
                         columns={columns}
                         onRowClick={handleClick}
@@ -148,6 +149,7 @@ const Product = () => {
                         checkboxSelection
                         disableRowSelectionOnClick
                         onRowSelectionModelChange={(newSelection) => {
+                            console.log(newSelection);
                             setSelectionModel(newSelection);
                         }}
                         setSelectionModel={selectionModel}

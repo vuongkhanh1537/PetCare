@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "../../components/Header";
 import "./Dashboard.css";
 import { FaCalendarAlt } from "react-icons/fa";
-import { Box } from "@mui/material";
+import { Box, List } from "@mui/material";
 import LineChart from "./components/LineChart";
 import BarChart from "./components/BarChart";
 //import { lineCustomSeries, lineCustomSeries2 } from '../../data(c)/MockData';
@@ -202,8 +202,15 @@ const Dashboard = () => {
     <>
     <main className='content'>  
       <Box m = "0 30px 10px 30px">
-                    <Header title="Tổng quan" subtitle="Tổng quan doanh thu"/> 
+        <Header title="Tổng quan" subtitle="Tổng quan doanh thu"/> 
       </Box>
+      <List
+        sx={{
+          width: '100%',
+          height: '80%',
+          overflow: 'auto',
+        }}
+      >
       <div className="flex-container">
           <div className="earnings-container">
             <div className="earnings-header">
@@ -280,7 +287,7 @@ const Dashboard = () => {
   </div>
 </div>
  
-    
+    </List>
   </main> 
     </>
   );

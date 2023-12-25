@@ -160,7 +160,7 @@ const AddProduct = () => {
                     
                         <Form.Group as={Col} >
                             <Form.Label className="required-field">Dành cho thú cưng</Form.Label>
-                            <Form.Select defaultValue="Loại thú cưng" name="type1" onChange={handleChange}>
+                            <Form.Select defaultValue="Chọn thú cưng" name="type1" onChange={handleChange}>
                                 <option disabled>Chọn thú cưng</option>
                                 {petType.map((item, index)=>{return(<option key={index}>{item}</option>)})} 
                             </Form.Select>
@@ -193,11 +193,7 @@ const AddProduct = () => {
                             <Form.Label className="required-field">Loại</Form.Label>
                             <Form.Select defaultValue="Chọn loại" name="type2" onChange={handleChange}>
                                 <option disabled>Chọn loại</option>
-                                <option>Lồng</option>
-                                <option>Rọ mõm</option>
-                                <option>Đồ chơi</option>
-                                <option>Thức ăn</option>
-                                <option>Khay đựng thức ăn</option>
+                                {categories.map((item, index)=>{return(<option key={index}>{item}</option>)})} 
                             </Form.Select>
                         </Form.Group>
                     </Row>
