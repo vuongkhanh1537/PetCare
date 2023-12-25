@@ -9,33 +9,103 @@ import {
   Legend,
   Tooltip,
 } from '@syncfusion/ej2-react-charts';
-import { lineCustomSeries, lineCustomSeries2, LinePrimaryXAxis, LinePrimaryYAxis, LinePrimaryXAxis2 } from '../../../data(c)/MockData';
+import {
+  LinePrimaryXAxis,
+  LinePrimaryYAxis,
+  LinePrimaryXAxis2,
+  LinePrimaryYAxis2,
+} from '../../../components/OverviewComponent';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { LineDataMonth, LineDataYear } from '../../../components/OverviewComponent';
 
-const LineChart = ({ initialData }) => {
-  const [selectedData, setSelectedData] = useState(initialData);
-  const [selectedAxis, setSelectedAxis] = useState(LinePrimaryXAxis);
+const LineChart = ({ dropList }) => {
+  const [selectedOption, setSelectedOption] = useState('lineCustomSeries');
+  const [selectedAxisX, setSelectedAxisX] = useState(LinePrimaryXAxis);
+  const [selectedAxisY, setSelectedAxisY] = useState(LinePrimaryYAxis);
+  const [selectedData, setSelectedData] = useState([]);
+  const currentDate = new Date();
+  const currentMonth = currentDate.getMonth() + 1;
+  const currentYear = currentDate.getFullYear();
 
   useEffect(() => {
-    setSelectedData(initialData);
-  }, [initialData]);
+    const fetchData = async () => {
+      const monthData = await LineDataMonth(currentMonth, currentYear);
+      const yearData = await LineDataYear(currentMonth, currentYear);
+
+      const updatedLineCustomSeries1 = [
+        {
+          dataSource: yearData[0],
+          xName: 'x',
+          yName: 'y',
+          name: 'Doanh thu',
+          width: '2',
+          marker: { visible: true, width: 10, height: 10 },
+          type: 'Line',
+        },
+        {
+          dataSource: yearData[1],
+          xName: 'x',
+          yName: 'y',
+          name: 'Lợi nhuận',
+          width: '2',
+          marker: { visible: true, width: 10, height: 10 },
+          type: 'Line',
+        },
+      ];
+
+      const updatedLineCustomSeries2 = [
+        {
+          dataSource: monthData[0],
+          xName: 'x',
+          yName: 'y',
+          name: 'Doanh thu',
+          width: '2',
+          marker: { visible: true, width: 10, height: 10 },
+          type: 'Line',
+        },
+        {
+          dataSource: monthData[1],
+          xName: 'x',
+          yName: 'y',
+          name: 'Lợi nhuận',
+          width: '2',
+          marker: { visible: true, width: 10, height: 10 },
+          type: 'Line',
+        },
+      ];
+
+      setSelectedData(
+        selectedOption === 'lineCustomSeries'
+          ? updatedLineCustomSeries1
+          : updatedLineCustomSeries2
+      );
+    };
+
+    fetchData();
+  }, [currentMonth, currentYear, selectedOption]);
 
   const handleDropdownChange = (event) => {
     const selectedValue = event.target.value;
-    const newData = selectedValue === 'lineCustomSeries' ? lineCustomSeries : lineCustomSeries2;
-    const newAxis = selectedValue === 'lineCustomSeries' ? LinePrimaryXAxis : LinePrimaryXAxis2;
-    
-    setSelectedData(newData);
-    setSelectedAxis(newAxis);
+    const newAxisX =
+      selectedValue === 'lineCustomSeries' ? LinePrimaryXAxis : LinePrimaryXAxis2;
+    const newAxisY =
+      selectedValue === 'lineCustomSeries' ? LinePrimaryYAxis : LinePrimaryYAxis2;
+
+    setSelectedOption(selectedValue);
+    setSelectedAxisX(newAxisX);
+    setSelectedAxisY(newAxisY);
   };
 
   return (
-    <div >
-      <FormControl sx={{ m: 1, minWidth: 120 }} style={{ position: "relative", marginLeft: "1000px" } }>
+    <div>
+      <FormControl
+        sx={{ m: 1, minWidth: 120 }}
+        style={{ position: 'relative', left: '85%' }}
+      >
         <Select
-          value={selectedData === lineCustomSeries ? "lineCustomSeries" : "lineCustomSeries2"}
+          value={selectedOption}
           onChange={handleDropdownChange}
           inputProps={{ 'aria-label': 'Without label' }}
         >
@@ -47,8 +117,8 @@ const LineChart = ({ initialData }) => {
         key={JSON.stringify(selectedData)}
         id="line-chart"
         height="420px"
-        primaryXAxis={selectedAxis}
-        primaryYAxis={LinePrimaryYAxis}
+        primaryXAxis={selectedAxisX}
+        primaryYAxis={selectedAxisY}
         chartArea={{ border: { width: 0 } }}
         tooltip={{ enable: true }}
         background="#fff"

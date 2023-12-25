@@ -1,11 +1,8 @@
 import { ResponsiveBar } from "@nivo/bar";
-import { mockBarData as data } from "../../../data(c)/MockData";
+import { mockBarData as data } from "../../../components/OverviewComponent";
 
 const BarChart = ({ isDashboard = false }) => {
   const legendData = ["Thuc an", "toys", "accesories", "cages"];
-   const customLegendFormatter = (value, index) => {
-    return legendData[index];
-  };
   const colors = { grey: "#4285f4" };
   return (
     <ResponsiveBar
@@ -75,7 +72,7 @@ const BarChart = ({ isDashboard = false }) => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: isDashboard ? undefined : "month", // changed
+        legend: isDashboard ? undefined : "month", 
         legendPosition: "middle",
         legendOffset: 32,
       }}
@@ -83,7 +80,7 @@ const BarChart = ({ isDashboard = false }) => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: isDashboard ? undefined : "product", // changed
+        legend: isDashboard ? undefined : "product",
         legendPosition: "middle",
         legendOffset: -40,
       }}

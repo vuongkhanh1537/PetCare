@@ -3,6 +3,7 @@ package com.project.petcare.service;
 import com.project.petcare.entity.Order;
 import com.project.petcare.entity.ProdInOrder;
 import com.project.petcare.entity.Product;
+import com.project.petcare.repository.EmployeeRepository;
 import com.project.petcare.repository.OrderRepository;
 import com.project.petcare.repository.ProdInOrderRepository;
 import com.project.petcare.repository.ProductRepository;
@@ -20,12 +21,15 @@ public class DashboardServiceImpl implements DashboardService {
     private final OrderRepository orderRepository;
     private final ProdInOrderRepository prodInOrderRepository;
     private final ProductRepository productRepository;
+    private final EmployeeRepository employeeRepository;
 
     @Autowired
-    public DashboardServiceImpl(OrderRepository orderRepository, ProdInOrderRepository prodInOrderRepository, ProductRepository productRepository) {
+    public DashboardServiceImpl(OrderRepository orderRepository, ProdInOrderRepository prodInOrderRepository,
+            ProductRepository productRepository, EmployeeRepository employeeRepository) {
         this.orderRepository = orderRepository;
         this.prodInOrderRepository = prodInOrderRepository;
         this.productRepository = productRepository;
+        this.employeeRepository = employeeRepository;
     }
 
     @Override
@@ -45,11 +49,10 @@ public class DashboardServiceImpl implements DashboardService {
         return calculateRevenueFromOrders(paidOrders);
     }
 
-
     @Override
     public double calculateRevenue() {
         try {
-            List<Order> paidOrders = orderRepository.findPaidOrdersAfterDate(LocalDate.now().minusYears(100)); 
+            List<Order> paidOrders = orderRepository.findPaidOrdersAfterDate(LocalDate.now().minusYears(100));
             return calculateRevenueFromOrders(paidOrders);
         } catch (Exception e) {
             // Log the error or handle it appropriately
@@ -86,6 +89,53 @@ public class DashboardServiceImpl implements DashboardService {
     }
 
     @Override
+    public int calculateTotalEmployeeForMonth(YearMonth yearMonth) {
+        try {
+            LocalDate startDate = LocalDate.of(yearMonth.getYear(), yearMonth.getMonth(), 1);
+            LocalDate endDate = startDate.plusMonths(1).minusDays(1);
+
+            int orders = orderRepository.countDistinctEmployeesBetweenDates(startDate, endDate);
+            return orders;
+        } catch (Exception e) {
+            // Log the error or handle it appropriately
+            e.printStackTrace();
+            throw new RuntimeException("Error calculating total orders for the month");
+        }
+    }
+
+    @Override
+    public String findEffectivemployeeName(YearMonth yearMonth) {
+        try {
+            LocalDate startDate = LocalDate.of(yearMonth.getYear(), yearMonth.getMonth(), 1);
+            LocalDate endDate = startDate.plusMonths(1).minusDays(1);
+            Integer Id = orderRepository.findEmployeeIdWithHighestOrders(startDate, endDate);
+            String first_name = employeeRepository.findEmployeeWithHighestOrders(Id);
+
+            return first_name;
+        } catch (Exception e) {
+            // Log the error or handle it appropriately
+            e.printStackTrace();
+            throw new RuntimeException("Error calculating total orders for the month");
+        }
+    }
+
+    @Override
+    public int findEffectivemployeeNum(YearMonth yearMonth) {
+        try {
+            LocalDate startDate = LocalDate.of(yearMonth.getYear(), yearMonth.getMonth(), 1);
+            LocalDate endDate = startDate.plusMonths(1).minusDays(1);
+            Integer Id = orderRepository.findEmployeeIdWithHighestOrders(startDate, endDate);
+            Integer num = orderRepository.findOrderCountForEmployee(startDate, endDate, Id);
+
+            return num;
+        } catch (Exception e) {
+            // Log the error or handle it appropriately
+            e.printStackTrace();
+            throw new RuntimeException("Error calculating total orders for the month");
+        }
+    }
+
+    @Override
     public double calculateRevenuePercentageChange(YearMonth targetYearMonth) {
         try {
             double thisMonthRevenue = calculateRevenueForMonth(targetYearMonth);
@@ -99,17 +149,42 @@ public class DashboardServiceImpl implements DashboardService {
             throw new RuntimeException("Error calculating percentage change for the month");
         }
     }
-    
+
+    @Override
+    public double calculateRevenueForYear(int year) {
+        try {
+            LocalDate startDate = LocalDate.of(year, 1, 1);
+            LocalDate endDate = startDate.plusYears(1).minusDays(1);
+
+            List<Order> paidOrders = orderRepository.findPaidOrdersBetweenDates(startDate, endDate);
+            return calculateRevenueFromOrders(paidOrders);
+        } catch (Exception e) {
+            // Log the error or handle it appropriately
+            e.printStackTrace();
+            throw new RuntimeException("Error calculating revenue for the year");
+        }
+    }
+
+    @Override
+    public double calculateOrderPercentageChange(YearMonth targetYearMonth) {
+        try {
+            int thisMonthOrder = calculateTotalOrdersForMonth(targetYearMonth);
+            int lastMonthOrder = calculateTotalOrdersForMonth(targetYearMonth.minusMonths(1));
+
+            // Calculate percentage change
+            return calculateOrderPercentageChange(thisMonthOrder, lastMonthOrder);
+        } catch (Exception e) {
+            // Log the error or handle it appropriately
+            e.printStackTrace();
+            throw new RuntimeException("Error calculating percentage change for the month");
+        }
+    }
 
     private double calculateRevenueFromOrders(List<Order> orders) {
         double totalRevenue = 0.0;
 
         for (Order order : orders) {
-            List<ProdInOrder> productsInOrder = prodInOrderRepository.findInfoOfOrder(order.getId());
-
-            for (ProdInOrder productInOrder : productsInOrder) {
-                totalRevenue += productInOrder.getTotalPrice();
-            }
+            totalRevenue += order.getTotalPrice();
         }
 
         return totalRevenue;
@@ -122,12 +197,19 @@ public class DashboardServiceImpl implements DashboardService {
         }
         return totalAvailability;
     }
-    
+
     private double calculateRevenuePercentageChange(double thisMonthRevenue, double lastMonthRevenue) {
         if (lastMonthRevenue == 0) {
             return 100.0; // To handle cases where last month revenue is zero
         }
         return ((thisMonthRevenue - lastMonthRevenue) / lastMonthRevenue) * 100.0;
+    }
+
+    private double calculateOrderPercentageChange(int thisMonthOrder, int lastMonthOrder) {
+        if (lastMonthOrder == 0) {
+            return 100.0; // To handle cases where last month order is zero
+        }
+        return ((thisMonthOrder - lastMonthOrder) / lastMonthOrder) * 100.0;
     }
 
     private double calculateRevenueFromPastMonths(int months) {

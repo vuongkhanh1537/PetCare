@@ -1,6 +1,5 @@
 package com.project.petcare.repository;
 
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -14,13 +13,13 @@ import com.project.petcare.entity.Employee;
 import jakarta.transaction.Transactional;
 
 @Repository
-public interface EmployeeRepository extends JpaRepository<Employee,Integer> {
+public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     @Override
     @Query("select e from Employee e where e.isDel = false")
     public List<Employee> findAll();
 
     @Query("SELECT e FROM Employee e WHERE e.id= ?1")
-    public Employee findEmployee(Integer id);   
+    public Employee findEmployee(Integer id);
 
     @Query("select e.isDel from Employee e where e.email = ?1")
     public Boolean checkIsDel(String email);
@@ -70,7 +69,6 @@ public interface EmployeeRepository extends JpaRepository<Employee,Integer> {
     @Query("UPDATE Employee e set e.address = ?1 where e.id = ?2")
     public void updateAddress(String address, Integer id);
 
-
     @Transactional
     @Modifying
     @Query("UPDATE Employee e set e.email = ?1 where e.id = ?2")
@@ -78,5 +76,10 @@ public interface EmployeeRepository extends JpaRepository<Employee,Integer> {
 
     @Query("select e from Employee e where e.cccd = ?1")
     public Employee findEmpByCccd(String cccd);
+
+    @Query("SELECT e.email AS employeeName " +
+            "FROM Employee e " +
+            "WHERE e.id = ?1")
+    public String findEmployeeWithHighestOrders(Integer employeeId);
 
 }
