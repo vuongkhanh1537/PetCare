@@ -11,5 +11,7 @@ public interface DashboardService {
     int calculateTotalProductAvailability();
     public double calculateRevenuePercentageChange(YearMonth targetYearMonth);
     public double calculateOrderPercentageChange(YearMonth targetYearMonth);
+    public int calculateAmountOfDogsInOrdersForMonth(YearMonth yearMonth);
+    public int calculateAmountOfCatsInOrdersForMonth(YearMonth yearMonth);
     // Add other methods for dashboard functionalities
 }

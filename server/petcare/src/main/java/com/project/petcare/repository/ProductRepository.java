@@ -36,4 +36,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Modifying
     @Query("update Product p set p.isAvailable = false where p.id = ?1")
     public void deleteProduct (Integer productID);
+
+    @Query("SELECT p FROM Product p WHERE p.type1 = 'Chó'")
+    List<Product> findDogProducts();
 }

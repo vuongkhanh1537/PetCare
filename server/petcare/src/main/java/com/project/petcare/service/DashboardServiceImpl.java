@@ -129,6 +129,34 @@ public class DashboardServiceImpl implements DashboardService {
         }
     }
 
+    @Override
+    public int calculateAmountOfDogsInOrdersForMonth(YearMonth yearMonth) {
+        try {
+            Integer month = yearMonth.getMonthValue();
+            Integer year = yearMonth.getYear();
+
+            Integer amount = prodInOrderRepository.findAmountOfDogsInOrdersForMonth(month, year);
+            return amount != null ? amount : 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error calculating amount of dogs in orders for the month");
+        }
+    }
+
+    @Override
+    public int calculateAmountOfCatsInOrdersForMonth(YearMonth yearMonth) {
+        try {
+            Integer month = yearMonth.getMonthValue();
+            Integer year = yearMonth.getYear();
+
+            Integer amount = prodInOrderRepository.findAmountOfCatsInOrdersForMonth(month, year);
+            return amount != null ? amount : 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error calculating amount of dogs in orders for the month");
+        }
+    }
+
     private double calculateRevenueFromOrders(List<Order> orders) {
         double totalRevenue = 0.0;
     
