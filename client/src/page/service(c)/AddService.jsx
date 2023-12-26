@@ -34,7 +34,7 @@ const AddService = () => {
         const name = e.target.name;
         const value = e.target.value;
         setNewService((prev) => {
-            return {...prev, [name] : value}
+            return {...prev, [name] : value} 
         })
     }
 

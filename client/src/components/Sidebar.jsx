@@ -33,7 +33,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 
 const Sidebar = ({site}) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [selected, setSelected] = useState(site);
+  const [selected, setSelected] = useState("Tổng quan");
 
   return (
     <Box
