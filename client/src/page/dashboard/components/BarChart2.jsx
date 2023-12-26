@@ -45,7 +45,8 @@ const StackedColumn = () => {
   id='charts'
   style={{ textAlign: "center" }}
   legendSettings={{ enableHighlight: true }}
-  primaryXAxis={{
+          primaryXAxis={{
+    title: 'Tháng',
     majorGridLines: { width: 0 },
     minorGridLines: { width: 0 },
     majorTickLines: { width: 0 },
