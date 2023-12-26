@@ -7,7 +7,7 @@ import LineChart from "./components/LineChart";
 import BarChart from "./components/BarChart";
 //import { lineCustomSeries, lineCustomSeries2 } from '../../data(c)/MockData';
 import { blue } from "@mui/material/colors";
-import { getOrderMonth,getRevenueMonth, getProduct, getRevenueRate, getOrderRate, getRevenueYear, getTotalEmployee, getEffEmployee, getEffEmployeeNum} from "../../services/dashboard-axios";
+import { getOrderMonth,getRevenueMonth, getProduct, getRevenueRate, getOrderRate, getRevenueYear, getTotalEmployee, getEffEmployee, getEffEmployeeNum, getDog, getCat} from "../../services/dashboard-axios";
 import { FiBarChart } from "react-icons/fi";
 import { BsBoxSeam } from "react-icons/bs";
 import { MdOutlineSupervisorAccount } from "react-icons/md";
@@ -52,7 +52,6 @@ export const FetchData = async (currentMonth, currentYear) => {
   const revenueP1 = await getRevenueMonth(prev1Month, currentYear);
   const revenueP2 = await getRevenueMonth(prev2Month, currentYear);
   const revenueP3 = await getRevenueMonth(prev3Month, currentYear);
-
   const isOddMonth = currentMonth % 2 !== 0;
   const lineChartData = [
     [
@@ -106,8 +105,8 @@ export const FetchData = async (currentMonth, currentYear) => {
       },
     ],
   ];
-  
 
+  
   return {
     order,
     product,
@@ -124,6 +123,54 @@ export const FetchData = async (currentMonth, currentYear) => {
     totalEmp,
     effEmp,
     empNum,
+  };
+};export const FetchDataForStack = async (currentMonth, currentYear) => {
+  let prev1Month, prev2Month, prev3Month;
+  if (currentMonth === 1) {
+    prev1Month = 12;
+    prev2Month = 11;
+    prev3Month = 10;
+  } else if (currentMonth === 2) {
+    prev1Month = 1;
+    prev2Month = 12;
+    prev3Month = 11;
+  } else if (currentMonth === 3) {
+    prev1Month = 2;
+    prev2Month = 1;
+    prev3Month = 12;
+  } else {
+    prev1Month = currentMonth - 1;
+    prev2Month = currentMonth - 2;
+    prev3Month = currentMonth - 3;
+  }
+
+
+  //handle for barChart
+  const dogNum = await getDog(currentMonth, currentYear);
+  const dogNumP1 = await getDog(prev1Month, currentYear);
+  const dogNumP2 = await getDog(prev2Month, currentYear);
+  const dogNumP3 = await getDog(prev3Month, currentYear);
+  const catNum = await getCat(currentMonth, currentYear);
+  const catNumP1 = await getCat(prev1Month, currentYear);
+  const catNumP2 = await getCat(prev2Month, currentYear);
+  const catNumP3 = await getCat(prev3Month, currentYear);
+  
+  const barChartData1 = [
+    { x: prev3Month, y: dogNumP3 },
+    { x: prev2Month, y: dogNumP2 },
+    { x: prev1Month, y: dogNumP1 },
+    { x: currentMonth, y: dogNum },    
+  ]
+  const barChartData2 = [
+    { x: prev3Month, y: catNumP3 },
+    { x: prev2Month, y: catNumP2 },
+    { x: prev1Month, y: catNumP1 },
+    { x: currentMonth, y: catNum },    
+  ]
+  
+  return {
+    barChartData1,
+    barChartData2,
   };
 };
 const Dashboard = () => {

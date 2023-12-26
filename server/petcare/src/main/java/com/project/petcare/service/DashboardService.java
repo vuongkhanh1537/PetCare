@@ -24,5 +24,9 @@ public interface DashboardService {
     public String findEffectivemployeeName(YearMonth yearMonth);
 
     public int findEffectivemployeeNum(YearMonth yearMonth);
+
+    public int calculateAmountOfDogsInOrdersForMonth(YearMonth yearMonth);
+
+    public int calculateAmountOfCatsInOrdersForMonth(YearMonth yearMonth);
     // Add other methods for dashboard functionalities
 }
