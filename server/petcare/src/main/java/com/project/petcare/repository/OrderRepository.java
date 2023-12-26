@@ -50,4 +50,21 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     
     @Query("select count(o.id) from Order o where o.employee.id = ?1 and o.status = 3")
     public Integer countOrder(Integer empId);
+
+    @Query("SELECT COUNT(DISTINCT o.employee.id) FROM Order o WHERE o.orderDate >= ?1 AND o.orderDate <= ?2")
+    Integer countDistinctEmployeesBetweenDates(LocalDate startDate, LocalDate endDate);
+
+    @Query("SELECT o.employee.id, COUNT(o.employee.id) AS orderCount " +
+                        "FROM Order o " +
+                        "WHERE o.orderDate >= ?1 AND o.orderDate <= ?2 " +
+                        "GROUP BY o.employee.id " +
+                        "ORDER BY orderCount DESC " +
+                        "LIMIT 1")
+    Integer findEmployeeIdWithHighestOrders(LocalDate startDate, LocalDate endDate);
+
+    @Query("SELECT COUNT(o.employee.id) " +
+                    "FROM Order o " +
+                    "WHERE o.orderDate >= ?1 AND o.orderDate <= ?2 " +
+                    "AND o.employee.id = ?3")
+    Integer findOrderCountForEmployee(LocalDate startDate, LocalDate endDate, Integer employeeId);
 }

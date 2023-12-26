@@ -6,6 +6,7 @@ import com.project.petcare.entity.Product;
 import com.project.petcare.repository.OrderRepository;
 import com.project.petcare.repository.ProdInOrderRepository;
 import com.project.petcare.repository.ProductRepository;
+import com.project.petcare.repository.EmployeeRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,12 +21,14 @@ public class DashboardServiceImpl implements DashboardService {
     private final OrderRepository orderRepository;
     private final ProdInOrderRepository prodInOrderRepository;
     private final ProductRepository productRepository;
+    private final EmployeeRepository employeeRepository;
 
     @Autowired
-    public DashboardServiceImpl(OrderRepository orderRepository, ProdInOrderRepository prodInOrderRepository, ProductRepository productRepository) {
+    public DashboardServiceImpl(OrderRepository orderRepository, ProdInOrderRepository prodInOrderRepository, ProductRepository productRepository, EmployeeRepository employeeRepository) {
         this.orderRepository = orderRepository;
         this.prodInOrderRepository = prodInOrderRepository;
         this.productRepository = productRepository;
+        this.employeeRepository =employeeRepository;
     }
 
     @Override
@@ -154,6 +157,53 @@ public class DashboardServiceImpl implements DashboardService {
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Error calculating amount of dogs in orders for the month");
+        }
+    }
+
+    @Override
+    public int calculateTotalEmployeeForMonth(YearMonth yearMonth) {
+        try {
+            LocalDate startDate = LocalDate.of(yearMonth.getYear(), yearMonth.getMonth(), 1);
+            LocalDate endDate = startDate.plusMonths(1).minusDays(1);
+
+            int orders = orderRepository.countDistinctEmployeesBetweenDates(startDate, endDate);
+            return orders;
+        } catch (Exception e) {
+            // Log the error or handle it appropriately
+            e.printStackTrace();
+            throw new RuntimeException("Error calculating total orders for the month");
+        }
+    }
+
+    @Override
+    public String findEffectivemployeeName(YearMonth yearMonth) {
+        try {
+            LocalDate startDate = LocalDate.of(yearMonth.getYear(), yearMonth.getMonth(), 1);
+            LocalDate endDate = startDate.plusMonths(1).minusDays(1);
+            Integer Id = orderRepository.findEmployeeIdWithHighestOrders(startDate, endDate);
+            String first_name = employeeRepository.findEmployeeWithHighestOrders(Id);
+
+            return first_name;
+        } catch (Exception e) {
+            // Log the error or handle it appropriately
+            e.printStackTrace();
+            throw new RuntimeException("Error calculating total orders for the month");
+        }
+    }
+
+    @Override
+    public int findEffectivemployeeNum(YearMonth yearMonth) {
+        try {
+            LocalDate startDate = LocalDate.of(yearMonth.getYear(), yearMonth.getMonth(), 1);
+            LocalDate endDate = startDate.plusMonths(1).minusDays(1);
+            Integer Id = orderRepository.findEmployeeIdWithHighestOrders(startDate, endDate);
+            Integer num = orderRepository.findOrderCountForEmployee(startDate, endDate, Id);
+
+            return num;
+        } catch (Exception e) {
+            // Log the error or handle it appropriately
+            e.printStackTrace();
+            throw new RuntimeException("Error calculating total orders for the month");
         }
     }
 

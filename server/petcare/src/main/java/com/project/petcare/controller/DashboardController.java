@@ -157,4 +157,52 @@ public class DashboardController {
         }
     }
 
+    @GetMapping("/num-employee")
+    public ResponseEntity<?> numOfEmp(@RequestParam int year, @RequestParam int month) {
+        try {
+            YearMonth targetYearMonth = YearMonth.of(year, month);
+            int empNum = dashboardService.calculateTotalEmployeeForMonth(targetYearMonth);
+            return ResponseEntity.ok(empNum);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Invalid argument: " + e.getMessage());
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Internal Server Error: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error occurred");
+        }
+    }
+
+    @GetMapping("/eff-employee")
+    public ResponseEntity<?> findEmployeeNameWithHighestOrders(@RequestParam int year, @RequestParam int month) {
+        try {
+            YearMonth targetYearMonth = YearMonth.of(year, month);
+            String empNum = dashboardService.findEffectivemployeeName(targetYearMonth);
+            return ResponseEntity.ok(empNum);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Invalid argument: " + e.getMessage());
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Internal Server Error: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error occurred");
+        }
+    }
+
+    @GetMapping("/eff-employee-num")
+    public ResponseEntity<?> findEffectivemployeeNum(@RequestParam int year, @RequestParam int month) {
+        try {
+            YearMonth targetYearMonth = YearMonth.of(year, month);
+            int empNum = dashboardService.findEffectivemployeeNum(targetYearMonth);
+            return ResponseEntity.ok(empNum);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Invalid argument: " + e.getMessage());
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Internal Server Error: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error occurred");
+        }
+    }
+
 }

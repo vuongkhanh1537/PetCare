@@ -13,5 +13,8 @@ public interface DashboardService {
     public double calculateOrderPercentageChange(YearMonth targetYearMonth);
     public int calculateAmountOfDogsInOrdersForMonth(YearMonth yearMonth);
     public int calculateAmountOfCatsInOrdersForMonth(YearMonth yearMonth);
+    public int calculateTotalEmployeeForMonth(YearMonth yearMonth);
+    public String findEffectivemployeeName(YearMonth yearMonth);
+    public int findEffectivemployeeNum(YearMonth yearMonth);
     // Add other methods for dashboard functionalities
 }
