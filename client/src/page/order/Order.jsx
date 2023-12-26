@@ -57,7 +57,7 @@ const Order = () => {
     const getOrderList = async () => {
         try {
             let res = await fetchAllOrder();
-            console.log(res);
+            // console.log(res);
             if (res) {
                 let tmp = res;
                 const data = tmp.map(item => ({
@@ -67,7 +67,7 @@ const Order = () => {
                     employee: `${item.empFName} ${item.empLName}`,
                     status: item.status
                 }));
-                console.log(data);
+                // console.log(data);
                 setRows(data);
             }
         } catch (err) {

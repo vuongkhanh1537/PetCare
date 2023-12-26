@@ -91,6 +91,7 @@ const AddProduct = () => {
         }
         if (newProduct.quantity === "") {
             toast.error("Vui lòng nhập số lượng sản phẩm");
+            check = false;
         }
         if (newProduct.type2 === "") {
             toast.error("Vui lòng chọn loại sản phẩm");

@@ -20,7 +20,7 @@ const AddOrder = () => {
     const id = localStorage.getItem("id");
     const name = localStorage.getItem("username");
     setPersonName({id: id, name: name});
-    console.log(personName);
+    // console.log(personName);
   }, []);
 
   const addItem = (data) => {
@@ -45,7 +45,7 @@ const AddOrder = () => {
         ...orderList,
         newItem,
       ]);
-      console.log(orderList);
+      // console.log(orderList);
     }
   }
 
@@ -88,7 +88,7 @@ const AddOrder = () => {
     setLoading(true);
     let res = await addOrder(id, status, data);
     setLoading(false);
-    console.log(res);
+    // console.log(res);
     if (res) {
       toast.success("Tạo đơn hàng thành công");
       setTimeout(() => {

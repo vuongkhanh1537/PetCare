@@ -24,7 +24,7 @@ const OnlyReadOrder = (props) => {
   const getOrderInfo = async () => {
     const res = await fetchAnOrder(id);
     if (res) {
-        console.log(res);
+        // console.log(res);
         let tmp = res.order;
         setPersonName(res.empName);
         
@@ -57,7 +57,7 @@ const OnlyReadOrder = (props) => {
     setLoading(true);
     let res = await updateOrder(id, status, data);
     setLoading(false);
-    console.log(res);
+    // console.log(res);
     if (res && res.status === 400) {
       toast.error("Sản phẩm hiện tại không đủ số lượng");
     } else {

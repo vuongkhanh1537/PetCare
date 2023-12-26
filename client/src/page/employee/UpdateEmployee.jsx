@@ -20,7 +20,7 @@ const UpdateEmployee = () => {
 
     const getEmployee = async () => {
         let res = await fetchAnEmployee(id);
-        console.log(res);
+        // console.log(res);
         if (res) {
             setEmployee(res);
         }

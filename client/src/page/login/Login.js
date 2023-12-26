@@ -26,7 +26,7 @@ function Login() {
             toast.warn("Vui lòng điền đầy đủ thông tin đăng nhập!");
         } else {
             let res = await loginApi(username, password);
-            console.log(res);
+            // console.log(res);
             // if (res && res.status === 200) {
             //     toast.success("Đăng nhập thành công");
             //     // navigate("/dashboard");

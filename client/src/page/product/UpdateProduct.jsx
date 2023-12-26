@@ -27,7 +27,7 @@ const UpdateProduct = () => {
 
     const getProduct = async () => {
         let res = await fetchAnProduct(id);
-        console.log(res);
+        // console.log(res);
         if (res && res.data) {
             setProduct(res.data);
         }

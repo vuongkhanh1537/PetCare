@@ -36,7 +36,7 @@ export default function ChargedStaff(props) {
     const {
       target: { value },
     } = event;
-    console.log(value);
+    // console.log(value);
     setPersonName(nameList.find(item => item.name === value));
   };
 

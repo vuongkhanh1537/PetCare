@@ -25,7 +25,7 @@ const UpdateOrder = () => {
   const getOrderInfo = async () => {
     const res = await fetchAnOrder(id);
     if (res) {
-        console.log(res);
+        // console.log(res);
         let tmp = res.order;
         setPersonName(res.empName);
         const data = tmp.prodInOrder.map(item => ({
@@ -58,7 +58,7 @@ const UpdateOrder = () => {
         ...orderList,
         newItem,
       ]);
-      console.log(orderList);
+      // console.log(orderList);
     }
   }
 

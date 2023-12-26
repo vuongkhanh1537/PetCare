@@ -71,7 +71,7 @@ const Employee = () => {
                 }
                 setRows(newData);
             }
-            console.log(rows);
+            // console.log(rows);
         }
     }
 
@@ -88,7 +88,7 @@ const Employee = () => {
     }
 
     const handleDeleteClick = () => {
-        console.log(selectionModel);
+        // console.log(selectionModel);
         const workingId = parseInt(localStorage.getItem("id"));
         selectionModel.forEach((value) => {
             if (value !== workingId) {
@@ -144,7 +144,7 @@ const Employee = () => {
                             checkboxSelection
                             disableRowSelectionOnClick
                             onRowSelectionModelChange={(newSelection) => {
-                                console.log(newSelection);
+                                // console.log(newSelection);
                                 setSelectionModel(newSelection);
                             }}
                             selectionModel={selectionModel}
