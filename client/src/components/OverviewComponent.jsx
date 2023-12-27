@@ -28,11 +28,11 @@ export const LinePrimaryXAxis = {
   background: "white",
 };
 export const LinePrimaryYAxis = {
-  labelFormat: "{value} Triệu VND ",
+  labelFormat: "{value} VND ",
   rangePadding: "None",
   minimum: 0,
-  maximum: 50000000,
-  interval: 10000000,
+  maximum: 100000000,
+  interval: 20000000,
   lineStyle: { width: 0 },
   majorTickLines: { width: 0 },
   minorTickLines: { width: 0 },
@@ -46,7 +46,7 @@ export const LinePrimaryXAxis2 = {
   background: "white",
 };
 export const LinePrimaryYAxis2 = {
-  labelFormat: "{value} Triệu VND ",
+  labelFormat: "{value} VND ",
   rangePadding: "None",
   minimum: 0,
   maximum: 20000000,

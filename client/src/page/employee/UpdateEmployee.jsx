@@ -67,6 +67,10 @@ const UpdateEmployee = () => {
             toast.warning("Sai định dạng CCCD");
             check = false;
         }
+        if (employee.phoneNum === "") {
+            toast.error("Vui lòng nhập số điện thoại");
+            check = false;
+        }
         if (employee.date === "") {
             toast.error("Vui lòng chọn ngày cấp");
             check = false;
@@ -77,9 +81,11 @@ const UpdateEmployee = () => {
         }
         if (employee.bdate === "") {
             toast.error("Vui lòng chọn ngày sinh");
+            check = false;
         }
         if (employee.sex === "") {
             toast.error("Vui lòng chọn giới tính");
+            check = false;
         }
         return check;
     }
@@ -227,15 +233,15 @@ const UpdateEmployee = () => {
                             label="Nam"
                             type="radio"
                             name="sex"
-                            value="Nam"
+                            value="Male"
                             checked={employee.sex === "Male" || employee.sex === "male"}
                             onChange={handleChange}
                         />
                         <Form.Check
                             label="Nữ"
                             type="radio"
-                            name="Nữ"
-                            value={employee.sex}
+                            name="sex"
+                            value="Female"
                             checked={employee.sex === "female" || employee.sex === "Female"}
                             onChange={handleChange} 
                         />

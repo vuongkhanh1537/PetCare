@@ -247,11 +247,13 @@ ul {
 li {
   margin: 5px 0;
 }
-
-p {
+.report-section.p {
   color: #444;
   line-height: 1.5;
 }
+/* p {
+  
+} */
 table {
   width: 100%;
   border-collapse: collapse;

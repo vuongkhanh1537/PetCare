@@ -446,7 +446,6 @@ const Dashboard = () => {
     <h2>Tác giả</h2>
     <p>Tên: {effEmp}</p>
     <p>Chức vụ: Chuyên viên phân tích</p>
-    <p>Email: {effEmp}</p>
   </div>
 
   <h2>Tổng quan</h2>

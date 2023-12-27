@@ -64,6 +64,7 @@ const AddEmployee = () => {
         }
         if (newEmployee.phoneNum === "") {
             toast.error("Vui lòng nhập số điện thoại");
+            check = false;
         }
         if (newEmployee.date === "") {
             toast.error("Vui lòng chọn ngày cấp");
@@ -75,9 +76,11 @@ const AddEmployee = () => {
         }
         if (newEmployee.bdate === "") {
             toast.error("Vui lòng chọn ngày sinh");
+            check = false;
         }
         if (newEmployee.sex === "") {
             toast.error("Vui lòng chọn giới tính");
+            check = false;
         }
         return check;
     }
