@@ -94,9 +94,15 @@ const UpdateProduct = () => {
         if (product.cost === "") {
             toast.error("Vui lòng nhập giá sản phẩm");
             check = false;
+        } else if (product.cost <= 0) {
+            toast.warning("Kiểm tra giá thành sản phẩm")
+            check = false;
         }
         if (product.quantity === "") {
             toast.error("Vui lòng nhập số lượng sản phẩm");
+        } else if (product.quantity < 0) {
+            toast.warning("Kiểm tra số lượng sản phẩm");
+            check = false;
         }
         if (product.type2 === "") {
             toast.error("Vui lòng chọn loại sản phẩm");

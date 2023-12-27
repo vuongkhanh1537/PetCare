@@ -77,7 +77,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     @Query("select e from Employee e where e.cccd = ?1")
     public Employee findEmpByCccd(String cccd);
 
-    @Query("SELECT e.email AS employeeName " +
+    @Query("SELECT CONCAT(e.firstName, ' ', e.lastName) AS employeeName " +
             "FROM Employee e " +
             "WHERE e.id = ?1")
     public String findEmployeeWithHighestOrders(Integer employeeId);

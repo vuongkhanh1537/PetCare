@@ -37,6 +37,16 @@ const UpdateEmployee = () => {
         })
     }
 
+    function isValidEmail(email) {
+        // Biểu thức chính quy kiểm tra định dạng email
+        var emailRegex =  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+      
+        // Kiểm tra chuỗi email với biểu thức chính quy
+        let check = emailRegex.test(email);
+        console.log(check);
+        return check;
+    }
+
     const validate = () => {
         let check = true;
         if (employee.firstName === "" || employee.lastName === "") {
@@ -46,14 +56,14 @@ const UpdateEmployee = () => {
         if (employee.email === "") {
             toast.error("Vui lòng nhập email");
             check = false;
-        } else if (!employee.email.includes('@')) {
+        } else if (!isValidEmail(employee.email)) {
             toast.warning("Sai định dạng email");
             check = false;
         }
         if (employee.cccd === "") {
             toast.error("Vui lòng nhập CCCD");
             check = false;
-        } else if (employee.cccd.length === 12) {
+        } else if (employee.cccd.length !== 12) {
             toast.warning("Sai định dạng CCCD");
             check = false;
         }

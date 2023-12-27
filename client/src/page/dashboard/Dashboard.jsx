@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import Header from "../../components/Header";
 import "./Dashboard.css";
 import { FaCalendarAlt } from "react-icons/fa";
 import { Box, List } from "@mui/material";
 import LineChart from "./components/LineChart";
 import BarChart from "./components/BarChart";
-//import { lineCustomSeries, lineCustomSeries2 } from '../../data(c)/MockData';
 import { blue } from "@mui/material/colors";
 import { getOrderMonth,getRevenueMonth, getProduct, getRevenueRate, getOrderRate, getRevenueYear, getTotalEmployee, getEffEmployee, getEffEmployeeNum, getDog, getCat} from "../../services/dashboard-axios";
 import { FiBarChart } from "react-icons/fi";
@@ -15,6 +14,15 @@ import { HiOutlineRefresh } from "react-icons/hi";
 import { IoIosPeople } from "react-icons/io";
 import { MdOutlineEmojiPeople } from "react-icons/md";
 import StackedColumn from "./components/BarChart2";
+import { useReactToPrint } from 'react-to-print';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
 export const FetchData = async (currentMonth, currentYear) => {
   const order = await getOrderMonth(currentMonth, currentYear);
   const product = await getProduct();
@@ -124,7 +132,8 @@ export const FetchData = async (currentMonth, currentYear) => {
     effEmp,
     empNum,
   };
-};export const FetchDataForStack = async (currentMonth, currentYear) => {
+};
+export const FetchDataForStack = async (currentMonth, currentYear) => {
   let prev1Month, prev2Month, prev3Month;
   if (currentMonth === 1) {
     prev1Month = 12;
@@ -144,7 +153,6 @@ export const FetchData = async (currentMonth, currentYear) => {
     prev3Month = currentMonth - 3;
   }
 
-
   //handle for barChart
   const dogNum = await getDog(currentMonth, currentYear);
   const dogNumP1 = await getDog(prev1Month, currentYear);
@@ -158,7 +166,7 @@ export const FetchData = async (currentMonth, currentYear) => {
   const barChartData1 = [
     { x: prev3Month, y: dogNumP3 },
     { x: prev2Month, y: dogNumP2 },
-    { x: prev1Month, y: dogNumP1 },
+    { x: prev1Month, y: dogNumP1 }, 
     { x: currentMonth, y: dogNum },    
   ]
   const barChartData2 = [
@@ -188,7 +196,24 @@ const Dashboard = () => {
   const currentMonth = currentDate.getMonth() + 1;
   const currentYear = currentDate.getFullYear();
   const isOddMonth = currentMonth % 2 !== 0;
-  
+
+  //handle for report
+  const componentPDF = useRef(null);
+  const [open, setOpen] = React.useState(false);
+  const [selectedYear, setSelectedYear] = useState(2023);
+  const [selectedMonth, setSelectedMonth] = useState(12);
+  const [isPrint, setIsPrint] = useState(false);
+  const [efficiencyRatio, setEfficiencyRatio] = useState(0);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setIsPrint(false);
+    setOpen(false);
+  };
+  const handleClose2 = () => {
+    window.location.reload();
+  };
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -209,6 +234,26 @@ const Dashboard = () => {
 
     fetchData(); 
   }, [currentMonth]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await FetchData(selectedMonth, selectedYear);
+        setOrder(data.order);
+        setProduct(data.product);
+        setRevenue(data.revenue);
+        setRevenueP(data.revenueP);
+        setOrderP(data.orderP);
+        setRevenuePrev(data.revenuePrev);
+        setEmp(data.totalEmp);
+        setEEmp(data.effEmp);
+        setEmpNum(data.empNum);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+    setEfficiencyRatio( (revenue * revenueP / 100)/(order * orderP / 100) );
+    fetchData(); 
+  }, [isPrint]);
     const earningData = [ 
     {
       icon: <MdOutlineSupervisorAccount />,
@@ -238,26 +283,83 @@ const Dashboard = () => {
     {
       icon: <HiOutlineRefresh />,
       amount: isOddMonth == true ? `${(revenue*0.3).toLocaleString()} VND`:`${(revenue*0.2).toLocaleString()} VND`,
-      percentage: isOddMonth == true ? `${(((3/2)*((revenueP-revenuePrev)/revenuePrev))*100).toFixed(2)}%` : `${(((2/3)*((revenueP-revenuePrev)/revenuePrev))*100).toFixed(2)}%`,
+      percentage: isOddMonth == true ? `${(((3/2) * (revenue / revenuePrev) - 1) * 100).toFixed(2)}%` : `${(((2 / 3) * (revenue / revenuePrev) - 1) * 100).toFixed(2)}%`,
       title: "Lợi nhuận",
       iconColor: "rgb(0, 194, 146)",
       iconBg: "rgb(235, 250, 242)",
       pcColor: "red-600",
     },
-  ];
+    ];
+  
+
+  const handlePrint = () => {
+    
+    if (selectedMonth > 12 || selectedMonth <0 ) {
+      alert("Vui lòng chọn tháng bé hơn 12 và lớn hơn 0");
+      return;
+    }
+    if (selectedYear>currentYear ) {
+      alert("Vui lòng chọn năm bé hơn hoặc bằng năm hiện tại");
+      return;
+    }
+    setIsPrint(true);
+    setTimeout(() => {
+      handleGenerateReport();
+    }, 2000);
+  }
+  const handleGenerateReport = useReactToPrint({
+    content: () => componentPDF.current,
+    documentTitle: "Overview",
+    onAfterPrint: () => handleClose2(),
+  });
   return (
     <>
-    <main className='content'>  
+    <main className='content' >  
       <Box m = "0 30px 10px 30px">
-        <Header title="Tổng quan" subtitle="Tổng quan doanh thu"/> 
-      </Box>
-      <List
-        sx={{
-          width: '100%',
-          height: '80%',
-          overflow: 'auto',
-        }}
-      >
+          <Header title="Tổng quan" subtitle="Tổng quan doanh thu" /> 
+          <Button
+            variant="outlined"
+            onClick={handleClickOpen}
+            className="print-report-btn"
+          >
+            In báo cáo
+          </Button>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>In báo cáo</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Vui lòng chọn tháng và năm cần lập báo cáo tổng quan.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="year"
+            label="Năm"
+            type="number"
+            fullWidth
+            variant="standard"
+            value={selectedYear}
+            onChange={(e) => setSelectedYear(e.target.value)}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="month"
+            label="Tháng"
+            type="number"  
+            fullWidth
+            variant="standard"
+            value={selectedMonth}
+            onChange={(e) => setSelectedMonth(e.target.value)}
+          />
+              
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Hủy</Button>
+          <Button onClick={handlePrint}>Lập báo cáo</Button>
+        </DialogActions>
+      </Dialog>
+        </Box>
       <div className="flex-container">
           <div className="earnings-container">
             <div className="earnings-header">
@@ -334,8 +436,77 @@ const Dashboard = () => {
   </div>
 </div>
  
-    </List>
-  </main> 
+    
+      </main> 
+      {isPrint && (
+  <div className="report-section" ref={componentPDF}>
+          <h1>Báo cáo tháng {selectedMonth}</h1>
+  
+  <div className="author-info">
+    <h2>Tác giả</h2>
+    <p>Tên: {effEmp}</p>
+    <p>Chức vụ: Chuyên viên phân tích</p>
+    <p>Email: {effEmp}</p>
+  </div>
+
+  <h2>Tổng quan</h2>
+  <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th>Số lượng</th>
+          <th>Phần trăm</th>
+        </tr>
+      </thead>
+      <tbody>
+        {earningData.map((item, index) => (
+          <tr key={index}>
+            <td>{item.title}</td>
+            <td>{item.amount}</td>
+            <td>{item.percentage}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  <h2>Số liệu chính</h2>
+  <ul>
+    <li>Doanh thu trong tháng tăng: {(revenue*revenueP/100).toFixed(2)} VND</li>
+    <li>Số lượng khách hàng mới: {(order*orderP/100).toFixed(0)} người</li>
+    <li>Lượng kinh tế chuyển đổi: {isFinite(efficiencyRatio) ? efficiencyRatio.toFixed(2) : "không có khách hàng mới"} {isFinite(efficiencyRatio) ? "VND/người" : ""}</li>
+  </ul>
+
+  <h2>Phân tích</h2>
+    {!isFinite(efficiencyRatio) ? (<p><strong>Không có khách hàng mới:</strong> Giá trị tính toán đưa ra số khách hàng bằng 0, dẫn đến doanh thu trong tháng tăng thấp </p>
+    ) : efficiencyRatio > 1000000 ? (
+      <p><strong>Hiệu suất Cao:</strong> Giá trị tính toán cho thấy tỷ lệ hiệu suất cao, đề xuất rằng đơn đặt hàng đang chuyển đổi thành doanh thu rất hiệu quả.</p>
+    ) : efficiencyRatio > 500000 ? (
+      <p><strong>Hiệu suất Trung bình:</strong> Tỷ lệ hiệu suất trung bình, chỉ ra một tỷ lệ chuyển đổi đơn đặt hàng thành doanh thu hợp lý.</p>
+    ) : (
+      <p><strong>Hiệu suất Thấp:</strong> Giá trị tính toán cho thấy tỷ lệ hiệu suất thấp, và có thể có cơ hội để cải thiện quá trình chuyển đổi đơn đặt hàng thành doanh thu.</p>
+    )}
+
+    <h2>Đề xuất</h2>
+    {!isFinite(efficiencyRatio) ? (<p><strong>Đề xuất:</strong> Đề xuất tăng quảng bá nhãn hiệu để tăng lượng khách hàng.</p>
+    ) :efficiencyRatio > 1000000 ? (
+      <p><strong>Đề xuất:</strong> Xem xét giữ các chiến lược hiện tại đang đóng góp vào việc chuyển đổi đơn đặt hàng hiệu quả.</p>
+    ) : efficiencyRatio > 500000 ? (
+      <p><strong>Đề xuất:</strong> Khám phá cơ hội để cải thiện quá trình chuyển đổi và tăng cường hiệu suất tổng thể.</p>
+    ) : (
+      <p><strong>Đề xuất:</strong> Thực hiện các chiến lược và chiến thuật mới để cải thiện quá trình chuyển đổi đơn đặt hàng thành doanh thu và tăng cường hiệu suất tổng thể.</p>
+    )}
+
+    <h2>Kết luận</h2>
+    {!isFinite(efficiencyRatio) ? (<p>Kết luận phân tích, không có khách hàng mới, cần xem xét thu hút tăng lượng khách hàng.</p>
+    ) :efficiencyRatio > 1000000 ? (
+      <p>Kết luận phân tích, tỷ lệ hiệu suất cao phản ánh một quá trình chuyển đổi đơn đặt hàng thành công, đóng góp vào triển vọng tích cực cho những tháng tới.</p>
+    ) : efficiencyRatio > 500000 ? (
+      <p>Kết luận phân tích, có hiệu suất trung bình trong quá trình chuyển đổi đơn đặt hàng và có thể xem xét điều chỉnh chiến lược để cải thiện thêm.</p>
+    ) : (
+      <p>Kết luận phân tích, tỷ lệ hiệu suất thấp đề xuất sự cần thiết của các thay đổi lớn trong chiến lược để đạt được kết quả tốt hơn trong những tháng sắp tới.</p>
+    )}
+</div>
+      )}    
+      
     </>
   );
 };
