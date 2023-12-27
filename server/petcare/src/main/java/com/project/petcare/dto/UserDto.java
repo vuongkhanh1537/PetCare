@@ -7,7 +7,7 @@ public class UserDto {
     private String name;
 
     public UserDto(User user) {
-        this.id = user.getId();
+        this.id = user.getEmployee().getId();
         this.name = user.getEmployee().getFirstName() + " " + user.getEmployee().getLastName();
     }
 
