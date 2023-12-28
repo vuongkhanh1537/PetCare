@@ -37,6 +37,16 @@ const UpdateEmployee = () => {
         })
     }
 
+    function isValidEmail(email) {
+        // Biểu thức chính quy kiểm tra định dạng email
+        var emailRegex =  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+      
+        // Kiểm tra chuỗi email với biểu thức chính quy
+        let check = emailRegex.test(email);
+        console.log(check);
+        return check;
+    }
+
     const validate = () => {
         let check = true;
         if (employee.firstName === "" || employee.lastName === "") {
@@ -46,15 +56,19 @@ const UpdateEmployee = () => {
         if (employee.email === "") {
             toast.error("Vui lòng nhập email");
             check = false;
-        } else if (!employee.email.includes('@')) {
+        } else if (!isValidEmail(employee.email)) {
             toast.warning("Sai định dạng email");
             check = false;
         }
         if (employee.cccd === "") {
             toast.error("Vui lòng nhập CCCD");
             check = false;
-        } else if (employee.cccd.length === 12) {
+        } else if (employee.cccd.length !== 12) {
             toast.warning("Sai định dạng CCCD");
+            check = false;
+        }
+        if (employee.phoneNum === "") {
+            toast.error("Vui lòng nhập số điện thoại");
             check = false;
         }
         if (employee.date === "") {
@@ -67,9 +81,11 @@ const UpdateEmployee = () => {
         }
         if (employee.bdate === "") {
             toast.error("Vui lòng chọn ngày sinh");
+            check = false;
         }
         if (employee.sex === "") {
             toast.error("Vui lòng chọn giới tính");
+            check = false;
         }
         return check;
     }
@@ -217,15 +233,15 @@ const UpdateEmployee = () => {
                             label="Nam"
                             type="radio"
                             name="sex"
-                            value="Nam"
+                            value="Male"
                             checked={employee.sex === "Male" || employee.sex === "male"}
                             onChange={handleChange}
                         />
                         <Form.Check
                             label="Nữ"
                             type="radio"
-                            name="Nữ"
-                            value={employee.sex}
+                            name="sex"
+                            value="Female"
                             checked={employee.sex === "female" || employee.sex === "Female"}
                             onChange={handleChange} 
                         />

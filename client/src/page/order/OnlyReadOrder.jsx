@@ -165,7 +165,7 @@ const OnlyReadOrder = (props) => {
               value="3" 
               disabled={isPaymentDisabled || isLoading}
               onClick={handleBillClick}>
-                {isLoading ? 'Loading...' : 'Thanh toán'}
+                Thanh toán
             </Button>
           </Box>
       </Box>

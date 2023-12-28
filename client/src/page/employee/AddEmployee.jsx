@@ -34,6 +34,14 @@ const AddEmployee = () => {
         })
     }
 
+    function isValidEmail(email) {
+        // Biểu thức chính quy kiểm tra định dạng email
+        var emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+      
+        // Kiểm tra chuỗi email với biểu thức chính quy
+        return emailRegex.test(email);
+    }
+
     const validate = () => {
         let check = true;
         if (newEmployee.firstName === "" || newEmployee.lastName === "") {
@@ -43,19 +51,20 @@ const AddEmployee = () => {
         if (newEmployee.email === "") {
             toast.error("Vui lòng nhập email");
             check = false;
-        } else if (!newEmployee.email.includes('@')) {
+        } else if (!isValidEmail(newEmployee.email)) {
             toast.warning("Sai định dạng email");
             check = false;
         }
         if (newEmployee.cccd === "") {
             toast.error("Vui lòng nhập CCCD");
             check = false;
-        } else if (newEmployee.cccd.length === 12) {
+        } else if (newEmployee.cccd.length !== 12) {
             toast.warning("Sai định dạng CCCD");
             check = false;
         }
         if (newEmployee.phoneNum === "") {
             toast.error("Vui lòng nhập số điện thoại");
+            check = false;
         }
         if (newEmployee.date === "") {
             toast.error("Vui lòng chọn ngày cấp");
@@ -67,9 +76,11 @@ const AddEmployee = () => {
         }
         if (newEmployee.bdate === "") {
             toast.error("Vui lòng chọn ngày sinh");
+            check = false;
         }
         if (newEmployee.sex === "") {
             toast.error("Vui lòng chọn giới tính");
+            check = false;
         }
         return check;
     }
